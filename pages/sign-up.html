@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title> Sign Up Form </title>
+        <link rel="stylesheet" href="../layout/styles/login_style.css">
+        <script defer src="../layout/scripts/sign-up.js" ></script>
+
+    </head>
+    <body>
+
+        <div>
+        
+            <form id = "form" class="sign-up-form">
+                <img src="../images/Icon.png">
+
+                <h1> טופס הרשמה למערכת </h1>
+                <input id = "FirstName" type = "FirstName" class="input-box" placeholder="שם פרטי" required>
+                <input id = "LastName" type = "LastName" class="input-box" placeholder="שם משפחה" required>
+                <input id = "UserName" type = "UserName" class="input-box" placeholder="הזן את שם המשתמש שלך" required>
+                <input id = "Password" type = "Password" class="input-box" placeholder="הזן את הסיסמא שלך " required>
+                <input id = "Email" type = "Email" class="input-box" placeholder=" הזן את כתובת המייל שלך " required>
+                <div class="radio-box">
+                <br>
+                <p><b>:אני נרשם בתור</b></p>
+
+                <label>מתנדב       <input id="radio1" type="radio" id="Volunteer" name="gender" value="Volunteer" class="radio-box"></label>
+                <br>
+                
+                <label>חייל בודד      <input id="radio2" type="radio" id="soldier" name="gender" value="soldier" class="radio-box" checked="checked"></label>
+                </div>
+
+                <br>
+
+                <p>אני מסכים לתנאי השימוש במערכת <span><input id="read_conditions" type="checkbox" required></span></p>
+                <div id = "error"></div>
+                <button id="sign-up" type="submit" class="signup-btn">  הירשם  </button>
+                <hr>
+                <p class="or">  או  </p>
+                <button type="button" class="signup-btn">  התחבר עם פייסבוק - לא זמין </button>
+                <p> יש לך כבר חשבון ? <a href="login.html">  כנס כאן  </a>
+
+            </form>
+
+        </div>
+    </body>
+</html>
