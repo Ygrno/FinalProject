@@ -10,6 +10,20 @@ body {
     color: rgb(0, 0, 0);
 }
 
+.sendb{
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  background-color: rgb(153, 0, 0);
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 15px;
+  margin: 10px 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
 
 ul {
   list-style-type: none;
@@ -79,12 +93,35 @@ li a:hover:not(.active) {
     text-align: center;
 }
 
+textarea{
+  width: 800px;
+  height: 250px;
+
+}
+
 
 .container {
     width: 95%;
     max-width: 900px;
     margin: 75px auto;
   }
+
+.container2{
+  width: 100%;
+  max-width: 1080px;
+  margin: 100px auto;
+  border-radius: 10px;
+  border: 2px solid black;
+  width: 800px;
+  /* height: 400px; */
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0);
+  padding: 50px;
+  margin: 5% auto 0;
+  text-align: right;
+
+
+}
   
   button.accordion {
     width: 100%;

@@ -16,34 +16,45 @@
   </ul>
 
   <!-- content starts here -->
-  <div class="container">
-    <h1 class="Header">פניות חיילים בודדים</h1>
+  <div class="container2">
+    <h1 class="Header">פתיחת פנייה</h1>
+    <form method="get" enctype="application/x-www-form-urlencoded" action="/html/codes/html_form_handler.cfm">
 
-    <div class="ToCenter">
-      <input type="Text">
-      <button class="search"> חיפוש </button>
-    </div>
-
-    <br><br>
-
-    <button class="accordion">חייל בודד דוגמה</button>
-    <div class="accordion-content">
       <p>
+        <input type="text" name="customer_name" required>
+      <label>:שם
+      
+      </label> 
       </p>
-
-      <button> לחץ כאן לטיפול בפנייה </button>
-      <p></p>
-    </div>
-
-
-    <button class="accordion">חייל בודד דוגמה</button>
-    <div class="accordion-content">
+      
       <p>
+      <label>
+      <input type="tel" name="phone_number">
+      :טלפון
+      </label>
       </p>
+      
+      <p>
+      <label>
+      <input type="email" name="email_address">
+      :                       מייל      
+      </label>
+    
+      
+      <p>
+      <label>
+        :תוכן הפנייה
+      <textarea name="comments" maxlength="500"></textarea>
+   
+      </label>
+      </p>
+      
+      
+      
+      </form>
 
-      <button> לחץ כאן לטיפול בפנייה </button>
-      <p></p>
-    </div>
+      <p><button class = "sendb">שלח</button></p>
+
   </div>
   <!-- contend ends here -->
   <script src="../layout/scripts/scripts.js"></script>
