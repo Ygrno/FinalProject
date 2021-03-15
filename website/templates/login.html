@@ -1,8 +1,12 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title> Login Form </title>
-        <link rel="stylesheet" href="../layout/styles/login_style.css">
-        <script defer src="../layout/scripts/login.js" ></script>
+        <title> Login </title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/login_style.css')}}">
+        <!-- <script defer src="../layout/scripts/login.js" ></script> -->
+        <script>
+            src = "{{url_for('static', filename='js/login.js')}}"
+        </script>
 
     </head>
     <body>
@@ -11,7 +15,7 @@
         
             <form id = "form" class="sign-up-form">
                 
-                <img src="../images/Icon.png">
+                <img src="{{url_for('static', filename='images/Icon.png')}}">
 
                 <h1> כניסה למערכת </h1>
                 <input id = "UserName" type = "UserName" class="input-box" placeholder="הזן את שם המשתמש שלך" required>
@@ -20,7 +24,7 @@
                 <div id = "error"></div>
                 <button id = "login" type="submit" class="signup-btn">  התחברות  </button>
 
-                <p> אין לך עדיין חשבון ?<a href="sign-up.html"> הירשם כאן </a>
+                <p> אין לך עדיין חשבון ?<a href="sign-up"> הירשם כאן </a>
 
             </form>
 
