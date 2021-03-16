@@ -9,9 +9,7 @@ API_KEY = 'ErRgqZungnzKzkRY'
 SITE_KEY = 'b9db4efb6d32f3eea0b37157058c9a25'
 
 app = Flask(__name__)
-auth = Blueprint('auth',__name__)
-
-
+# auth = Blueprint('auth',__name__)
 
 @app.route('/')
 def hello_world():
@@ -28,10 +26,6 @@ def hello_world():
     response = requests.post(url=URL, params=payload)
     return response.json()
 
-
-@app.route('/login')
-def register():
-    return render_template('login.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
