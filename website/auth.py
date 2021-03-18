@@ -20,37 +20,80 @@ def all_contacts():
 
 @auth.route('/', methods=['Get', 'POST'])
 def login():
-    data = all_contacts()
-    response = "!"
-
+    # data = all_contacts()
+    # response = "!"
     if request.method=='POST':
-
         username = request.form['UserName']
         password = request.form['Password']
-
+        s = requests.session()
         payload = {
-            "entity": data['entity'],
-            'action': data['action'],
-            'api_key': API_KEY,
-            'key': SITE_KEY,
-            'json': json.dumps(data.get('json'))
-        }
-        response = requests.post(url=URL, params=payload)
-        response_json = response.json()
-        found = False
-        for person in response_json['values']:
-            if person['contact_type'] == username and person['contact_id'] == password:
-                found = True
-                break
-        if found:
+            'openid_identifier':'', 
+            'name': username,
+            'pass': password,
+            'form_build_id': 'form-jtUWNHRMwAFH5flsQlSCsx172PKrfkz074NM-b3aKK0',
+            'form_id': 'user_login_block',
+            'openid.return_to': 'http://18.212.23.161/openid/authenticate?destination=node',
+            'op': 'Log in'   
+         }
+        response = requests.post("http://18.212.23.161/node?destination=node",data=payload)
+        content = str(response.content)
+        found = content.find("logout")
+        if found > -1:
             return redirect(url_for("views.home"))
+        
+        else:
+            return render_template("login.html", text='Error: Invalid Username / Password')
+
 
     return render_template("login.html")
 
 @auth.route('/logout')
 def logout():
-    return "<h1> logout </h1>"
+    return
 
-@auth.route('/sign-up')
+
+@auth.route('/sign-up', methods=['Get', 'POST'])
 def sign_up():
+    # data = all_contacts()
+    # response = "!"
+    if request.method=='POST':
+        firstname = request.form['FirstName']
+        lastname = request.form['LastName']
+        username = request.form['UserName']
+        password = request.form['Password']
+        email = request.form['Email']
+        s = requests.session()
+        payload = {
+            'name': username,
+            'mail': email,
+            'pass[pass1]': password,
+            'pass[pass2]': password,
+            'timezone': 'UTC',
+            'form_build_id': 'form-7SeLQZEkV5pm10DsgG7vfs5W2jjozMauDn0c_cm1HXQ',
+            'form_id': 'user_register_form',
+            '_qf_default': 'Dynamic:upload',
+            'MAX_FILE_SIZE': '83886080',
+            'edit[civicrm_dummy_field]': 'CiviCRM Dummy Field for Drupal',
+            'gid': '',
+            'first_name': firstname,
+            'last_name': lastname,
+            'street_address-1': '',
+            'city-1': '',
+            'postal_code-1:': '',
+            'country-1': '',
+            'op': 'Create new account'   
+         }
+        response = requests.post("http://18.212.23.161/user/register",data=payload)
+        content = str(response.content)
+        print('*******************')
+        print(content)
+        print('*******************')
+        # found = content.find("logout")
+        # if found > -1:
+        #     return redirect(url_for("views.home"))
+        
+        # else:
+        #     return render_template("login.html", text='Error: Invalid Username / Password')
+
+
     return render_template("sign-up.html")
