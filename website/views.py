@@ -4,12 +4,12 @@ views = Blueprint('views', __name__)
 
 @views.route('/system')
 def home():
-    return render_template("system.html")
+    return 'to do ...'
 
 @views.route('/notifications')
 def notifications():
-    return render_template("Notifications.html")
+    return 'to do ...'
 
 @views.route('/profile')
 def profile():
-    return render_template("profile.html")
+    return 'to do ...'

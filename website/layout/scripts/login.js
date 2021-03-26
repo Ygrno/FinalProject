@@ -4,17 +4,17 @@ const form = document.getElementById('form')
 const errorElement = document.getElementById('error')
 // const axios = require('axios').default;
 
-config = {
-    method: 'post',
-    url: 'http://127.0.0.1:5000/',
-    data: {
-        username: user_name.value,
-        password: password.value
-    }
-}
-
 form.addEventListener('submit', (e) => {
     e.preventDefault()
+
+    config = {
+        method: 'post',
+        url: 'http://127.0.0.1:5000/',
+        data: {
+            username: user_name.value,
+            password: password.value
+        }
+    }
 
     axios(config).then(function (response){
         r = response['data']['id']

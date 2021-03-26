@@ -22,6 +22,8 @@ def all_contacts():
 def login():
     if request.method=='POST':
         data = request.get_json()
+        print(data['username'])
+        print(data['password'])
         s = requests.session()
         payload = {
             'openid_identifier':'', 
@@ -98,4 +100,4 @@ def sign_up():
         #     return render_template("login.html", text='Error: Invalid Username / Password')
 
 
-    return render_template("sign-up.html")
+    return 'a'
