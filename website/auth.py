@@ -20,16 +20,13 @@ def all_contacts():
 
 @auth.route('/', methods=['Get', 'POST'])
 def login():
-    # data = all_contacts()
-    # response = "!"
     if request.method=='POST':
-        username = request.form['UserName']
-        password = request.form['Password']
+        data = request.get_json()
         s = requests.session()
         payload = {
             'openid_identifier':'', 
-            'name': username,
-            'pass': password,
+            'name': data['username'],
+            'pass': data['password'],
             'form_build_id': 'form-jtUWNHRMwAFH5flsQlSCsx172PKrfkz074NM-b3aKK0',
             'form_id': 'user_login_block',
             'openid.return_to': 'http://18.212.23.161/openid/authenticate?destination=node',
@@ -39,13 +36,18 @@ def login():
         content = str(response.content)
         found = content.find("logout")
         if found > -1:
-            return redirect(url_for("views.home"))
+            return {
+                'id': '205'
+            } 
         
         else:
-            return render_template("login.html", text='Error: Invalid Username / Password')
+            return {
+                'id': '305'
+            }
 
-
-    return render_template("login.html")
+    return {
+        'id': '200'
+    }
 
 @auth.route('/logout')
 def logout():
