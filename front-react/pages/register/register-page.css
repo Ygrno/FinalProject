@@ -1,0 +1,114 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-image: linear-gradient(to bottom right, #116d11, rgb(85, 165, 85));
+}
+
+.sign-up-form
+{
+    border-radius: 10px;
+    border: 2px solid rgb(0, 0, 0);
+    width: 350px;
+    /* height: 400px; */
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+    background: #fff;
+    padding: 50px;
+    margin: 5% auto 0;
+    text-align: right;
+}
+
+.sign-up-form h1
+{
+    color: #4e0909;
+    /* margin-bottom: 30px; */
+}
+
+.input-box
+{
+    text-align: right;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    border: 1px solid #999;
+    outline: none
+}
+
+.radio-box
+{
+    /* margin-top: 40%; */
+    text-align: right;
+}
+
+button
+{
+    font-weight: bold;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    margin: 10px 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+button:hover
+{
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    margin: 10px 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+
+.signup-btn
+{
+    background-color: #1c8adb;
+}
+
+.signup-btn:hover
+{
+    background-color: #26a5ff;
+}
+
+
+a
+{
+    text-decoration: none;
+}
+
+hr
+{
+    margin-top: 20px;
+    width: 80%;
+}
+.or 
+{
+    background: #fff;
+    width: 30px;
+    margin: -19px auto 10px;
+}
+
+img
+{
+    width: 150px;
+    margin-top: -125px;
+    /* margin-left: -100px; */
+    /* margin-right: auto; */
+}
+
+label
+{
+    align-content: center;
+    direction: rtl;
+}
