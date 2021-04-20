@@ -6,7 +6,7 @@ import { getAllowedRoutes } from '../routes';
 import user from '../user.mock';
 
 export const Shell = () => {
-    debugger;
+
     const routes = getAllowedRoutes(user);
 
     return (<Router>
