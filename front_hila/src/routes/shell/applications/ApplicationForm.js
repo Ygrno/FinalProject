@@ -100,27 +100,20 @@ const ApplicationForm = () => {
 
                 <Form.Item
                     name="Phone"
-
-                    rules={[
-                        {
-
-                        },
-                    ]}
+                    rules={[{},]}
                 >
-                    <Input placeholder="מספר טלפון (לא חובה)" />
+                    <Input placeholder="מספר טלפון" />
                 </Form.Item>
-
 
                 <Form.Item
                     wrapperCol={{ ...layout.wrapperCol, offset: 4 }}
                     name="title" className="login-from input" rules={[{ required: true, message: 'יש לבחור סוג פניה' }]}>
                     <Select
                         placeholder="נושא"
-                        allowClear
-
-                    >
+                        allowClear>
                         <Option value="constuction">שיפוצים ותיקונים</Option>
-                        <Option value="subA">נושא א</Option>
+                        <Option value="subA">ריהוט</Option>
+                        <Option value="subA">לימודים</Option>
                         <Option value="subB">אחר</Option>
                     </Select>
 

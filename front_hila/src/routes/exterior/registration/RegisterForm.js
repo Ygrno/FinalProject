@@ -50,7 +50,6 @@ const RegisterForm = (props) => {
     const handleOk = () => {
         setIsModalVisible(false);
         setIsChecked(true);
-
     };
 
     const handleCancel = () => {
