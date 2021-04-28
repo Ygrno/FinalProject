@@ -3,12 +3,12 @@ import { useHistory } from "react-router-dom";
 import { useState } from 'react';
 import { Card, Fab } from '@material-ui/core';
 import { StaticDialog, useDialog } from 'react-st-modal';
-import { Button, Dialog, DialogContent } from '@material-ui/core';
+//import { Button, Dialog, DialogContent } from '@material-ui/core';
 import ApplicationForm from './ApplicationForm';
 import { logout } from "../../../services/api-service";
-import { Form, Input, Upload, message, InputNumber, Menu, ConfigProvider, Select, Space, Avatar } from 'antd';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { AppBar, IconButton, makeStyles, Toolbar, Box } from "@material-ui/core";
+import { Form, Input, Select, Modal, Button, ConfigProvider, message, Space } from 'antd';
+import FormItem from 'antd/lib/form/FormItem';
+
 
 const logout_handler = async (session, endSession, onLogoutfinish) => {
     const userDetails = {
@@ -31,18 +31,52 @@ export const Applications = (props) => {
     const onLogoutFinish = () => {
         history.push("/login");
     }
+    const [form] = Form.useForm();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+        setIsChecked(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+        setIsChecked(false);
+    };
+
 
     return (
-        <div>
-            <h1>פניות חיילים </h1>
-            <Box>
-                <Button type="" shape="round" color="secondary" variant="contained" size="medium" onClick={() => logout_handler(props.userSession, props.endSession, onLogoutFinish)}> יציאה</Button>
-            </Box>
-        </div>)
+        <ConfigProvider direction="rtl">
+            <Form form={form}>
+                <Space>
+                    <FormItem>
+                        <Button onClick={showModal} type="primary" shape="round" color="secondary" variant="contained" size="medium">
+                            טופס פנייה חדשה
+                        </Button>
+                    </FormItem>
+                </Space>
+                <Modal title="פנייה חדשה" visible={isModalVisible} onOk={handleOk} okText="אישור" onCancel={handleCancel}
+                    cancelText="חזרה">
+                    <ApplicationForm />
+                </Modal>
+            </Form>
+        </ConfigProvider>
+
+
+
+    )
 
 };
+//{!isChecked && <h5 style={{ color: "red" }}></h5>}
 
 
+//<div><h1>פניות חיילים </h1></div>
+//
 /*<Button color="secondary" variant="contained" size="medium" onClick={getAllEvents}>
 לחץ כאן לרשימת כל הפניות הקיימות
 </Button>
@@ -51,9 +85,11 @@ export const Applications = (props) => {
 //<Button type="" shape="round" color="secondary" variant="contained" size="medium" onClick={() => logout_handler(props.userSession, props.endSession, onLogoutFinish)}> יציאה</Button>
 
 
-
-
-
+/*
+<Box>
+                <Button type="" shape="round" color="secondary" variant="contained" size="medium" onClick={() => logout_handler(props.userSession, props.endSession, onLogoutFinish)}> יציאה</Button>
+            </Box>
+*/
 
 
 
