@@ -1,4 +1,4 @@
-import { Login } from './Login';
+import Login from './Login';
 import { UserType } from '../../../constants';
 
 export default {

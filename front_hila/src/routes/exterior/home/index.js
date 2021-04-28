@@ -1,8 +1,8 @@
-import { Home } from './Home';
+import Home from './Home';
 import { UserType } from '../../../constants';
 
 export default {
-    path: "/",
+    path: "/home",
     requierdUserTypes: [],
     component: Home,
     exact: true,

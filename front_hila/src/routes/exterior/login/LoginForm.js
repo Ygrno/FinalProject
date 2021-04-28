@@ -1,100 +1,62 @@
-import { Form, Input, Button, Checkbox, Select, ConfigProvider } from 'antd';
-import { UserOutlined, LockOutlined, DownloadOutlined } from '@ant-design/icons';
-
 import React from 'react';
+import { useHistory } from "react-router-dom";
+import { Form, Input, Button, Checkbox, ConfigProvider, message, Tooltip, Space } from 'antd';
+import { UserOutlined, LockOutlined, DownloadOutlined } from '@ant-design/icons';
+//import "./login-form.scss";
+import { login } from "../../../services/api-service";
+import { Shell } from "../../../components/Shell";
+import { withRouter } from "react-router";
 
-const { Option } = Select;
 
-const LoginForm = () => {
-    const onFinish = (values) => {
-        httpsend(values);
+const handleLoginClicked = async (values, onLoginFinish, startSession) => {
+
+    const userDetails = {
+        username: values.username,
+        email: values.email,
+        password: values.password
     };
+    const loginResult = await login(userDetails);
 
-    const formItemLayout = {
-        labelCol: {
-            xs: {
-                span: 4,
-            },
-            sm: {
-                span: 12,
-            },
-
-        },
-        wrapperCol: {
-            xs: {
-                span: 14,
-            },
-            sm: {
-                span: 16,
-            },
-        },
-    };
-
-    function httpsend(values) {
-        var axios = require('axios');
-        var data = JSON.stringify(
-            {
-                "username": values.username,
-                "password": values.password
-            });
-
-        var config = {
-            method: 'post',
-            url: 'http://52.90.78.193/modules/contrib/civicrm/extern/rest.php?',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: data
-        };
-
-        axios(config)
-            .then(function (response) {
-                console.log(JSON.stringify(response.data));
-                window.location.href = "/application"
-
-            })
-            .catch(function (error) {
-                console.log(error.response);
-
-            });
+    if (loginResult.data["is_error"]) {
+        message.error(loginResult.data["is_error"]);
+    } else {
+        startSession(loginResult.data);
+        onLoginFinish();
+        console.log(loginResult.data);
     }
+};
 
+const LoginForm = (props) => {
 
-    const Tryfanction = () => {
-        var axios = require('axios');
-
-        var config = {
-            method: 'get',
-            url: 'http://52.90.78.193/modules/contrib/civicrm/extern/rest.php?entity=Contact&action=get&json={"sequential":1}&api_key=HLd3GTnYMRw6FGMgW7XxFD3K&key=aacce8033f7a9730040b45df047e3191',
-            headers: {}
-        };
-
-        axios(config)
-            .then(function (response) {
-                //console.log(JSON.stringify(response.data));
-                var res = response.data;
-                console.log(res["values"][0]);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
+    let history = useHistory();
+    const [form] = Form.useForm();
+    const onLoginFinish = () => {
+        history.push("/home");
     }
-
-
-
-
     return (
         <ConfigProvider direction="rtl">
             <Form
-                {...formItemLayout}
-                name="normal_login"
-                className="login input"
+                s name="normal_login"
                 initialValues={{
                     remember: true,
                 }}
-                onFinish={onFinish}
+                onFinish={(values) => handleLoginClicked(values, onLoginFinish, props.startSession)}
             >
+                <Form.Item
+                    name="email"
+                    rules={[
+                        {
+                            type: 'email',
+                            message: 'הכנס אימייל חוקי בבקשה!',
+                        },
+                        {
+                            required: true,
+                            message: 'הכנס אימייל בבקשה!',
+                        },
+                    ]}
+                >
+                    <Input prefix={<UserOutlined className="" />} placeholder="אי-מייל" />
+                </Form.Item>
                 <Form.Item
                     name="username"
                     rules={[
@@ -104,7 +66,9 @@ const LoginForm = () => {
                         },
                     ]}
                 >
+
                     <Input prefix={<UserOutlined className="login-from" />} placeholder="שם משתמש" />
+
                 </Form.Item>
                 <Form.Item
                     name="password"
@@ -121,33 +85,46 @@ const LoginForm = () => {
                         placeholder="סיסמה"
                     />
                 </Form.Item>
-                <Form.Item >
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                        <Checkbox>זכור אותי</Checkbox>
-                    </Form.Item>
+
+                <Form.Item>
+                    <Space>
+                        <Form.Item name="remember" valuePropName="checked" >
+                            <Checkbox><h3 style={{ color: "#ffffff" }} > זכור אותי
+                        </h3></Checkbox>
+
+                        </Form.Item>
+                    </Space>
 
                     <a className="radio-box" href="http://amishrakefight.org/gfy/" target="_blank">
-                        שכחתי סיסמה
-        </a>
+                        <h3 style={{ color: "#1890ff" }} > שכחתי סיסמה
+                        </h3>
+                    </a>
                 </Form.Item>
 
-                <Form.Item >
-                    <Button type="primary" className="login-form-input" shape="round" icon={<DownloadOutlined />} htmlType="submit" className="">
-                        היכנס
-        </Button>
-        או <a href="/register">הירשם עכשיו!</a>
 
-                    <Form.Item>
-                        <Button type="primary" shape="round" htmlType="submit" onClick={Tryfanction} className="login-form input">
-                            ניסיון
-                        </Button>
-                    </Form.Item>
+                <Form.Item>
+                    <Space>
+                        <Button type="primary" className="login-form-input" shape="round" icon={<DownloadOutlined />}
+                            htmlType="submit" className="">
+                            היכנס
+                    </Button>
+
+                        <h3 style={{ color: "white" }}> או </h3>
+                        <a href="/register">
+                            <h3 style={{ color: "#1890ff" }} >
+                                הירשם עכשיו!
+                          </h3>
 
 
+                        </a>
+                    </Space>
                 </Form.Item>
+
+
+
             </Form>
         </ConfigProvider>
     );
 };
 
-export default LoginForm;
+export default withRouter(LoginForm);

@@ -3,25 +3,28 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Nav } from './Nav';
 import { getAllowedRoutes } from '../routes';
 import user from '../user.mock';
+import { useState } from "react";
+import Login from '../routes/exterior/login';
 
-export const Exterior = () => {
-    debugger;
-    const routes = getAllowedRoutes(user);
+export const Exterior = (props) => {
 
-    return (<Router>
+    const routes = getAllowedRoutes(props.userSession);
+    console.log(typeof (props.startSession));
+
+    return (
         <div>
-            <Nav routes={routes} />
+            <Nav routes={routes} userSession={props.userSession} endSession={props.endSession} />
             <Switch>
                 {
                     routes.map(({ path, component, exact = false }) => {
-
-                        return (<Route key={path} path={path} exact={exact}>
-                            {component}
+                        const Component = component;
+                        return (<Route key={path} path={path} exact={exact} >
+                            <Component startSession={props.startSession} />
                         </Route>
                         )
                     })
                 }
             </Switch>
         </div>
-    </Router>)
+    )
 };
