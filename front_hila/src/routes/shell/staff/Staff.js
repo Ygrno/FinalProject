@@ -1,4 +1,4 @@
-export const Staff = () => (
+export const Staff = (props) => (
     <div>
 
         <h1>אנשי צוות</h1>
