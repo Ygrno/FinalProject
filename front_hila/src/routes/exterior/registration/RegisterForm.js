@@ -9,7 +9,7 @@ const { Option } = Select;
 const handleRegisterClick = async (values, onRegFinish, startSession) => {
     console.log(values);
     const data = JSON.stringify({
-        "username": values.username,
+        "username": values.email,
         "password": values.password,
         "email": values.email,
         "firstname": values.firstname,
@@ -69,16 +69,6 @@ const RegisterForm = (props) => {
                 onFinish={(values) => handleRegisterClick(values, onRegisterFinish, props.startSession)}
                 scrollToFirstError
             >
-                <Form.Item
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: '!הכנס שם משתמש',
-                        },]}
-                >
-                    <Input prefix={<UserOutlined className="login-from" />} placeholder="שם משתמש" />
-                </Form.Item>
                 <Form.Item
                     name="email"
                     rules={[

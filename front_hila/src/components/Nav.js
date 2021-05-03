@@ -31,7 +31,6 @@ const logout_handler = async (session, endSession, onLogoutfinish) => {
     } else {
         endSession();
         onLogoutfinish();
-
     }
 };
 

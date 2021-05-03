@@ -7,4 +7,3 @@ export default {
     component: Staff,
     title: 'אנשי צוות'
 };
-

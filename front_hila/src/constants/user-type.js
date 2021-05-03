@@ -3,5 +3,4 @@ export const UserType = {
     Volunteer: 2,
     StaffMemeber: 3,
     Admin: 4,
-    Individual: 5
 }

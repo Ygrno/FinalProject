@@ -8,8 +8,7 @@ import user from '../user.mock';
 
 export const Shell = (props) => {
     const routes = getAllowedRoutes(props.userSession);
-    // console.log(typeof (props.startSession));
-    // console.log(typeof (props.endSession));
+    console.log(routes);
     console.log(props.userSession.Data?.contact);
 
     return (
