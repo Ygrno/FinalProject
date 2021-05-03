@@ -13,13 +13,13 @@ export const Exterior = (props) => {
 
     return (
         <div>
-            <Nav routes={routes} userSession={props.userSession} endSession={props.endSession} />
+            <Nav routes={routes} userSession={props.userSession} startSession={props.startSession} endSession={props.endSession} />
             <Switch>
                 {
                     routes.map(({ path, component, exact = false }) => {
                         const Component = component;
                         return (<Route key={path} path={path} exact={exact} >
-                            <Component startSession={props.startSession} />
+                            <Component userSession={props.userSession} startSession={props.startSession} endSession={props.endSession} />
                         </Route>
                         )
                     })

@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory } from "react-router-dom";
 import { useState } from 'react';
 import { Card, Fab } from '@material-ui/core';
-import { StaticDialog, useDialog } from 'react-st-modal';
 //import { Button, Dialog, DialogContent } from '@material-ui/core';
 import ApplicationForm from './ApplicationForm';
 import { logout } from "../../../services/api-service";
@@ -27,10 +26,7 @@ const logout_handler = async (session, endSession, onLogoutfinish) => {
 
 
 export const Applications = (props) => {
-    let history = useHistory();
-    const onLogoutFinish = () => {
-        history.push("/login");
-    }
+
     const [form] = Form.useForm();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
@@ -66,13 +62,9 @@ export const Applications = (props) => {
                 </Modal>
             </Form>
         </ConfigProvider>
-
-
-
     )
 
 };
-//{!isChecked && <h5 style={{ color: "red" }}></h5>}
 
 
 //<div><h1>פניות חיילים </h1></div>
@@ -85,34 +77,6 @@ export const Applications = (props) => {
 //<Button type="" shape="round" color="secondary" variant="contained" size="medium" onClick={() => logout_handler(props.userSession, props.endSession, onLogoutFinish)}> יציאה</Button>
 
 
-/*
-<Box>
-                <Button type="" shape="round" color="secondary" variant="contained" size="medium" onClick={() => logout_handler(props.userSession, props.endSession, onLogoutFinish)}> יציאה</Button>
-            </Box>
-*/
 
 
-
-//getAllEvents()
-
-/*
-export const Applications = () => {
-
-    const [open, setOpen] = useState(false);
-
-    const onOpen = () => { setOpen(true); }
-    const handleClose = () => { setOpen(false); }
-
-
-    return (
-        <div>
-            <h1>פניות החיילים</h1>
-            <h4>  פניות.....</h4>
-            <Button variant="outlined" color="primary" onClick={onOpen}> + </Button>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <ApplicationForm />
-            </Dialog>
-        </div>)
-};
-*/
 

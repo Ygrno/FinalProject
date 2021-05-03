@@ -6,6 +6,7 @@ import { Exterior } from "./components/Exterior";
 import { Shell } from "./components/Shell";
 import user from './user.mock';
 import { useState, useEffect } from "react";
+import Pending from "./routes/exterior/pending/Pending";
 
 function App() {
 
@@ -22,8 +23,11 @@ function App() {
     setUserSession(JSON.parse(formData));
   }, []);
   useEffect(() => {
-    window.localStorage.setItem('Hakuna-matata', JSON.stringify(userSession))
+    window.localStorage.setItem('Hakuna-matata', JSON.stringify(userSession));
+    if (userSession)
+      console.log(userSession.Data?.contact?.contact_sub_type);
   });
+
 
 
   return (
@@ -31,7 +35,9 @@ function App() {
       <Typography>
         <Box height="100%" display="flex" flexDirection="column" >
           <Router >
-            {!!userSession ? <Shell userSession={userSession} endSession={endSession} /> : <Exterior startSession={startSession} userSession={userSession} />}
+            {(!userSession || userSession.Data?.contact?.contact_sub_type.includes("Pending")) ?
+              <Exterior userSession={userSession} startSession={startSession} endSession={endSession} /> :
+              <Shell userSession={userSession} endSession={endSession} />}
           </Router>
         </Box>
       </Typography>
@@ -43,6 +49,7 @@ export default App;
 //
 
 
+//{(!!userSession && (userSession.Data?.contact?.contact_sub_type.indexOf("Pending") < -1)) ? <Shell userSession={userSession} endSession={endSession} /> : <Exterior userSession={userSession} startSession={startSession} endSession={endSession} />}
 
 //Shell startSession={startSession} userSession={userSession} endSession={endSession}
 
