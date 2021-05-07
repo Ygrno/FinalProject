@@ -7,42 +7,46 @@ import ApplicationForm from './ApplicationForm';
 import { logout } from "../../../services/api-service";
 import { Form, Input, Select, Modal, Button, ConfigProvider, message, Space } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-
-
-const logout_handler = async (session, endSession, onLogoutfinish) => {
-    const userDetails = {
-        email: session.Data?.contact?.email
-    };
-    const logoutResult = await logout(userDetails);
-    console.log("logout details: ", userDetails);
-    if (logoutResult.data["is_error"]) {
-        message.error(logoutResult.data["is_error"]);
-    } else {
-        endSession();
-        onLogoutfinish();
-
-    }
-};
+import { getAllEvents } from '../../../services/api-civicrm-service';
 
 
 export const Applications = (props) => {
 
     const [form] = Form.useForm();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
 
     const showModal = () => {
         setIsModalVisible(true);
     };
-
     const handleOk = () => {
         setIsModalVisible(false);
-        setIsChecked(true);
     };
-
     const handleCancel = () => {
         setIsModalVisible(false);
-        setIsChecked(false);
+    };
+
+    const [Eventsdetailes, setEventsdetailes] = useState([]);
+    const [isModalVisible2, setIsModalVisible2] = useState(false);
+    const handleOk2 = () => {
+        setIsModalVisible2(false);
+    };
+    const handleCancel2 = () => {
+        setIsModalVisible2(false);
+    };
+
+    const Handletry = async (props, updateSession, MoveToProfile) => {
+        var Message = ""
+        const updateRes = await getAllEvents(props.Data?.API_KEY); //getAllSoldiers(qtjrB1QzwvBIhMVcPcT3Nw)
+
+        if (updateRes.data.is_error === 1) {
+            Message = "unable to update Contact"
+        } else {
+            Message = "Successfully updated contact"
+        }
+        console.log(Eventsdetailes);
+        setEventsdetailes(updateRes.data.values);
+        setIsModalVisible2(true);
+        console.log(Eventsdetailes);
     };
 
 
@@ -56,9 +60,32 @@ export const Applications = (props) => {
                         </Button>
                     </FormItem>
                 </Space>
-                <Modal title="פנייה חדשה" visible={isModalVisible} onOk={handleOk} okText="אישור" onCancel={handleCancel}
-                    cancelText="חזרה">
+                <Modal title="פנייה חדשה" visible={isModalVisible} onOk={handleOk} okText="אישור" onCancel={handleCancel} cancelText="חזרה">
                     <ApplicationForm />
+                </Modal>
+                <Space>
+                    <FormItem>
+                        <Button onClick={() => Handletry(props.userSession, props.startSession)} type="primary" shape="round" color="secondary" variant="contained" size="medium">
+                            רשימת הפניות הקיימות
+                        </Button>
+                    </FormItem>
+                </Space>
+
+                <Modal title="רשימת הפניות הקיימות במערכת:" visible={isModalVisible2} onOk={handleOk2} okText="אישור" onCancel={handleCancel2} cancelText="חזרה">
+                    <div> {
+                        Eventsdetailes?.map(
+                            (details) => {
+                                return (<div><h4></h4>
+                                    {`מספר פנייה: ${details.id} `}<h4></h4>
+                                    {`כותרת הפנייה: ${details.title} `}<h4></h4>
+                                    {`תקציר : ${details.summary} `}<h4></h4>
+                                    {`נוצרה בתאריך: ${details.created_date} `}<h4></h4>
+
+                                </div>
+                                )
+                            }
+                        )}
+                    </div>
                 </Modal>
             </Form>
         </ConfigProvider>
