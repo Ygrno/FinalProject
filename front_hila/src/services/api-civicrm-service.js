@@ -97,3 +97,17 @@ export const getContactAddress = (api_key, contact_id) => {
     var urlParams = `entity=Address&action=get&json={"sequential":1,"contact_id":${contact_id},"return":"street_name,street_number,city"}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
+
+export const serachContacts = (search_data, api_key) => {
+    var urlParams = new URLSearchParams({
+        'entity': 'Contact',
+        'action': 'get',
+        'json': JSON.stringify({"sequential": 1,"id": search_data.contact_id,
+                            "email": search_data.email, "contact_type": search_data.contact_type, 
+                            "first_name": search_data.first_name, "last_name": search_data.last_name}),
+        'api_key': api_key,
+        'key': globals.SITE_KEY
+    })
+    return client.get(`${updateUrl}${urlParams}`)
+}
+
