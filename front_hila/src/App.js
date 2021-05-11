@@ -4,12 +4,18 @@ import { Box, Typography } from "@material-ui/core";
 import { Theme } from "./theme/Theme";
 import { Exterior } from "./components/Exterior";
 import { Shell } from "./components/Shell";
-import user from './user.mock';
 import { useState, useEffect } from "react";
 import Pending from "./routes/exterior/pending/Pending";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyle = makeStyles({
+    container: {
+        height: '100%'
+    }
+});
 
 function App() {
-
+    const classes = useStyle();
   const [userSession, setUserSession] = useState(null);
   const startSession = (newSession) => {
     setUserSession(newSession);
@@ -32,7 +38,7 @@ function App() {
 
   return (
     <Theme>
-      <Typography>
+      <Typography className={classes.container}>
         <Box height="100%" display="flex" flexDirection="column" >
           <Router >
             {(!userSession || userSession.Data?.contact?.contact_sub_type.includes("Pending")) ?

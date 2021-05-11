@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Nav } from './Nav';
 import { getAllowedRoutes } from '../routes';
 import user from '../user.mock';
+import Box from "@material-ui/core/Box/Box";
 
 export const Shell = (props) => {
     const routes = getAllowedRoutes(props.userSession);
@@ -12,7 +13,7 @@ export const Shell = (props) => {
     console.log(props.userSession.Data?.contact);
 
     return (
-        <div>
+        <Box display='flex' flexDirection='column' height='100%'>
             <Nav routes={routes} userSession={props.userSession} endSession={props.endSession} />
             <Switch>
                 {
@@ -25,6 +26,6 @@ export const Shell = (props) => {
                     })
                 }
             </Switch>
-        </div>
+        </Box>
     )
 };

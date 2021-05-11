@@ -3,7 +3,7 @@ import { UserType } from '../../../constants';
 
 export default {
     path: "/staff",
-    requierdUserTypes: [UserType.StaffMemeber, UserType.Admin],
+    requierdUserTypes: [UserType.StaffMember, UserType.Admin],
     component: Staff,
     title: 'אנשי צוות'
 };

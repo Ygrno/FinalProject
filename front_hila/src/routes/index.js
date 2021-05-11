@@ -1,12 +1,17 @@
+import {difference} from 'lodash';
+
 import exteriorRoutes from './exterior';
 import shellRoutes from './shell';
-import { UserType } from '../constants';
+import {UserType} from '../constants';
+import {getUserTypes} from "../utils/user.util";
+
+const isUserPending = userTypes => userTypes.includes(UserType.Pending);
+
+const isRouteAllowed = (route, userTypes) => !route.requierdUserTypes?.length || difference(route.requierdUserTypes, userTypes);
 
 export const getAllowedRoutes = userSession => {
-    const userType = !!userSession && userSession.Data?.contact.contact_sub_type[0];
+    const userTypes = getUserTypes(userSession);
 
-    return !userType ? exteriorRoutes :
-        shellRoutes.filter(({ requierdUserTypes }) =>
-            !requierdUserTypes?.length || requierdUserTypes.includes(UserType[userType]));
-
+    return !userTypes?.length || isUserPending(userTypes) ? exteriorRoutes :
+        shellRoutes.filter(x => isRouteAllowed(x, userTypes));
 };

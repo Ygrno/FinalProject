@@ -1,12 +1,21 @@
 import React from 'react';
-import { Card, Box } from '@material-ui/core';
+import {Card, Box, makeStyles} from '@material-ui/core';
 import { Form, ConfigProvider } from 'antd';
 import { withRouter } from "react-router";
 
 
+const useStyle = makeStyles(theme => ({
+    container: {
+        margin: theme.spacing(4),
+        padding: theme.spacing(4),
+        backgroundColor: '#e5eded',
+        fontSize: 18
+    }
+}));
+
 const Home = ({ userSession }) => {
     const [form] = Form.useForm();
-
+    const classes = useStyle();
     const getMessageByUser = () => {
         if (!userSession)
             return 'שלום אורח';
@@ -18,7 +27,7 @@ const Home = ({ userSession }) => {
 
     return (
         <Box>
-            <Card>
+            <Card className={classes.container}>
                 <div>
                     <h2>{getMessageByUser()}</h2>
                 </div>
@@ -31,3 +40,4 @@ const Home = ({ userSession }) => {
     );
 };
 export default withRouter(Home);
+

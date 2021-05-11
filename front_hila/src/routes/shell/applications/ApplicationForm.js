@@ -1,152 +1,115 @@
-import { Form, Input, Upload, message, Button, ConfigProvider, Select } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import React from 'react';
-const { Option } = Select;
-const layout = {
-    labelCol: {
-        span: 8,
-    },
-    wrapperCol: {
-        span: 16,
-    },
-};
-/* eslint-disable no-template-curly-in-string */
+import {Form, Input, Upload, message, InputNumber, Button, ConfigProvider, Select, Space} from 'antd';
+import {UploadOutlined} from '@ant-design/icons';
+import React, {useEffect, Component, useState} from 'react';
+import {useHistory} from "react-router-dom";
+//import "./application-form.scss"
+import {logout} from "../../../services/api-service";
+import axios from "axios";
+import {sendApplication, addParticipantToEvent} from "../../../services/api-civicrm-service"
 
-/* eslint-enable no-template-curly-in-string */
-const props = {
-    name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    headers: {
-        authorization: 'authorization-text',
-    },
-    disabled: false,
-    onChange(info) {
-        if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done') {
-            message.success(`${info.file.name} קובץ הועלה בהצלחה`);
-        } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} קיימת תקלה בהעלת הקובץ`);
-        }
-    },
-};
+const {Option} = Select;
 
-const ApplicationForm = () => {
-    const onFinish = (values) => {
-        console.log(values);
+const logout_handler = async (session, endSession, onLogoutfinish) => {
+    const userDetails = {
+        email: session.Data?.contact?.email
     };
+    const logoutResult = await logout(userDetails);
+    console.log("logout details: ", userDetails);
+    if (logoutResult.data["is_error"]) {
+        message.error(logoutResult.data["is_error"]);
+    } else {
+        endSession();
+        onLogoutfinish();
 
-    const formItemLayout = {
-        labelCol: {
-            xs: {
-                span: 14,
-            },
-            sm: {
-                span: 27,
-            },
-        },
-        wrapperCol: {
-            xs: {
-                span: 14,
-            },
-            sm: {
-                span: 10,
-            },
-        },
+    }
+}
+
+
+const handleApplication  = async(values, props,fileSelectHendler,text) => {
+    console.log("title: ", values);
+    console.log("props.Data?.API_KEY", props);
+    let today = new Date().toISOString().slice(0, 10)
+    const details = {
+        api_key: props.Data?.API_KEY,
+        event_title : values.title,
+        event_description: text.target.defaultValue,
+        event_type: values.title
     };
-    const tailFormItemLayout = {
-        wrapperCol: {
-            xs: {
-                span: 24,
-                offset: 0,
-            },
-            sm: {
-                span: 16,
-                offset: 8,
-            },
-        },
-    };
+    const sendRes = await sendApplication(details.api_key,details.event_title,details.event_description,details.event_type,today);
+    console.log("sendRes", sendRes)
+    let keys = Object.keys( sendRes.data.values)
+
+    const addParRes = await addParticipantToEvent(props.Data?.API_KEY,keys[0], props.Data.contact.contact_id)
+    console.log("addParRes: ", addParRes)
+
+
+}
+
+const ApplicationForm = (props) => {
+    console.log(props);
+    const [imageSelected, setimageSelect] = useState(" ");
+
+    const fileSelectHendler = () => {
+
+        const formDate = new FormData()
+        formDate.append("file", imageSelected)
+        axios.post("http://52.90.78.193/modules/contrib/civicrm/packages/kcfinder/upload.php?cms=civicrm&format=json&type=files", formDate).then((Response) => {
+            console.log("the Response is: " ,Response)
+            if(Response.status === 200)
+                message.success("הבקשה נשלחה. תודה רבה");
+            else
+                message.error("הבקשה לא עלתה. אנא בדוק שהקובץ שוקל עד 4mb");
+        });
+    }
+    console.log(props.userSession);
+   // var type = props.userSession.Data?.contact?.contact_id
+
+    let history = useHistory();
+    const [form] = Form.useForm();
+    const saveText = (value) => {
+        setText(value)
+    }
+    const onLogoutFinish = () => {
+        history.push("/login");
+    }
+    const onSend = () => {
+        history.push("/profile");
+    }
+    const [text,setText] = useState('');
+
     return (
         <ConfigProvider direction="rtl">
-            <Form className="login" >
-                <img src="../images/Icon.png"></img>
+            <Form onFinish ={(values) => handleApplication(values, props.userSession,fileSelectHendler, text) }>
+                <h2 className={"hellouserapp"}
+                    style={{color: "white"}}> שלום {props.userSession.Data?.contact?.display_name}</h2>
                 <Form.Item
-                    name="name"
-                    rules={[
-                        {
-                            required: true,
-                            message: "שדה זה הינו חובה"
-                        },
-                    ]}
-                >
-                    <Input placeholder="שם מלא" />
-                </Form.Item>
-                <Form.Item
-                    name={['user', 'email']}
-                    label=""
-                    className="login input"
-                    rules={[
-                        {
-                            type: 'email',
-                            required: true,
-                            message: "שדה זה הינו חובה"
-                        },
-                    ]}
-                >
-                    <Input placeholder="אי-מייל" />
-                </Form.Item>
-
-
-                <Form.Item
-                    name="Phone"
-                    rules={[{},]}
-                >
-                    <Input placeholder="מספר טלפון" />
-                </Form.Item>
-
-                <Form.Item
-                    wrapperCol={{ ...layout.wrapperCol, offset: 4 }}
-                    name="title" className="login-from input" rules={[{ required: true, message: 'יש לבחור סוג פניה' }]}>
-                    <Select
-                        placeholder="נושא"
-                        allowClear>
-                        <Option value="constuction">שיפוצים ותיקונים</Option>
-                        <Option value="subA">ריהוט</Option>
-                        <Option value="subA">לימודים</Option>
-                        <Option value="subB">אחר</Option>
+                    name="title" className="login-from input" rules={[{required: false, message: 'יש לבחור סוג פניה'}]}>
+                    <Select placeholder="נושא" allowClear>
+                        <Option value="Construction">שיפוצים ותיקונים</Option>
+                        <Option value="Furniture">ריהוט</Option>
+                        <Option value="Education">לימודים</Option>
+                        <Option value="Other">אחר</Option>
                     </Select>
-
                 </Form.Item>
 
-
-                <Form.Item
-                    wrapperCol={{ ...layout.wrapperCol, offset: 0 }}
-                    name="input"
-                    label="פניה"
-                    rules={[
-                        {
-                            required: true,
-                            message: "שדה זה הינו חובה"
-                        },
-                    ]}>
-                    <Input.TextArea placeholder="נתין להעלות קובץ pdf או word במקום" />
-
-                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 0 }} name="upload" label="העלה קובץ" rules={[{ offset: 12 }]}>
-                        <Upload name="upload" label="העלה קובץ" {...tailFormItemLayout}{...props}  >
-                            <Button icon={<UploadOutlined placeholder="קובץ" />}> העלה קובץ או גרור</Button>
-                        </Upload>
-                    </Form.Item>
-
+                <h3 style={{color: "white"}}>פניה: </h3>
+                <Form.Item name="input" className="login-from input">
+                    <Input onChange={saveText}   placeholder="פרט את בקשתך כאן" />
                 </Form.Item>
-                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
-                    <Button type="primary" shape="round" htmlType="submit" className="login-form input">
+
+                <Form.Item>
+                    <Button type="primary" shape="round" htmlType="submit" className={"ant-btn-app"}>
                         שלח
-        </Button>
+                    </Button>
                 </Form.Item>
+
+
             </Form>
+
         </ConfigProvider>
+
     );
+
 };
 
 export default ApplicationForm;

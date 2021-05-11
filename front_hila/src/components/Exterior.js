@@ -5,6 +5,7 @@ import { getAllowedRoutes } from '../routes';
 import user from '../user.mock';
 import { useState } from "react";
 import Login from '../routes/exterior/login';
+import Box from "@material-ui/core/Box/Box";
 
 export const Exterior = (props) => {
 
@@ -12,7 +13,7 @@ export const Exterior = (props) => {
     console.log(typeof (props.startSession));
 
     return (
-        <div>
+        <Box display='flex' flexDirection='column' height='100%'>
             <Nav routes={routes} userSession={props.userSession} startSession={props.startSession} endSession={props.endSession} />
             <Switch>
                 {
@@ -25,6 +26,6 @@ export const Exterior = (props) => {
                     })
                 }
             </Switch>
-        </div>
+        </Box>
     )
 };

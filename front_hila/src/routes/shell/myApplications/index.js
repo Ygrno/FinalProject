@@ -1,4 +1,4 @@
-import { MyApplications } from './MyApplications';
+import {MyApplications} from './MyApplications';
 import { UserType } from '../../../constants';
 
 export default {
