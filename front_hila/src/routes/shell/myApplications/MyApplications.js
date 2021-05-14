@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Form, Modal, Button, ConfigProvider, Space} from 'antd';
 
 import FormItem from 'antd/lib/form/FormItem';
-import {getAllContactsEvent} from '../../../services/api-civicrm-service';
+import {getAllContactsEvent,getAllSoldierEvents} from '../../../services/api-civicrm-service';
 import Box from "@material-ui/core/Box/Box";
 import {makeStyles} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab/Fab";
@@ -35,7 +35,7 @@ export const MyApplications = ({userSession, endSession}) => {
     const [myApplications, setApplications] = useState([]);
 
     const loadApplications = async () => {
-        const res = await getAllContactsEvent(userSession.Data?.API_KEY, userSession.Data.contact.contact_id);
+        const res = await getAllSoldierEvents(userSession.Data?.API_KEY, userSession.Data.contact.contact_id);
         setApplications(res.data?.values ?? []);
         console.log("myApplications: ",myApplications);
         console.log(res.data?.values);

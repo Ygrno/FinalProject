@@ -35,7 +35,7 @@ const handleApplication  = async(values, props,fileSelectHendler,text) => {
         event_description: text.target.defaultValue,
         event_type: values.title
     };
-    const sendRes = await sendApplication(details.api_key,details.event_title,details.event_description,details.event_type,today);
+    const sendRes = await sendApplication(details.api_key,details.event_title,details.event_type,details.event_description,today);
     console.log("sendRes", sendRes)
     let keys = Object.keys( sendRes.data.values)
 

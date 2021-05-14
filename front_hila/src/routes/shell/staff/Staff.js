@@ -12,17 +12,20 @@ import {
 } from "../../../services/api-civicrm-service";
 
 
-const deleteFromPending = async (id,api)=>{
-    console.log("we deleted him you MotherFUcker and your id is: ",api)
+const deleteFromPending = async (id,api,url)=>{
+    // console.log("we deleted him you MotherFUcker and your id is: ",api)
+    Modal.info({
+        title: "פרטי החייל",
+        content:
+        <a href={url} target="_blank"> מסמכים </a>
+    })
     const removeRes = await removePending(api,id)
-    console.log("removeRes   :",removeRes)
+    console.log("removeRes is  :",removeRes)
 
 }
 const PendingRow = (props) => {
-    console.log("pendingRow", props.api_key)
     return (
-        <Popconfirm title={"האם אתה בטוח?"} onConfirm={()=>deleteFromPending(props.contactId , props.api_key)} okText={"מאשר"} cancelText={"בטל"}>
-
+        <Popconfirm title={"האם אתה בטוח?"} onConfirm={()=>deleteFromPending(props.contactId , props.api_key,props.imageURL)} okText={"פתח קובץ"} cancelText={"בטל"}>
             <div style={{
                 width: "100%",
                 display: "flex",
@@ -42,7 +45,7 @@ const PendingRow = (props) => {
                 whiteSpace: "nowrap",
                 overflow: "hidden"
             }}>
-                {props.imageURL}
+                {<a href={props.imageURL}> קובץ החייל </a>}
             </span>
                 </Tooltip>
             </div>
@@ -53,6 +56,7 @@ const PendingRow = (props) => {
 
 const viewPendings = async (props) => {
     const pendingRes = await getAllPendings(props.Data.API_KEY)
+    console.log("pendingRes is:" ,pendingRes)
     let len = pendingRes.data.values.length;
     var i = 0;
     console.log("pendingRes:", props.Data.API_KEY)

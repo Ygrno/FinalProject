@@ -33,7 +33,7 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
         <Checkbox inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
         {`מספר פנייה: ${application.id} `}<h4></h4>
         {`כותרת הפנייה: ${application.title} `}<h4></h4>
-        {`תקציר : ${application.summary} `}<h4></h4>
+        {`תיאור : ${application.description} `}<h4></h4>
         {`נוצרה בתאריך: ${application.created_date} `}<h4></h4>
         {shouldShowHandleButton() &&
         <Button onClick={() => changeActiveEvent()} type="secondary" shape="round" color="secondary" variant="contained"

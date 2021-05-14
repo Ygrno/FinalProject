@@ -24,11 +24,11 @@ export const MyApplicationsPreview = ({application, userSession, startSession}) 
     //Todo change to getUserTypes(userSession)?.includes(UserType.Volunteer)
     const shouldShowHandleButton = ()=> application.is_confirm_enabled === '1';
 
-
+    console.log("myapplicationprewbiew before return", application)
     return <Card className={classes.container}  >
-        {`מספר פנייה: ${application.event_id} `}<h4></h4>
+        {`מספר פנייה: ${application.id} `}<h4></h4>
         {`כותרת הפנייה: ${application.title} `}<h4></h4>
-        {`תקציר : ${application.summary} `}<h4></h4>
+        {`תיאור : ${application.description} `}<h4></h4>
         {`נוצרה בתאריך: ${application.created_date} `}<h4></h4>
 
     </Card>

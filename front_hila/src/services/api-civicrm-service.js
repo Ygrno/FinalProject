@@ -48,6 +48,12 @@ export const getAllContactsEvent = (api_key, contact_id) => {
     var urlParams = `entity=Participant&action=get&json={"sequential":1, "contact_id":${contact_id}}&api_key=${api_key}&key=aacce8033f7a9730040b45df047e3191`;
     return client.get(`${updateUrl}${urlParams}`)
 };
+
+export const getAllSoldierEvents = (api_key, contact_id) => {
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "created_id":${contact_id}}&api_key=${api_key}&key=aacce8033f7a9730040b45df047e3191`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
 export const getAllEvents = (api_key) => {
     var urlParams = `entity=Event&action=get&json={"sequential":1, "options":{"limit":500}}&api_key=${api_key}&key=aacce8033f7a9730040b45df047e3191`;
     return client.get(`${updateUrl}${urlParams}`)
