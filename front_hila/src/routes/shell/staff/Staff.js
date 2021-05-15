@@ -1,31 +1,36 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
-import { useState } from 'react';
-import { Form, Input, Select, Modal, Button, ConfigProvider, message, Space, Popconfirm, Tooltip } from 'antd';
+import {useHistory} from "react-router-dom";
+import {useState} from 'react';
+import {Form, Input, Select, Modal, Button, ConfigProvider, message, Space, Popconfirm, Tooltip} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import { Card, Box } from '@material-ui/core';
+import {Card, Box} from '@material-ui/core';
 import {
     getAllSoldiers,
     getAllPendingSoldiers,
     setConfirmEvent,
-    getAllUnconfirmEvents, removePending, getAllPendings
+    getAllUnconfirmEvents, removePending, getAllPendings, sendMail, getEventParticipantsContact
 } from "../../../services/api-civicrm-service";
 
+const VOLUNTEER_TEMPLATE_ID = 70;
+const SOLDIER_TEMPLATE_ID = 71;
 
-const deleteFromPending = async (id,api,url)=>{
+
+const deleteFromPending = async (id, api, url) => {
     // console.log("we deleted him you MotherFUcker and your id is: ",api)
     Modal.info({
         title: "פרטי החייל",
         content:
-        <a href={url} target="_blank"> מסמכים </a>
+            <a href={url} target="_blank"> מסמכים </a>
     })
-    const removeRes = await removePending(api,id)
-    console.log("removeRes is  :",removeRes)
+    const removeRes = await removePending(api, id)
+    console.log("removeRes is  :", removeRes)
 
 }
 const PendingRow = (props) => {
     return (
-        <Popconfirm title={"האם אתה בטוח?"} onConfirm={()=>deleteFromPending(props.contactId , props.api_key,props.imageURL)} okText={"פתח קובץ"} cancelText={"בטל"}>
+        <Popconfirm title={"האם אתה בטוח?"}
+                    onConfirm={() => deleteFromPending(props.contactId, props.api_key, props.imageURL)}
+                    okText={"פתח קובץ"} cancelText={"בטל"}>
             <div style={{
                 width: "100%",
                 display: "flex",
@@ -56,15 +61,15 @@ const PendingRow = (props) => {
 
 const viewPendings = async (props) => {
     const pendingRes = await getAllPendings(props.Data.API_KEY)
-    console.log("pendingRes is:" ,pendingRes)
-    let len = pendingRes.data.values.length;
-    var i = 0;
+    console.log("pendingRes is:", pendingRes)
     console.log("pendingRes:", props.Data.API_KEY)
     Modal.info({
             title: "לחץ על משתמש על מנת להוריד אותו מרשימת ההמתנה",
             content:
                 pendingRes.data.values.map(pendingUser => <PendingRow displayName={pendingUser.display_name}
-                                                                      imageURL={pendingUser.image_URL} contactId={pendingUser.contact_id} api_key={props.Data.API_KEY}/>)
+                                                                      imageURL={pendingUser.image_URL}
+                                                                      contactId={pendingUser.contact_id}
+                                                                      api_key={props.Data.API_KEY}/>)
         }
     )
 }
@@ -100,33 +105,63 @@ export const Staff = (props) => {
 
     const Handletry = async (props) => {
         var Message = ""
-        const updateRes = await getAllSoldiers(props.Data?.API_KEY);
-        console.log("updateRes:", updateRes) ;//getAllSoldiers(qtjrB1QzwvBIhMVcPcT3Nw)
+        const viewSoldiers = await getAllSoldiers(props.Data?.API_KEY);
+        console.log(" view all soldiers:", viewSoldiers);//getAllSoldiers(qtjrB1QzwvBIhMVcPcT3Nw)
 
-        if (updateRes.data.is_error === 1) {
+        if (viewSoldiers.data.is_error === 1) {
             Message = "unable to update Contact"
         } else {
             Message = "Successfully updated contact"
         }
-        console.log(updateRes.data.values);
-        setSodiersDetails(updateRes.data.values);
+        console.log(viewSoldiers.data.values);
+        setSodiersDetails(viewSoldiers.data.values);
         setIsModalVisible(true);
     };
 
     const getNotConfirmEvent = async (props) => {
         var Message = ""
-        const updateRes = await getAllUnconfirmEvents(props.Data?.API_KEY, props.Data.contact.contact_id );
-        console.log("updateRes setEventConfirmed:", updateRes.data.values) ;//getAllSoldiers(qtjrB1QzwvBIhMVcPcT3Nw)
+        const updateRes = await getAllUnconfirmEvents(props.Data?.API_KEY, props.Data.contact.contact_id);
+        console.log("get all unconfirmed events:", updateRes.data.values);//getAllSoldiers(qtjrB1QzwvBIhMVcPcT3Nw)
         setEventConfirmed(Object.values(updateRes.data?.values) ?? []);
         setIsModalVisible2(true);
     };
 
-    const confirmEvent = async (userSession, application_id) => {
+    const viewevent = async (userSession, application,confirmEvent,handleCancel2) => {
+        const partisipents = await getEventParticipantsContact(userSession.Data?.API_KEY, application.id)
+        console.log("partisipents in viewevent:", partisipents)
+        console.log("the application is:",application)
+        let soldier_contact = partisipents.data.values[1]
+        let volunteer_contact = partisipents.data.values[0]
+        Modal.info({
+            title: "נתוני הפניה",
+            content: (<div>
+
+                    <p ><strong>שם המתנדב:</strong>  {volunteer_contact.display_name} </p>
+                    <p><strong> שם החייל:</strong>  {soldier_contact.display_name} </p>
+                    <p> </p>
+                    <p><strong>כותרת הפניה: </strong>  {application.title}</p>
+                    <p><strong>תיאור: </strong> {application.description}</p>
+                    <p> <strong>נוצרה בתאריך: </strong>{application.created_date}</p>
+                </div>
+            ),
+            onOk(){confirmEvent(userSession, application)}
+
+
+        })
+    }
+
+    const confirmEvent = async (userSession, application) => {
         var Message = ""
-        const updateRes = await setConfirmEvent(userSession.Data?.API_KEY, application_id );
-        console.log("updateRes confirm event is:",updateRes)
-        if (updateRes.status === 200){
-            // const newpnia1 = await setpenia1();
+        const updateRes = await setConfirmEvent(userSession.Data?.API_KEY, application.id);
+        const eventPartisipentRes = await getEventParticipantsContact(userSession.Data?.API_KEY, application.id)
+        let soldier_id = eventPartisipentRes.data.values[1].contact_id
+        let volnteer_id = eventPartisipentRes.data.values[0].contact_id
+        console.log("eventPartisipentRes confirm event is:", eventPartisipentRes)
+        if (updateRes.status === 200) {
+            const sendmailresTosoldier = await sendMail(userSession.Data?.API_KEY, soldier_id, SOLDIER_TEMPLATE_ID);
+            const sendmailresToVolunteer = await sendMail(userSession.Data?.API_KEY, volnteer_id, VOLUNTEER_TEMPLATE_ID);
+
+            console.log("sendmailRes is", sendmailresTosoldier)
             // const newpnia2 = await setpnia2();
         }
         setEventConfirmed(Object.values(updateRes.data?.values) ?? []);
@@ -134,58 +169,64 @@ export const Staff = (props) => {
     };
 
 
-
-
     return (
         <ConfigProvider direction="rtl">
             <Form form={form}>
                 <Space>
                     <FormItem>
-                        <Button onClick={() => Handletry(props.userSession, props.startSession)} type="primary" shape="round" color="Black" variant="contained" size="medium">
+                        <Button onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
+                                shape="round" color="Black" variant="contained" size="medium">
                             רשימת החיילים הקיימים
-                </Button>
+                        </Button>
                     </FormItem>
                 </Space>
                 <Space>
                     <FormItem>
-                        <Button onClick={() => getNotConfirmEvent(props.userSession, props.startSession)} type="primary" shape="round" color="Black" variant="contained" size="medium">
+                        <Button onClick={() => getNotConfirmEvent(props.userSession, props.startSession)} type="primary"
+                                shape="round" color="Black" variant="contained" size="medium">
                             רשימת פניות לאישור
                         </Button>
                     </FormItem>
                 </Space>
                 <Space>
                     <FormItem>
-                        <Button onClick={() => viewPendings(props.userSession)}  shape="round" color="Black" variant="contained" size="medium">
+                        <Button onClick={() => viewPendings(props.userSession)} shape="round" color="Black"
+                                variant="contained" size="medium">
                             רשימת משתמשים בהמתנה
                         </Button>
                     </FormItem>
                 </Space>
-                <Modal title="רשימת החיילים הבודדים" visible={isModalVisible} onOk={handleOk} okText="אישור" onCancel={handleCancel} cancelText="חזרה">
+                <Modal title="רשימת החיילים הבודדים" visible={isModalVisible}
+                       onCancel={handleCancel} cancelText="סגור">
                     <div> {
                         SodiersDetails.map(
-                            (soldier) => {return (<div><h4>
-                                    {`שם החייל: ${soldier.display_name},  `}
-                                    {`אימייל: ${soldier.email},  `}
-                                    {`מספר רשומה במערכת: ${soldier.contact_id} `}</h4></div>
+                            (soldier) => {
+                                return (<div><h4>
+                                        {`שם החייל: ${soldier.display_name},  `}
+                                        {`אימייל: ${soldier.email},  `}
+                                        {`מספר רשומה במערכת: ${soldier.contact_id} `}</h4></div>
                                 );
                             }
                         )}
                     </div>
                 </Modal>
-                <Modal title="רשימת פניות לאישור" visible={isModalVisible2} onOk={handleOk2} okText="אישור" onCancel={handleCancel2} cancelText="חזרה">
+                <Modal title="רשימת פניות לאישור" visible={isModalVisible2} onOk={handleOk2} okText="אישור"
+                       onCancel={handleCancel2} cancelText="סגור">
                     <div> {
                         EventConfirmed.map(
-                            (x) => {return (<div><h4>
-                                    {`מספר פנייה: ${x.id},  `}
-                                  </h4>
-                                    <FormItem>
-                                        <Button onClick={() => confirmEvent(props.userSession, x.id)} type="primary" shape="round" color="Black" variant="contained" size="medium">
-                                            אשר פנייה
-                                        </Button>
-                                    </FormItem>
-                                </div>
+                            (x) => {
+                                return (<div><h4>
+                                        {`מספר פנייה: ${x.id} `}
+                                    </h4>
+                                        <FormItem>
+                                            <Button onClick={() => viewevent(props.userSession, x,confirmEvent,handleCancel2)} type="primary"
+                                                    shape="round" color="Black" variant="contained" size="medium">
+                                                פתח פנייה
+                                            </Button>
+                                        </FormItem>
+                                    </div>
 
-                            );
+                                );
                             }
                         )}
 
@@ -195,8 +236,6 @@ export const Staff = (props) => {
         </ConfigProvider>
     )
 };
-
-
 
 
 /*
