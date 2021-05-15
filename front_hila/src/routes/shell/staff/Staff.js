@@ -124,6 +124,11 @@ export const Staff = (props) => {
     const confirmEvent = async (userSession, application_id) => {
         var Message = ""
         const updateRes = await setConfirmEvent(userSession.Data?.API_KEY, application_id );
+        console.log("updateRes confirm event is:",updateRes)
+        if (updateRes.status === 200){
+            // const newpnia1 = await setpenia1();
+            // const newpnia2 = await setpnia2();
+        }
         setEventConfirmed(Object.values(updateRes.data?.values) ?? []);
         setIsModalVisible2(true);
     };
