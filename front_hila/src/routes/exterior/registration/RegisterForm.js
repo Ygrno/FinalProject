@@ -3,6 +3,7 @@ import { Form, Input, Select, Modal, Button, ConfigProvider, message, Space } fr
 import { UserOutlined, LockOutlined, DownloadOutlined, CheckCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import { register } from "../../../services/api-service";
 import { useHistory } from "react-router";
+import './RegisterStyle.css'
 
 const { Option } = Select;
 
@@ -139,11 +140,21 @@ const RegisterForm = (props) => {
                     />
                 </Form.Item>
                 <Form.Item name="group_name" rules={[{ required: true, message: 'יש לבחור סוג משתמש' }]}>
-                    <Select placeholder="בחר" allowClear>
+                    
+                    <select className='try' name="user_type" id="user_type" required='true'>
+                    <option disabled selected value> בחר </option>
+                    <option value="soldier">חייל</option>
+                    <option value="volunteer">מתנדב</option>
+                    <option value="staff">איש צוות</option>
+                    </select>
+
+
+                    {/* <Select placeholder="בחר" allowClear>
                         <Option value="soldier">חייל</Option>
                         <Option value="volunteer">מתנדב</Option>
                         <Option value="staff">איש צוות</Option>
-                    </Select>
+                    </Select> */}
+
                 </Form.Item>
                 <Form.Item
                     noStyle
