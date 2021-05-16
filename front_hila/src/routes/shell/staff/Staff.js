@@ -104,6 +104,7 @@ export const Staff = (props) => {
     };
 
     const Handletry = async (props) => {
+
         var Message = ""
         const viewSoldiers = await getAllSoldiers(props.Data?.API_KEY);
         console.log(" view all soldiers:", viewSoldiers);//getAllSoldiers(qtjrB1QzwvBIhMVcPcT3Nw)
@@ -126,7 +127,7 @@ export const Staff = (props) => {
         setIsModalVisible2(true);
     };
 
-    const viewevent = async (userSession, application,confirmEvent,handleCancel2) => {
+    const viewevent = async (userSession, application,confirmEvent) => {
         const partisipents = await getEventParticipantsContact(userSession.Data?.API_KEY, application.id)
         console.log("partisipents in viewevent:", partisipents)
         console.log("the application is:",application)

@@ -25,8 +25,8 @@ export const getAllPendingSoldiers = (api_key) => {
     return client.get(`${updateUrl}${urlParams}`)
 };
 
-export const getProfile = (api_key) => {
-    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_id": "296"}&api_key=${api_key}&key=${site_key}`;
+export const getProfile = (api_key, contact_id) => {
+    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
@@ -87,8 +87,13 @@ export const sendMail = (api_key, contact_id_to_send, template_id) =>{
     var urlParams = `entity=Email&action=send&json={"contact_id":${contact_id_to_send},"template_id":${template_id}}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
 };
+
 export const getEventParticipantsContact = (api_key, event_id) => {
     var urlParams = `entity=Participant&action=get&json={"sequential":1,"event_id":${event_id}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
+export const getContactAddress = (api_key, contact_id) => {
+    var urlParams = `entity=Address&action=get&json={"sequential":1,"contact_id":${contact_id},"return":"street_name,street_number,city"}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
