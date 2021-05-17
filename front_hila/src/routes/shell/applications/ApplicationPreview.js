@@ -30,7 +30,7 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
     };
 
     return <Card className={classes.container}  >
-        <Checkbox inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+        <Card inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
         {`מספר פנייה: ${application.id} `}<h4></h4>
         {`כותרת הפנייה: ${application.title} `}<h4></h4>
         {`תיאור : ${application.description} `}<h4></h4>

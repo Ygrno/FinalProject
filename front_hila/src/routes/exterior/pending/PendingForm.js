@@ -62,7 +62,7 @@ const logout_handler = async (session, endSession, onLogoutfinish) => {
     }
 }
 const PendingForm = (props) => {
-
+    <h1>שלום</h1>
     let history = useHistory();
     // useEffect(()=>{
     //     props.startSession(props.userSession)

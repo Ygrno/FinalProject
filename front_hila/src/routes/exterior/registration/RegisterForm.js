@@ -3,8 +3,7 @@ import { Form, Input, Select, Modal, Button, ConfigProvider, message, Space } fr
 import { UserOutlined, LockOutlined, DownloadOutlined, CheckCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import { register } from "../../../services/api-service";
 import { useHistory } from "react-router";
-import './RegisterStyle.css'
-
+import "./register-form.scss"
 const { Option } = Select;
 
 const handleRegisterClick = async (values, onRegFinish, startSession) => {
@@ -17,8 +16,10 @@ const handleRegisterClick = async (values, onRegFinish, startSession) => {
         "lastname": values.lastname,
         "group_name": values.group_name,
         "privateNuber": values.privateNumber,
-        "phonenumber": values.number
-
+        "phonenumber": values.number,
+        "city":values.city,
+        "street_name":values.streetName,
+        "street_number":values.buildingNumber
     });
 
 
@@ -138,6 +139,40 @@ const RegisterForm = (props) => {
                     ]}>
                     <Input placeholder="מספר טלפון"
                     />
+                </Form.Item>
+                <Form.Item
+                    name="city"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'הזן עיר מגורים',
+                            whitespace: true,
+                        },
+                    ]}>
+                    <Input placeholder="הזן עיר מגורים" />
+                </Form.Item>
+                <Form.Item
+                    name="streetName"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'הזן שם רחוב',
+                            whitespace: true,
+                        },
+                    ]}>
+                    <Input placeholder="הזן שם רחוב" />
+                </Form.Item>
+                <Form.Item
+                    name="buildingNumber"
+                    rules={[
+                        {
+
+                            required: false,
+                            message: 'מספר בית',
+                            whitespace: true,
+                        },
+                    ]}>
+                    <Input placeholder="מספר בית" />
                 </Form.Item>
                 <Form.Item name="group_name" rules={[{ required: true, message: 'יש לבחור סוג משתמש' }]}>
                     
