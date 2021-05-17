@@ -94,7 +94,6 @@ const LoginForm = (props) => {
                             htmlType="submit" >
                             היכנס
                     </Button>
-
                         <h3 style={{ color: "white" }}> או </h3>
                         <a href="/register">
                             <h3 style={{ color: "#1890ff" }} >

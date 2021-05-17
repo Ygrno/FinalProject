@@ -1,35 +1,45 @@
 import React from 'react';
-import {useHistory} from "react-router-dom";
 import {useState} from 'react';
-import {Form, Input, Select, Modal, Button, ConfigProvider, message, Space, Popconfirm, Tooltip} from 'antd';
+import {Form,  Modal, Button, ConfigProvider, Space, Popconfirm} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import {Card, Box} from '@material-ui/core';
 import {
     getAllSoldiers,
-    getAllPendingSoldiers,
     setConfirmEvent,
     getAllUnconfirmEvents, removePending, getAllPendings, sendMail, getEventParticipantsContact
 } from "../../../services/api-civicrm-service";
 
 const VOLUNTEER_TEMPLATE_ID = 70;
 const SOLDIER_TEMPLATE_ID = 71;
+const CONFIRMATION_TAMPLATE_ID = 72;
+const CANCLE_TAMPLATE_ID = 73;
 
 
-const deleteFromPending = async (id, api, url) => {
-    // console.log("we deleted him you MotherFUcker and your id is: ",api)
-    Modal.info({
+const deleteFromPending = async (id, api, url,removePendingsFunc,cancelFunc) => {
+    Modal.confirm({
         title: "פרטי החייל",
         content:
-            <a href={url} target="_blank"> מסמכים </a>
-    })
-    const removeRes = await removePending(api, id)
-    console.log("removeRes is  :", removeRes)
+            <a href={url} target="_blank" rel="noreferrer"> מסמכים </a>,
 
-}
+        onOk(){removePendingsFunc(id, api)},
+        onCancel(){cancelFunc(id, api)},
+        okText:'אשר חייל',
+        cancelText:"סרב בקשה"
+    })
+
+
+};
 const PendingRow = (props) => {
+    const removePendingsFunc = async (id,api) =>{
+        console.log("in remove pending",id)
+        await removePending(api,id);
+        await sendMail(api,id,CONFIRMATION_TAMPLATE_ID)
+    };
+    const cancleSoldierRequest = async  (id,api) =>{
+        await sendMail(api,id,CANCLE_TAMPLATE_ID)
+    };
     return (
-        <Popconfirm title={"האם אתה בטוח?"}
-                    onConfirm={() => deleteFromPending(props.contactId, props.api_key, props.imageURL)}
+        <Popconfirm title={"מסמכי החייל"}
+                    onConfirm={() => deleteFromPending(props.contactId, props.api_key, props.imageURL,removePendingsFunc,cancleSoldierRequest)}
                     okText={"פתח קובץ"} cancelText={"בטל"}>
             <div style={{
                 width: "100%",
@@ -42,7 +52,7 @@ const PendingRow = (props) => {
                 boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px"
             }}>
                 {props.displayName}
-                <Tooltip title={props.imageURL}>
+
             <span style={{
                 width: "150px",
                 height: "30px",
@@ -52,7 +62,7 @@ const PendingRow = (props) => {
             }}>
                 {<a href={props.imageURL}> קובץ החייל </a>}
             </span>
-                </Tooltip>
+
             </div>
         </Popconfirm>
     );

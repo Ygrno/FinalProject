@@ -1,5 +1,4 @@
 import {difference} from 'lodash';
-
 import exteriorRoutes from './exterior';
 import shellRoutes from './shell';
 import {UserType} from '../constants';
