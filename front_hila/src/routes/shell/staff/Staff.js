@@ -143,7 +143,7 @@ export const Staff = (props) => {
         console.log("the application is:",application)
         let soldier_contact = partisipents.data.values[1]
         let volunteer_contact = partisipents.data.values[0]
-        Modal.info({
+        Modal.confirm({
             title: "נתוני הפניה",
             content: (<div>
 
@@ -155,7 +155,9 @@ export const Staff = (props) => {
                     <p> <strong>נוצרה בתאריך: </strong>{application.created_date}</p>
                 </div>
             ),
-            onOk(){confirmEvent(userSession, application)}
+            onOk(){confirmEvent(userSession, application)},
+            okText:"אישר פניה",
+            cancelText:"סרב פניה"
 
 
         })
