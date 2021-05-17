@@ -176,7 +176,7 @@ const RegisterForm = (props) => {
                 </Form.Item>
                 <Form.Item name="group_name" rules={[{ required: true, message: 'יש לבחור סוג משתמש' }]}>
                     
-                    <select className='try' name="user_type" id="user_type" required='true'>
+                    <select className='selector' name="user_type" id="user_type" required='true'>
                     <option disabled selected value> בחר </option>
                     <option value="soldier">חייל</option>
                     <option value="volunteer">מתנדב</option>

@@ -26,10 +26,10 @@ export const MyApplicationsPreview = ({application, userSession, startSession}) 
 
     console.log("myapplicationprewbiew before return", application)
     return <Card className={classes.container}  >
-        {`מספר פנייה: ${application.id} `}<h4></h4>
-        {`כותרת הפנייה: ${application.title} `}<h4></h4>
-        {`תיאור : ${application.description} `}<h4></h4>
-        {`נוצרה בתאריך: ${application.created_date} `}<h4></h4>
+        <h4>{`מספר פנייה: ${application.id} `}</h4>
+        <h4>{`כותרת הפנייה: ${application.title} `}</h4>
+        <h4 id = 'application_details'> {`תיאור : ${application.description} `} </h4>
+        <h4>{`נוצרה בתאריך: ${application.created_date} `}</h4>
 
     </Card>
 };

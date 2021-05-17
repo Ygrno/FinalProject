@@ -70,10 +70,10 @@ export const Profile = (props) => {
                 <Box overflow={'auto'}>
                     {profileDetailes?.map(x => {
                         return (<div><h2></h2>
-                                {`שם: ${x.display_name} `}<h2></h2>
-                                {`אימייל: ${x.email} `}<h2></h2>
-                                {`תאריך לידה: ${x.birth_date} `}<h2></h2>
-                                {`כתובת: ${x.city} `}<h2></h2>
+                                <h2 id = 'h2_name'>{`שם: ${x.display_name} `}</h2>
+                                <h2 id = 'h2_email'>{`אימייל: ${x.email} `}</h2>
+                                <h2 id = 'h2_birth'>{`תאריך לידה: ${x.birth_date} `}</h2>
+                                <h2 id = 'h2_address'>{`כתובת: ${x.city} `}</h2>
                                 </div>
                         );
                     })}

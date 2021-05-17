@@ -84,12 +84,21 @@ const ApplicationForm = (props) => {
                     style={{color: "white"}}> שלום {props.userSession.Data?.contact?.display_name}</h2>
                 <Form.Item
                     name="title" className="login-from input" rules={[{required: false, message: 'יש לבחור סוג פניה'}]}>
-                    <Select placeholder="נושא" allowClear>
+                    {/* <Select placeholder="נושא" allowClear>
                         <Option value="Construction">שיפוצים ותיקונים</Option>
                         <Option value="Furniture">ריהוט</Option>
                         <Option value="Education">לימודים</Option>
                         <Option value="Other">אחר</Option>
-                    </Select>
+                    </Select> */}
+
+                    <select className='selector' name="app_subjec" id="app_subject" required='true'>
+                    <option disabled selected value> נושא </option>
+                    <option value="Construction">שיפוצים ותיקונים</option>
+                    <option value="Furniture">ריהוט</option>
+                    <option value="Education">לימודים</option>
+                    <option value="Other">אחר</option>
+                    
+                    </select>
                 </Form.Item>
 
                 <h3 style={{color: "white"}}>פניה: </h3>

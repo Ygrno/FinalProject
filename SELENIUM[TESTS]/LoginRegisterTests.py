@@ -13,7 +13,7 @@ def ignore_warnings(test_func):
             test_func(self, *args, **kwargs)
     return do_test
 
-class UseCase_Tests(unittest.TestCase):
+class Login_and_Register_Tests(unittest.TestCase):
 
     @ignore_warnings
     def setUp(self):
@@ -30,6 +30,9 @@ class UseCase_Tests(unittest.TestCase):
         register_page.register_firstname = "selenium"
         register_page.register_lastname = "test"
         register_page.register_phone = "0507777771"
+        register_page.register_city = "Haifa"
+        register_page.register_streetName = "sport"
+        register_page.register_buildingNumber = "54"
         register_group_name = self.driver.find_element_by_id('user_type')
         selector = Select(register_group_name)
         selector.select_by_visible_text('חייל')
