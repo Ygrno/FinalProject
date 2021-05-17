@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import { Form, Input, Select, Modal, ConfigProvider, message, Space } from 'antd';
+import {Form, Input, Select, Modal, ConfigProvider, message, Space} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import {getAllEvents, getContactAddress, getProfile} from "../../../services/api-civicrm-service";
-import { useState } from 'react';
+import {useState} from 'react';
 import Box from "@material-ui/core/Box/Box";
 import {Card, makeStyles, Button} from '@material-ui/core';
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
@@ -22,44 +22,54 @@ const useStyle = makeStyles(theme => ({
         shape: 'round'
     }
 }));
-//        position: 'fixed',
-const editDetails = async (props,okFunction) =>{
-    Modal.info({
-        title:"ערוך פרטים",
+const updateValues =() =>{
+    console.log("I finished to update")
+}
+
+const editDetails = async (props) => {
+    Modal.confirm({
+        title: "ערוך פרטים",
         content:
             <div>
-             <Form.Item
-            label="החלף שם פרטי"
-            name="name"
-            rules={[{ required: false, message: 'הכנס מקום מגורים תקין' }]}>
-            <Input placeholder={props.Data?.contact.first_name} />
-        </Form.Item>
-            <Form.Item
-                label="החלף שם משפחה"
-                name="lastName"
-                rules={[{ required: false, message: 'הכנס מקום מגורים תקין' }]}>
-                <Input placeholder={props.Data?.contact.last_name} />
-            </Form.Item>
-        </div>,
-        onOk(){okFunction()}
+                <Form s name="normal_login"
+                      initialValues={{
+                          remember: true,
+                      }}
+                      onFinish={(values) => updateValues(values, props.startSession)}
+                >
+                    <Form.Item
+                        label="החלף שם פרטי"
+                        name="name"
+                        rules={[{required: false, message: 'הכנס מקום מגורים תקין'}]}>
+                        <Input placeholder={props.Data?.contact.first_name}/>
+                    </Form.Item>
+                    <Form.Item
+                        label="החלף שם משפחה"
+                        name="lastName"
+                        rules={[{required: false, message: 'הכנס מקום מגורים תקין'}]}>
+                        <Input placeholder={props.Data?.contact.last_name}/>
+                    </Form.Item>
+                </Form>
+            </div>,
 
-})}
+    })
+}
 
 export const Profile = (props) => {
     const [form] = Form.useForm();
     const classes = useStyle();
     const [profileDetailes, setProfiledetailes2] = useState([]);
-    let addressRes =""
-    const okFunction =async () =>{
+    let addressRes = ""
+    const okFunction = async () => {
 
     }
     const loadProfile = async () => {
         // console.log("in loadProfile the contact id is:",props.userSession.Data?.contact?.contact_id)
-        const res = await getProfile(props.userSession.Data?.API_KEY,props.userSession.Data?.contact?.contact_id);
-        addressRes =  await getContactAddress(props.userSession.Data?.API_KEY,props.userSession.Data?.contact?.contact_id)
-        console.log("in loadProfile the addressRes  is:",addressRes)
+        const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
+        addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
+        console.log("in loadProfile the addressRes  is:", addressRes)
 
-        setProfiledetailes2(res.data?.values?? [])
+        setProfiledetailes2(res.data?.values ?? [])
     };
 
     useEffect(loadProfile, []);
@@ -74,13 +84,15 @@ export const Profile = (props) => {
                                 {`אימייל: ${x.email} `}<h2></h2>
                                 {`תאריך לידה: ${x.birth_date} `}<h2></h2>
                                 {`כתובת: ${x.city} `}<h2></h2>
-                                </div>
+                            </div>
                         );
                     })}
                 </Box>
                 <FormItem>
                     <Tooltip title="פתח">
-                        <Button onClick={()=> {editDetails(props.userSession,okFunction)}} className={classes.editButton}>
+                        <Button onClick={() => {
+                            editDetails(props.userSession, okFunction)
+                        }} className={classes.editButton}>
                             ערוך פרטים
                         </Button>
                     </Tooltip>
@@ -89,7 +101,6 @@ export const Profile = (props) => {
         </ConfigProvider>
     )
 };
-
 
 
 /*
