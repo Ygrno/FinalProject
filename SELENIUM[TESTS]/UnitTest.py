@@ -38,6 +38,33 @@ class UseCase_Tests(unittest.TestCase):
         register_page.click_submit_button()
         assert register_page.is_registered()
 
+    
+    @ignore_warnings
+    def test_login_soldier_member(self):
+        self.driver.get("http://localhost:3000/login")
+        loginPage = page.LoginPage(self.driver)
+        loginPage.email_input = 'h5@h5.com'
+        loginPage.password_input = '123'
+
+        loginPage.click_submit_button()
+        assert loginPage.is_logged_in()
+
+        soldierPage = page.SoldierMemberPage(self.driver)
+        assert soldierPage.checkPages()
+
+    @ignore_warnings
+    def test_login_volunteer_member(self):
+        self.driver.get("http://localhost:3000/login")
+        loginPage = page.LoginPage(self.driver)
+        loginPage.email_input = 'try3@mail.com'
+        loginPage.password_input = '123'
+
+        loginPage.click_submit_button()
+        assert loginPage.is_logged_in()
+
+        volunteerPage = page.VolunteerMemberPage(self.driver)
+        assert volunteerPage.checkPages()
+
 
     @ignore_warnings
     def test_login_staff_member(self):
