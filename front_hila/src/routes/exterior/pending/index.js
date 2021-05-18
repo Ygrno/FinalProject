@@ -5,5 +5,6 @@ export default {
     path: "/pending",
     allowedUserTypes: [],
     component: Pending,
-    title: 'בהמתנה'
+    title: 'בהמתנה',
+    hideFromNav: true
 };

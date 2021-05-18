@@ -57,7 +57,7 @@ export const getAllSoldierEvents = (api_key, contact_id) => {
 };
 
 export const getAllEvents = (api_key) => {
-    var urlParams = `entity=Event&action=get&json={"sequential":1, "options":{"limit":500}}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "options":{"limit":500,"sort":"created_date desc"}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 

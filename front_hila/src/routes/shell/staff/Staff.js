@@ -29,6 +29,7 @@ const deleteFromPending = async (id, api, url,removePendingsFunc,cancelFunc) => 
 
 };
 const PendingRow = (props) => {
+    console.log("props.subtype[0] in pendingRow:",props.subtype)
     const removePendingsFunc = async (id,api) =>{
         console.log("in remove pending",id)
         await removePending(api,id);
@@ -60,7 +61,7 @@ const PendingRow = (props) => {
                 whiteSpace: "nowrap",
                 overflow: "hidden"
             }}>
-                {<a href={props.imageURL}> קובץ החייל </a>}
+                {props.subtype.includes("Soldier")? <a href={props.imageURL}> קובץ החייל </a>: null}
             </span>
 
             </div>
@@ -78,6 +79,7 @@ const viewPendings = async (props) => {
             content:
                 pendingRes.data.values.map(pendingUser => <PendingRow displayName={pendingUser.display_name}
                                                                       imageURL={pendingUser.image_URL}
+                                                                      subtype = {pendingUser.contact_sub_type}
                                                                       contactId={pendingUser.contact_id}
                                                                       api_key={props.Data.API_KEY}/>)
         }
@@ -143,7 +145,7 @@ export const Staff = (props) => {
         console.log("the application is:",application)
         let soldier_contact = partisipents.data.values[1]
         let volunteer_contact = partisipents.data.values[0]
-        Modal.info({
+        Modal.confirm({
             title: "נתוני הפניה",
             content: (<div>
 
@@ -155,7 +157,9 @@ export const Staff = (props) => {
                     <p> <strong>נוצרה בתאריך: </strong>{application.created_date}</p>
                 </div>
             ),
-            onOk(){confirmEvent(userSession, application)}
+            onOk(){confirmEvent(userSession, application)},
+            okText:"אישר פניה",
+            cancelText:"סרב פניה"
 
 
         })

@@ -12,6 +12,10 @@ const useStyle = makeStyles(theme => ({
         width: '60%',
         minWidth: 500,
         backgroundColor: theme.palette.card
+    },
+    title: {
+        fontWeight: 'bold',
+        textAlign: 'center'
     }
 }));
 
@@ -20,8 +24,8 @@ export const Registration = (props) => {
 
     return (
         <div className={classes.container}>
-            <h1>הרשמה </h1>
             <Card className={classes.card}>
+                <h1 className={classes.title}>הרשמה </h1>
                 <RegisterForm startSession={props.startSession}/>
             </Card>
         </div>)

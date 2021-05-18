@@ -1,3 +1,4 @@
+
 import {Link, NavLink} from "react-router-dom";
 import {AppBar, IconButton, makeStyles, Toolbar, Box} from "@material-ui/core";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -5,6 +6,7 @@ import {useHistory} from "react-router-dom";
 import {message} from 'antd';
 import {logout} from "../services/api-service";
 import theme from "../theme/create-theme";
+import {isUserPending} from "../utils/user.util";
 
 const useStyle = makeStyles(theme => ({
     navLink: {
@@ -35,8 +37,10 @@ const logout_handler = async (session, endSession, onLogoutfinish) => {
 
 export const Nav = ({userSession, endSession, routes}) => {
     const classes = useStyle();
+    const history = useHistory();
+    const routesToDisplay = routes.filter(({hideFromNav}) => !hideFromNav);
+    const shouldShowLogout = userSession && !isUserPending(userSession);
 
-    let history = useHistory();
     const onLogoutFinish = () => {
         history.push("/login");
     };
@@ -45,11 +49,11 @@ export const Nav = ({userSession, endSession, routes}) => {
         <AppBar position="static">
             <Toolbar>
                 <Box display='flex' flexDirection='row' alignItems='center'>
-                    <img className={classes.icon} src="/images/appicon.png"/>
+                    <img className={classes.icon} src="../images/appicon.png"/>
                 </Box>
                 <Box display='flex' flex={1}>
                     {
-                        routes.map(({path, title}) => (
+                        routesToDisplay.map(({path, title}) => (
                             <NavLink key={path} to={path} className={classes.navLink}
                                      activeStyle={{
                                          fontWeight: "bold",
@@ -61,7 +65,7 @@ export const Nav = ({userSession, endSession, routes}) => {
                     }
                 </Box>
                 <Box>
-                    {!!userSession &&
+                    {shouldShowLogout &&
                     <IconButton color='inherit'
                                 onClick={() => logout_handler(userSession, endSession, onLogoutFinish)}><ExitToAppIcon/></IconButton>
                     }

@@ -13,7 +13,13 @@ const useStyle = makeStyles(theme => ({
         padding: theme.spacing(2),
         width: '40%',
         minWidth: 500,
-        backgroundColor: theme.palette.card
+        backgroundColor: theme.palette.card,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    title: {
+        fontWeight: 'bold'
     }
 }));
 
@@ -22,8 +28,8 @@ const Login = (props) => {
 
     return (
         <Box className={classes.container}>
-            <h1>כניסה</h1>
             <Card className={classes.card}>
+                <h1 className={classes.title}>כניסה</h1>
                 <LoginForm userSession={props.userSession} startSession={props.startSession}
                            endSession={props.endSession}/>
             </Card>
@@ -32,14 +38,3 @@ const Login = (props) => {
 };
 
 export default Login;
-
-
-/*
-import LoginForm from './LoginForm';
-
-export const Login = () => (
-    <div>
-        <h1>כניסה </h1>
-        <LoginForm />
-    </div>);
-*/

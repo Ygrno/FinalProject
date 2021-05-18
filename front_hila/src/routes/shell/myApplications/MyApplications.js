@@ -44,7 +44,11 @@ export const MyApplications = ({userSession, endSession}) => {
             <ConfigProvider direction="rtl">
                 <Form form={form}>
                     <Box>
-                        {myApplications?.map(x => <MyApplicationsPreview application={x} userSession={userSession}/>)}
+                        {
+                            myApplications?.length ?
+                            myApplications?.map(x => <MyApplicationsPreview application={x} userSession={userSession}/>) :
+                            !isLoading && <h1>לא קיימות פניות</h1>
+                        }
                     </Box>
                 </Form>
             </ConfigProvider>

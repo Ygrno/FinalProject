@@ -26,9 +26,7 @@ const handleRegisterClick = async (values, onRegFinish, startSession) => {
     const registerRes = await register(data);
     console.log(registerRes.data);
     if (registerRes.data['is_error']) {
-
-        message.error(registerRes.data['Message']);
-        window.location.href = "/login";
+        alert(registerRes.data['Message']);
     } else {
         startSession(registerRes.data);
         message.success(registerRes.data['Message']);
