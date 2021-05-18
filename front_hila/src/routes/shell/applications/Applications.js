@@ -73,7 +73,7 @@ export const Applications = ({userSession, endSession}) => {
                     {shouldShowHandleButton() &&
                         <FormItem>
                             <Tooltip title="הוסף פנייה חדשה">
-                            <Fab onClick={showModal} className={classes.addButton}>
+                            <Fab id = 'add_app' onClick={showModal} className={classes.addButton}>
                                 +
                             </Fab>
                                 </Tooltip>

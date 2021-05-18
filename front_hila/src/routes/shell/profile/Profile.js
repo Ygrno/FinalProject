@@ -103,7 +103,7 @@ export const Profile = (props) => {
                 </Box>
                 <FormItem>
                     <Tooltip title="פתח">
-                        <Button onClick={() => {
+                        <Button id = 'edit_details' onClick={() => {
                             editDetails(props.userSession, okFunction)
                         }} className={classes.editButton}>
                             ערוך פרטים

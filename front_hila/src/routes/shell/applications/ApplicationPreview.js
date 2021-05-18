@@ -30,13 +30,13 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
     };
 
     return <Card className={classes.container}  >
-        <Card inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
-        {`מספר פנייה: ${application.id} `}<h4></h4>
-        {`כותרת הפנייה: ${application.title} `}<h4></h4>
-        {`תיאור : ${application.description} `}<h4></h4>
-        {`נוצרה בתאריך: ${application.created_date} `}<h4></h4>
+        <Card id = 'card_app' inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+        <h4>{`מספר פנייה: ${application.id} `}</h4>
+        <h4>{`כותרת הפנייה: ${application.title} `}</h4>
+        <h4>{`תיאור : ${application.description} `}</h4>
+        <h4>{`נוצרה בתאריך: ${application.created_date} `}</h4>
         {shouldShowHandleButton() &&
-        <Button onClick={() => changeActiveEvent()} type="secondary" shape="round" color="secondary" variant="contained"
+        <Button id = 'take_care' onClick={() => changeActiveEvent()} type="secondary" shape="round" color="secondary" variant="contained"
                 size="medium">
             טפל בפנייה
         </Button>

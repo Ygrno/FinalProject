@@ -15,8 +15,8 @@ class RegisterLocators(object):
     SUBMIT_BUTTON = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary ant-btn-round ant-btn-rtl singup-btn']")
 
 class ProfileLocators(object):
-    EDIT_BUTTON = (By.CSS_SELECTOR,"button[class='MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-editButton-23']")
+    EDIT_BUTTON = (By.ID,"edit_details")
     
 class ApplicationLocators(object):
-    ADD_APPLICATION = (By.CSS_SELECTOR,"button[class='MuiButtonBase-root MuiFab-root makeStyles-addButton-23']")
-    SEND_APPLICATION = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary ant-btn-round ant-btn-rtl ant-btn-app']")
+    ADD_APPLICATION = (By.ID,"add_app")
+    SEND_APPLICATION = (By.ID,"send_app")

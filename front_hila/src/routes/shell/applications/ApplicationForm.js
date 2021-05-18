@@ -107,7 +107,7 @@ const ApplicationForm = (props) => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" shape="round" htmlType="submit" className={"ant-btn-app"}>
+                    <Button id = "send_app" type="primary" shape="round" htmlType="submit" className={"ant-btn-app"}>
                         שלח
                     </Button>
                 </Form.Item>
