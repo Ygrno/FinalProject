@@ -37,7 +37,7 @@ const LoginForm = (props) => {
             history.push("/");
         }
         else {
-            history.push("/profile");
+            history.push("/home");
         }
     };
 

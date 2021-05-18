@@ -20,7 +20,7 @@ const Home = ({ userSession }) => {
         if (!userSession)
             return 'שלום אורח';
         if (userSession.Data?.contact?.contact_sub_type.includes("Pending"))
-            return `${userSession.Data?.contact?.display_name}, הינך בתהליך אישור הרשמה. בימים הקורבים תישלח אליך הודעת מייל עם שאר הפרטים `
+            return `${userSession.Data?.contact?.display_name}, הינך בתהליך אישור הרשמה.  \n בימים הקורבים תישלח אליך הודעת מייל עם שאר הפרטים `
 
         return `שלום ${userSession.Data?.contact?.display_name}`;
     }

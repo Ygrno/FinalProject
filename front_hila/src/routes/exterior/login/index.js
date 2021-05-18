@@ -3,7 +3,7 @@ import { UserType } from '../../../constants';
 
 export default {
     path: "/login",
-    requierdUserTypes: [],
+    allowedUserTypes: [],
     component: Login,
     title: 'כניסה'
 };

@@ -1,6 +1,10 @@
-.ant-form {
-  width: 30% !important;
-}
+// ***************************
+// Shouldn't change classes of libraries if we only want to change it here
+// this for example, changes the width of all forms in the whole app...
+/*.ant-form {
+  width: 30%;
+}*/
+//***************
 
 .ant-modal-body {
   height: 60vh;
@@ -10,9 +14,16 @@
 input {
   text-overflow: ellipsis;
 }
-body{
+
+// **************
+// Shouldn't change style of 'body' in multiple places
+// this will change the style of the whole application
+// if we really want this we should change it in index.css...
+/*body{
   overflow-y: scroll !important;
-}
+}*/
+// *************
+
 element.style {
 }
 .ant-btn-rtl {
