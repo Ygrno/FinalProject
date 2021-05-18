@@ -29,6 +29,7 @@ const deleteFromPending = async (id, api, url,removePendingsFunc,cancelFunc) => 
 
 };
 const PendingRow = (props) => {
+    console.log("props.subtype[0] in pendingRow:",props.subtype)
     const removePendingsFunc = async (id,api) =>{
         console.log("in remove pending",id)
         await removePending(api,id);
@@ -60,7 +61,7 @@ const PendingRow = (props) => {
                 whiteSpace: "nowrap",
                 overflow: "hidden"
             }}>
-                {<a href={props.imageURL}> קובץ החייל </a>}
+                {props.subtype.includes("Soldier")? <a href={props.imageURL}> קובץ החייל </a>: null}
             </span>
 
             </div>
@@ -78,6 +79,7 @@ const viewPendings = async (props) => {
             content:
                 pendingRes.data.values.map(pendingUser => <PendingRow displayName={pendingUser.display_name}
                                                                       imageURL={pendingUser.image_URL}
+                                                                      subtype = {pendingUser.contact_sub_type}
                                                                       contactId={pendingUser.contact_id}
                                                                       api_key={props.Data.API_KEY}/>)
         }

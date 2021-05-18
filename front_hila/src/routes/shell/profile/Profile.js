@@ -52,17 +52,17 @@ const editDetails = async (props) => {
                     <Form.Item
                         label="החלף עיר"
                         name="city">
-                        <Input placeholder={props.Data?.contact.last_name}/>
+                        <Input placeholder={props.Data?.contact.city}/>
                     </Form.Item>
                     <Form.Item
                         label="החלף שם רחוב"
                         name="street">
-                        <Input placeholder={props.Data?.contact.last_name}/>
+                        <Input placeholder={props.Data?.contact.street_name}/>
                     </Form.Item>
                     <Form.Item
                         label="החלף מספר בית"
                         name="building">
-                        <Input placeholder={props.Data?.contact.last_name}/>
+                        <Input placeholder={props.Data?.contact.street_number}/>
                     </Form.Item>
                     <Button style={{color: "white", background: "lime", border: "lime"}} type="primary"
                             className="login-form-input" shape="round" icon={<DownloadOutlined/>}
@@ -95,10 +95,10 @@ export const Profile = (props) => {
             setIsLoading(true);
             // console.log("in loadProfile the contact id is:",props.userSession.Data?.contact?.contact_id)
             const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
-            addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
-            console.log("in loadProfile the addressRes  is:", addressRes)
-        setAddressDetails(addressRes.data.values ?? [])
-            setProfiledetailes2(res.data?.values ?? [])
+            const addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
+            console.log("in loadProfile the addressRes  is:", addressRes);
+            setAddressDetails(addressRes.data.values ?? []);
+            setProfiledetailes(res.data?.values ?? []);
         } catch (error) {
             console.log(error);
         } finally {
