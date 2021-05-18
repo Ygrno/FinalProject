@@ -134,4 +134,3 @@ export const Profile = (props) => {
     )
 };
 export default Profile;
-*/
