@@ -1,26 +1,23 @@
 import React, {useEffect} from 'react';
 import {useState} from 'react';
 import {Form, Modal, Button, ConfigProvider, Space} from 'antd';
+import {makeStyles, Box, CircularProgress, Fab, Tooltip} from "@material-ui/core";
 
 import ApplicationForm from './ApplicationForm';
 import FormItem from 'antd/lib/form/FormItem';
 import {getAllEvents} from '../../../services/api-civicrm-service';
 import {ApplicationPreview} from "./ApplicationPreview";
-import Box from "@material-ui/core/Box/Box";
-import {makeStyles} from "@material-ui/core";
-import Fab from "@material-ui/core/Fab/Fab";
-import Tooltip from '@material-ui/core/Tooltip';
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
-
 
 const useStyle = makeStyles(theme => ({
         container: {
             display: 'flex',
-            height: '100%',
+            flex: 1,
             width: '100%',
             flexDirection: 'column',
-            overflow: 'auto'
+            alignItems: 'center',
+            justifyContent: 'center'
         },
         addButton: {
             position: 'fixed',
@@ -37,6 +34,7 @@ export const Applications = ({userSession, endSession}) => {
     const [form] = Form.useForm();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [applications, setApplications] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -49,9 +47,18 @@ export const Applications = ({userSession, endSession}) => {
     };
 
     const loadApplications = async () => {
-        const res = await getAllEvents(userSession.Data?.API_KEY);
-        setApplications(res.data?.values ?? []);
-        console.log("applications: ",applications);
+        try{
+            setIsLoading(true);
+            const res = await getAllEvents(userSession.Data?.API_KEY);
+            setApplications(res.data?.values ?? []);
+            console.log("applications: ",applications);
+        }
+        catch(error){
+            console.log(error);
+        }
+        finally {
+            setIsLoading(false);
+        }
     };
 
     useEffect(loadApplications, []);
@@ -82,9 +89,10 @@ export const Applications = ({userSession, endSession}) => {
 
                 </Form>
             </ConfigProvider>
+            {
+                isLoading && <CircularProgress />
+            }
         </Box>
     )
 
 };
-
-//Box overflow={'auto'}

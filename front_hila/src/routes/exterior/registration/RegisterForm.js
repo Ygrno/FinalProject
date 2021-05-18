@@ -42,7 +42,7 @@ const RegisterForm = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const onRegisterFinish = () => {
-        history.push("/application");
+        history.push("/pending");
     }
 
     const showModal = () => {

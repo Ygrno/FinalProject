@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
 import {Form, Input, Select, Modal, ConfigProvider, message, Space} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import {useHistory} from "react-router-dom";
 import {getAllEvents, getContactAddress, getProfile} from "../../../services/api-civicrm-service";
 import {useState} from 'react';
 import Box from "@material-ui/core/Box/Box";
-import {Card, makeStyles, Button} from '@material-ui/core';
+import {Card, makeStyles, Button, CircularProgress} from '@material-ui/core';
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Fab from "@material-ui/core/Fab/Fab";
 import {DownloadOutlined} from "@ant-design/icons";
@@ -69,7 +68,6 @@ const editDetails = async (props) => {
                     </Button>
                 </Form>
             </div>,
-        okText: 'סגור'
 
     })
 }
@@ -77,69 +75,63 @@ const editDetails = async (props) => {
 export const Profile = (props) => {
     const [form] = Form.useForm();
     const classes = useStyle();
-    const [profileDetailes, setProfiledetailes] = useState([]);
-    const [adressDetails, setAddressDetails] = useState([]);
-
-
+    const [profileDetailes, setProfiledetailes2] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    let addressRes = ""
     const okFunction = async () => {
 
     }
-    useEffect(() => {
-        loadProfile();
-    }, [])
     const loadProfile = async () => {
-        const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
-        const addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
-        // console.log("in loadProfile the addressRes  is:", addressRes)
-        setAddressDetails(addressRes.data.values ?? [])
-        setProfiledetailes(res.data?.values ?? [])
+        try {
+            setIsLoading(true);
+            // console.log("in loadProfile the contact id is:",props.userSession.Data?.contact?.contact_id)
+            const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
+            addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
+            console.log("in loadProfile the addressRes  is:", addressRes)
+            setProfiledetailes2(res.data?.values ?? [])
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    let contact = profileDetailes[0]
-    let address = adressDetails
-    console.log("the address is amit levizky :", address)
-    console.log("profileDetailes after set:", profileDetailes)
+    useEffect(loadProfile, []);
 
     return (
-        <ConfigProvider direction="rtl">
-            <Card className={classes.container}>
-                <Box overflow={'auto'}>
-                    {profileDetailes?.map(x => {
-                        return (<div><h2></h2>
-                                {`שם: ${x.display_name} `}<h2></h2>
-                                {`אימייל: ${x.email} `}<h2></h2>
-                                {`תאריך לידה: ${x.birth_date} `}<h2></h2>
-                                {`כתובת: ${x.city} `}<h2></h2>
-                            </div>
-                        );
-                    })}
-                </Box>
-                <FormItem>
-                    <Tooltip title="פתח">
-                        <Button onClick={() => {
-                            editDetails(props.userSession, okFunction)
-                        }} className={classes.editButton}>
-                            ערוך פרטים
-                        </Button>
-                    </Tooltip>
-                </FormItem>
-            </Card>
-        </ConfigProvider>
+        <Box>
+            <ConfigProvider direction="rtl">
+                <Card className={classes.container}>
+                    {
+                        isLoading ? <CircularProgress/> :
+                            <>
+                                <Box overflow={'auto'}>
+                                    {profileDetailes?.map(x => {
+                                        return (<div><h2></h2>
+                                                {`שם: ${x.display_name} `}<h2></h2>
+                                                {`אימייל: ${x.email} `}<h2></h2>
+                                                {`תאריך לידה: ${x.birth_date} `}<h2></h2>
+                                                {`כתובת: ${x.city} `}<h2></h2>
+                                            </div>
+                                        );
+                                    })}
+
+                                </Box>
+                                <FormItem>
+                                    <Tooltip title="פתח">
+                                        <Button onClick={() => {
+                                            editDetails(props.userSession, okFunction)
+                                        }} className={classes.editButton}>
+                                            ערוך פרטים
+                                        </Button>
+                                    </Tooltip>
+                                </FormItem>
+                            </>
+                    }
+                </Card>
+            </ConfigProvider>
+        </Box>
     )
-};
-
-
-/*
-const Profile = (props) => {
-
-    const [form] = Form.useForm();
-    return (
-        <ConfigProvider direction="rtl">
-            <Form>
-                <h2> שלום </h2>
-            </Form>
-        </ConfigProvider>
-    );
 };
 export default Profile;
 */

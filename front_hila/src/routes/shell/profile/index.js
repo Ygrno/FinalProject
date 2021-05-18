@@ -3,7 +3,7 @@ import { UserType } from '../../../constants';
 
 export default {
     path: "/profile",
-    requierdUserTypes: [],
+    allowedUserTypes: [],
     component: Profile,
     title: 'הפרופיל שלי'
 };

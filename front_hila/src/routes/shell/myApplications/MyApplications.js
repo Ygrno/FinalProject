@@ -1,23 +1,17 @@
 import React, {useEffect} from 'react';
 import {useState} from 'react';
 import {Form, Modal, Button, ConfigProvider, Space} from 'antd';
+import {makeStyles, CircularProgress, Box} from "@material-ui/core";
 
-import FormItem from 'antd/lib/form/FormItem';
-import {getAllContactsEvent,getAllSoldierEvents} from '../../../services/api-civicrm-service';
-import Box from "@material-ui/core/Box/Box";
-import {makeStyles} from "@material-ui/core";
-import Fab from "@material-ui/core/Fab/Fab";
 import {MyApplicationsPreview} from "./MyApplicationsPreview";
-import {ApplicationPreview} from "../applications/ApplicationPreview";
-
+import {getAllSoldierEvents} from '../../../services/api-civicrm-service';
 
 const useStyle = makeStyles(theme => ({
         container: {
             display: 'flex',
-            height: '100%',
+            flex: 1,
             width: '100%',
-            flexDirection: 'column',
-            overflow: 'auto'
+            flexDirection: 'column'
         },
         addButton: {
             position: 'fixed',
@@ -26,20 +20,21 @@ const useStyle = makeStyles(theme => ({
             backgroundColor: theme.palette.secondary.main,
             fontSize: 28
         }
-    }))
-;
+    }));
 
 export const MyApplications = ({userSession, endSession}) => {
     const classes = useStyle();
     const [form] = Form.useForm();
     const [myApplications, setApplications] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const loadApplications = async () => {
+        setIsLoading(true);
         const res = await getAllSoldierEvents(userSession.Data?.API_KEY, userSession.Data.contact.contact_id);
         setApplications(res.data?.values ?? []);
         console.log("myApplications: ",myApplications);
         console.log(res.data?.values);
-
+        setIsLoading(false);
     };
 
     useEffect(loadApplications, []);
@@ -49,10 +44,17 @@ export const MyApplications = ({userSession, endSession}) => {
             <ConfigProvider direction="rtl">
                 <Form form={form}>
                     <Box>
-                        {myApplications?.map(x => <MyApplicationsPreview application={x} userSession={userSession}/>)}
+                        {
+                            myApplications?.length ?
+                            myApplications?.map(x => <MyApplicationsPreview application={x} userSession={userSession}/>) :
+                            !isLoading && <h1>לא קיימות פניות</h1>
+                        }
                     </Box>
                 </Form>
             </ConfigProvider>
+            {
+                isLoading && <CircularProgress />
+            }
         </Box>
     )
 
