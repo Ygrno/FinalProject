@@ -24,7 +24,7 @@ const useStyle = makeStyles(theme => ({
 }));
 
 
-const updateValues =() =>{
+const updateValues = () => {
     console.log("I finished to update")
 }
 
@@ -67,18 +67,16 @@ export const Profile = (props) => {
 
     }
     const loadProfile = async () => {
-        try{
+        try {
             setIsLoading(true);
             // console.log("in loadProfile the contact id is:",props.userSession.Data?.contact?.contact_id)
             const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
             addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
             console.log("in loadProfile the addressRes  is:", addressRes)
             setProfiledetailes2(res.data?.values ?? [])
-        }
-        catch(error){
+        } catch (error) {
             console.log(error);
-        }
-        finally {
+        } finally {
             setIsLoading(false);
         }
     };
@@ -87,50 +85,36 @@ export const Profile = (props) => {
 
     return (
         <Box>
-        <ConfigProvider direction="rtl">
-            <Card className={classes.container}>
-                <Box overflow={'auto'}>
-                    {profileDetailes?.map(x => {
-                        return (<div><h2></h2>
-                                {`שם: ${x.display_name} `}<h2></h2>
-                                {`אימייל: ${x.email} `}<h2></h2>
-                                {`תאריך לידה: ${x.birth_date} `}<h2></h2>
-                                {`כתובת: ${x.city} `}<h2></h2>
-                            </div>
-                        );
-                    })}
+            <ConfigProvider direction="rtl">
+                <Card className={classes.container}>
+                    {
+                        isLoading ? <CircularProgress/> :
+                            <>
+                                <Box overflow={'auto'}>
+                                    {profileDetailes?.map(x => {
+                                        return (<div><h2></h2>
+                                                {`שם: ${x.display_name} `}<h2></h2>
+                                                {`אימייל: ${x.email} `}<h2></h2>
+                                                {`תאריך לידה: ${x.birth_date} `}<h2></h2>
+                                                {`כתובת: ${x.city} `}<h2></h2>
+                                            </div>
+                                        );
+                                    })}
 
-                </Box>
-                <FormItem>
-                    <Tooltip title="פתח">
-                        <Button onClick={() => {
-                            editDetails(props.userSession, okFunction)
-                        }} className={classes.editButton}>
-                            ערוך פרטים
-                        </Button>
-                    </Tooltip>
-                </FormItem>
-            </Card>
-        </ConfigProvider>
-            {
-                isLoading && <CircularProgress />
-            }
+                                </Box>
+                                <FormItem>
+                                    <Tooltip title="פתח">
+                                        <Button onClick={() => {
+                                            editDetails(props.userSession, okFunction)
+                                        }} className={classes.editButton}>
+                                            ערוך פרטים
+                                        </Button>
+                                    </Tooltip>
+                                </FormItem>
+                            </>
+                    }
+                </Card>
+            </ConfigProvider>
         </Box>
     )
 };
-
-
-/*
-const Profile = (props) => {
-
-    const [form] = Form.useForm();
-    return (
-        <ConfigProvider direction="rtl">
-            <Form>
-                <h2> שלום </h2>
-            </Form>
-        </ConfigProvider>
-    );
-};
-export default Profile;
-*/
