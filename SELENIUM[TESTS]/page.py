@@ -43,12 +43,9 @@ class ProfilePage(BasePage):
         element.click()
 
         WebDriverWait(self.driver, 100).until(
-            lambda driver: driver.find_element_by_id('lastName'))
-        self.driver.find_element_by_id('name').send_keys(private_name)
-
-        WebDriverWait(self.driver, 100).until(
-            lambda driver: driver.find_element_by_id('lastName'))
-        self.driver.find_element_by_id('lastName').send_keys(last_name)
+            lambda driver: driver.find_element_by_id('normal_login_lastName'))
+        self.driver.find_element_by_id('normal_login_name').send_keys(private_name)
+        self.driver.find_element_by_id('normal_login_lastName').send_keys(last_name)
 
         ok_button = self.driver.find_element_by_css_selector("button[class='ant-btn ant-btn-primary']")
         # ok_button = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary']")
