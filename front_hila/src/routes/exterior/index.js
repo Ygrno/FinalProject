@@ -3,4 +3,4 @@ import Login from './login';
 import Registration from './registration';
 import Pending from './pending';
 
-export default [Home, Login, Registration,Pending];
+export default [Home, Login, Registration, Pending];

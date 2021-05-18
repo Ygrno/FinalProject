@@ -3,7 +3,7 @@ import { UserType } from '../../../constants';
 
 export default {
     path: "/register",
-    requierdUserTypes: [],
+    allowedUserTypes: [],
     component: Registration,
     title: 'הרשמה'
 };

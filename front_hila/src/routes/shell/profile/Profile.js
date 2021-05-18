@@ -4,7 +4,7 @@ import FormItem from 'antd/lib/form/FormItem';
 import {getAllEvents, getContactAddress, getProfile} from "../../../services/api-civicrm-service";
 import {useState} from 'react';
 import Box from "@material-ui/core/Box/Box";
-import {Card, makeStyles, Button} from '@material-ui/core';
+import {Card, makeStyles, Button, CircularProgress} from '@material-ui/core';
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Fab from "@material-ui/core/Fab/Fab";
 
@@ -22,6 +22,8 @@ const useStyle = makeStyles(theme => ({
         shape: 'round'
     }
 }));
+
+
 const updateValues =() =>{
     console.log("I finished to update")
 }
@@ -59,22 +61,32 @@ export const Profile = (props) => {
     const [form] = Form.useForm();
     const classes = useStyle();
     const [profileDetailes, setProfiledetailes2] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     let addressRes = ""
     const okFunction = async () => {
 
     }
     const loadProfile = async () => {
-        // console.log("in loadProfile the contact id is:",props.userSession.Data?.contact?.contact_id)
-        const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
-        addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
-        console.log("in loadProfile the addressRes  is:", addressRes)
-
-        setProfiledetailes2(res.data?.values ?? [])
+        try{
+            setIsLoading(true);
+            // console.log("in loadProfile the contact id is:",props.userSession.Data?.contact?.contact_id)
+            const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
+            addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
+            console.log("in loadProfile the addressRes  is:", addressRes)
+            setProfiledetailes2(res.data?.values ?? [])
+        }
+        catch(error){
+            console.log(error);
+        }
+        finally {
+            setIsLoading(false);
+        }
     };
 
     useEffect(loadProfile, []);
 
     return (
+        <Box>
         <ConfigProvider direction="rtl">
             <Card className={classes.container}>
                 <Box overflow={'auto'}>
@@ -87,6 +99,7 @@ export const Profile = (props) => {
                             </div>
                         );
                     })}
+
                 </Box>
                 <FormItem>
                     <Tooltip title="פתח">
@@ -99,6 +112,10 @@ export const Profile = (props) => {
                 </FormItem>
             </Card>
         </ConfigProvider>
+            {
+                isLoading && <CircularProgress />
+            }
+        </Box>
     )
 };
 

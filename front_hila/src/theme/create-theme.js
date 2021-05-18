@@ -8,7 +8,8 @@ const theme = createMuiTheme({
         },
         secondary: {
             main: "#76d1ff"
-        }
+        },
+        card: '#e5eded'
     }
 });
 
