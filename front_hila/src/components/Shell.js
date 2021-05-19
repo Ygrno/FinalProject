@@ -5,6 +5,7 @@ import {Nav} from './Nav';
 import {getAllowedRoutes} from '../routes';
 import Box from "@material-ui/core/Box/Box";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import background from '../images/soldiers2.jpg';
 
 const useStyle = makeStyles(theme => ({
     pageContainer: {
@@ -13,7 +14,22 @@ const useStyle = makeStyles(theme => ({
         height: '100%',
         width: '100%',
         overflow: 'auto',
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
+        zIndex: 100,
+        '&::before': {
+            content: '""',
+            backgroundImage: `url(${background})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            height: '100%',
+            width: '100%',
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            opacity: 0.4,
+            zIndex: -1
+        }
     }
 }));
 

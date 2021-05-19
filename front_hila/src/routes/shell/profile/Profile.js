@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Form, Input, Modal, ConfigProvider,Spin} from 'antd';
+import {Form, Input, Select, Modal, ConfigProvider, message, Space, Spin} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import {
     getContactAddress,
@@ -93,7 +93,7 @@ const editDetails = async (props,address) => {
                     </Button>
                 </Form>
             </ConfigProvider>,
-        okText: 'סגור'
+            okText: 'סגור'
 
     })
 }

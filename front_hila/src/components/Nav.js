@@ -16,8 +16,8 @@ const useStyle = makeStyles(theme => ({
         fontSize: 20
     },
     icon: {
-        height: 100,
-        width: 100
+        height: '100px',
+        width: '100px'
     }
 }));
 
@@ -49,7 +49,7 @@ export const Nav = ({userSession, endSession, routes}) => {
         <AppBar position="static">
             <Toolbar>
                 <Box display='flex' flexDirection='row' alignItems='center'>
-                    <img className={classes.icon} src="../images/appicon.png"/>
+                    <img className={classes.icon} src='/images/appicon.png'/>
                 </Box>
                 <Box display='flex' flex={1}>
                     {
