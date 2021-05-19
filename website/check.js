@@ -8,5 +8,5 @@ axios({
         password: 'Aa123456'
     }
 }).then(function (response){
-    console.log(response)
+
 });

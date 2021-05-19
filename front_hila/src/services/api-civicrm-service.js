@@ -30,6 +30,11 @@ export const getProfile = (api_key, contact_id) => {
     return client.get(`${updateUrl}${urlParams}`)
 };
 
+export const getProfilewithAddres = (api_key, contact_id) => {
+    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
 
 export const setActiveEvent = (api_key, application_id) => {
     var urlParams = `entity=Event&action=create&json={"id":${application_id},"options":{"limit":300},"is_active":1}&api_key=${api_key}&key=${site_key}`;
@@ -83,6 +88,16 @@ export const removePending = (api_key,contact_id) =>{
     return client.post(`${updateUrl}${urlParams}`)
 };
 
+export const updateProfileContact = (api_key,contact_id,firstName,lastName) =>{
+    var urlParams = `entity=Contact&action=create&json={"id":\"${contact_id}\","first_name":\"${firstName}\","last_name":\"${lastName}\"}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
+export const updateProfileAddress = (api_key,contact_id,city,street,number) =>{
+    var urlParams = `entity=Address&action=create&json={"contact_id":\"${contact_id}\","city":\"${city}\","street_name":\"${street}\","street_number":\"${number}\"}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
 export const sendMail = (api_key, contact_id_to_send, template_id) =>{
     var urlParams = `entity=Email&action=send&json={"contact_id":${contact_id_to_send},"template_id":${template_id}}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
@@ -97,3 +112,17 @@ export const getContactAddress = (api_key, contact_id) => {
     var urlParams = `entity=Address&action=get&json={"sequential":1,"contact_id":${contact_id},"return":"street_name,street_number,city"}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
+
+export const serachContacts = (search_data, api_key) => {
+    var urlParams = new URLSearchParams({
+        'entity': 'Contact',
+        'action': 'get',
+        'json': JSON.stringify({"sequential": 1,"id": search_data.contact_id,
+                            "email": search_data.email, "contact_type": search_data.contact_type, 
+                            "first_name": search_data.first_name, "last_name": search_data.last_name}),
+        'api_key': api_key,
+        'key': 'aacce8033f7a9730040b45df047e3191'
+    })
+    return client.get(`${updateUrl}${urlParams}`)
+}
+
