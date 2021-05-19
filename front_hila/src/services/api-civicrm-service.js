@@ -30,6 +30,11 @@ export const getProfile = (api_key, contact_id) => {
     return client.get(`${updateUrl}${urlParams}`)
 };
 
+export const getProfilewithAddres = (api_key, contact_id) => {
+    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
 
 export const setActiveEvent = (api_key, application_id) => {
     var urlParams = `entity=Event&action=create&json={"id":${application_id},"options":{"limit":300},"is_active":1}&api_key=${api_key}&key=${site_key}`;
@@ -80,6 +85,16 @@ export const getAllPendings = (api_key) => {
 
 export const removePending = (api_key,contact_id) =>{
     var urlParams = `entity=Contact&action=create&json={"id":\"${contact_id}\","contact_sub_type":\"Soldier\"}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
+export const updateProfileContact = (api_key,contact_id,firstName,lastName) =>{
+    var urlParams = `entity=Contact&action=create&json={"id":\"${contact_id}\","first_name":\"${firstName}\","last_name":\"${lastName}\"}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
+export const updateProfileAddress = (api_key,contact_id,city,street,number) =>{
+    var urlParams = `entity=Address&action=create&json={"contact_id":\"${contact_id}\","city":\"${city}\","street_name":\"${street}\","street_number":\"${number}\"}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
 };
 

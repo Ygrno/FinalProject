@@ -81,7 +81,7 @@ const LoginForm = ({userSession, startSession}) => {
                 </Form.Item>
 
                 <Form.Item>
-                    <a className="radio-box" href="http://amishrakefight.org/gfy/" target="_blank">
+                    <a className="radio-box" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
                         <h3 style={{color: "#1890ff"}}> שכחתי סיסמה
                         </h3>
                     </a>
