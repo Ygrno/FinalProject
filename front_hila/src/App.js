@@ -30,11 +30,8 @@ function App() {
   }, []);
   useEffect(() => {
     window.localStorage.setItem('Hakuna-matata', JSON.stringify(userSession));
-    if (userSession)
-      console.log(userSession.Data?.contact?.contact_sub_type);
+      console.log("I am ib APP.js")
   });
-
-
 
   return (
     <Theme>

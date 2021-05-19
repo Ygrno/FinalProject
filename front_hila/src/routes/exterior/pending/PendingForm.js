@@ -6,7 +6,6 @@ import {useHistory} from "react-router-dom";
 // import {updateContact} from "../services/api_civicrm_service";
 import axios from "axios";
 import {getContactDetail, logout, uploadImg} from "../../../services/api-service";
-import {updateContact} from "../../../services/api-civicrm-service";
 
 
 const {Option} = Select;
