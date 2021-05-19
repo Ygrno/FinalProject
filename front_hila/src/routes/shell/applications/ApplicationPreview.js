@@ -4,6 +4,7 @@ import {Button} from "antd";
 import {setActiveEvent, addParticipantToEvent, getParticipantToEvent} from "../../../services/api-civicrm-service";
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
+import applicationTypes from '../../../utils/application-type-translator';
 
 const useStyle = makeStyles(theme => ({
     container: {
@@ -33,8 +34,8 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
     };
 
     return <Card className={classes.container}>
-        <h3 className={classes.title}>{application.title}</h3>
-        <h4>{application.description}</h4>
+        <h3 className={classes.title}>{applicationTypes[application.title] || application.title}</h3>
+        <h4>{application.summary}</h4>
         <h4>מספר פנייה: {application.id}</h4>
         <h4>נוצרה בתאריך: {application.created_date}</h4>
         {
