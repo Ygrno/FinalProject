@@ -3,7 +3,8 @@ import { UserType } from '../../../constants';
 
 export default {
     path: "/pending",
-    requierdUserTypes: [],
+    allowedUserTypes: [],
     component: Pending,
-    title: 'בהמתנה'
+    title: 'בהמתנה',
+    hideFromNav: true
 };

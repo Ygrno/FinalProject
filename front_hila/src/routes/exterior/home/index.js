@@ -3,7 +3,7 @@ import { UserType } from '../../../constants';
 
 export default {
     path: "/home",
-    requierdUserTypes: [],
+    allowedUserTypes: [],
     component: Home,
     exact: true,
     title: 'בית'

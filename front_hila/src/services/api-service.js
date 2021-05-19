@@ -18,3 +18,11 @@ export const login = (data) => {
 export const logout = data => {
     return client.post(`${registerLoginBaseUrl}/logout`, data)
 };
+
+export const uploadImg = data => {
+    return client.post(`${registerLoginBaseUrl}/upload_doc`, data)
+};
+
+export const getContactDetail = data => {
+    return client.post(`${registerLoginBaseUrl}/update_contact`, data)
+};

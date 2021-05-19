@@ -1,82 +1,98 @@
-import React from 'react';
-import { useHistory } from "react-router-dom";
-import { useState } from 'react';
-import { Card, Fab } from '@material-ui/core';
-//import { Button, Dialog, DialogContent } from '@material-ui/core';
+import React, {useEffect} from 'react';
+import {useState} from 'react';
+import {Form, Modal, Button, ConfigProvider, Space} from 'antd';
+import {makeStyles, Box, CircularProgress, Fab, Tooltip} from "@material-ui/core";
+
 import ApplicationForm from './ApplicationForm';
-import { logout } from "../../../services/api-service";
-import { Form, Input, Select, Modal, Button, ConfigProvider, message, Space } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
+import {getAllEvents} from '../../../services/api-civicrm-service';
+import {ApplicationPreview} from "./ApplicationPreview";
+import {getUserTypes} from "../../../utils/user.util";
+import {UserType} from "../../../constants";
 
+const useStyle = makeStyles(theme => ({
+        container: {
+            display: 'flex',
+            flex: 1,
+            width: '100%',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+        },
+        addButton: {
+            position: 'fixed',
+            bottom: 40,
+            left: 40,
+            backgroundColor: theme.palette.secondary.main,
+            fontSize: 28
+        }
+    }))
+;
 
-const logout_handler = async (session, endSession, onLogoutfinish) => {
-    const userDetails = {
-        email: session.Data?.contact?.email
-    };
-    const logoutResult = await logout(userDetails);
-    console.log("logout details: ", userDetails);
-    if (logoutResult.data["is_error"]) {
-        message.error(logoutResult.data["is_error"]);
-    } else {
-        endSession();
-        onLogoutfinish();
-
-    }
-};
-
-
-export const Applications = (props) => {
-
+export const Applications = ({userSession, endSession}) => {
+    const classes = useStyle();
     const [form] = Form.useForm();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
+    const [applications, setApplications] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const showModal = () => {
         setIsModalVisible(true);
     };
-
     const handleOk = () => {
         setIsModalVisible(false);
-        setIsChecked(true);
     };
-
     const handleCancel = () => {
         setIsModalVisible(false);
-        setIsChecked(false);
     };
+
+    const loadApplications = async () => {
+        try{
+            setIsLoading(true);
+            const res = await getAllEvents(userSession.Data?.API_KEY);
+            setApplications(res.data?.values ?? []);
+            console.log("applications: ",applications);
+        }
+        catch(error){
+            console.log(error);
+        }
+        finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(loadApplications, []);
+
+    const shouldShowHandleButton = ()=> getUserTypes(userSession)?.includes(UserType.Soldier);
 
 
     return (
-        <ConfigProvider direction="rtl">
-            <Form form={form}>
-                <Space>
-                    <FormItem>
-                        <Button onClick={showModal} type="primary" shape="round" color="secondary" variant="contained" size="medium">
-                            טופס פנייה חדשה
-                        </Button>
-                    </FormItem>
-                </Space>
-                <Modal title="פנייה חדשה" visible={isModalVisible} onOk={handleOk} okText="אישור" onCancel={handleCancel}
-                    cancelText="חזרה">
-                    <ApplicationForm />
-                </Modal>
-            </Form>
-        </ConfigProvider>
+        <Box className={classes.container}>
+            <ConfigProvider direction="rtl">
+                <Form form={form}>
+                    {shouldShowHandleButton() &&
+                        <FormItem>
+                            <Tooltip title="הוסף פנייה חדשה">
+                            <Fab onClick={showModal} className={classes.addButton}>
+                                +
+                            </Fab>
+                                </Tooltip>
+                        </FormItem>
+                    }
+                    <Modal title="פנייה חדשה" color="secondary" visible={isModalVisible} onOk={handleOk} okText="אישור"
+                           onCancel={handleCancel} cancelText="חזרה">
+                        <ApplicationForm userSession={userSession} endSession={endSession}/>
+                    </Modal>
+                    <Box>
+                        {applications?.map(x => <ApplicationPreview application={x} userSession={userSession}/>)}
+                    </Box>
+
+                </Form>
+            </ConfigProvider>
+            {
+                isLoading && <CircularProgress />
+            }
+        </Box>
     )
 
 };
-
-
-//<div><h1>פניות חיילים </h1></div>
-//
-/*<Button color="secondary" variant="contained" size="medium" onClick={getAllEvents}>
-לחץ כאן לרשימת כל הפניות הקיימות
-</Button>
-*/
-
-//<Button type="" shape="round" color="secondary" variant="contained" size="medium" onClick={() => logout_handler(props.userSession, props.endSession, onLogoutFinish)}> יציאה</Button>
-
-
-
-
-

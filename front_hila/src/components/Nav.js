@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
-import { AppBar, IconButton, makeStyles, Toolbar, Box } from "@material-ui/core";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { useHistory } from "react-router-dom";
-import { Form, Input, Upload, message, InputNumber, Menu, ConfigProvider, Select, Space, Avatar } from 'antd';
-import { logout } from "../services/api-service";
 
+import {Link, NavLink} from "react-router-dom";
+import {AppBar, IconButton, makeStyles, Toolbar, Box} from "@material-ui/core";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {useHistory} from "react-router-dom";
+import {message} from 'antd';
+import {logout} from "../services/api-service";
+import theme from "../theme/create-theme";
+import {isUserPending} from "../utils/user.util";
 
 const useStyle = makeStyles(theme => ({
     navLink: {
@@ -18,7 +20,6 @@ const useStyle = makeStyles(theme => ({
         width: 100
     }
 }));
-
 
 const logout_handler = async (session, endSession, onLogoutfinish) => {
     const userDetails = {
@@ -34,32 +35,40 @@ const logout_handler = async (session, endSession, onLogoutfinish) => {
     }
 };
 
-export const Nav = (props) => {
-    //const logout = () => { alert('logout') };
+export const Nav = ({userSession, endSession, routes}) => {
     const classes = useStyle();
+    const history = useHistory();
+    const routesToDisplay = routes.filter(({hideFromNav}) => !hideFromNav);
+    const shouldShowLogout = userSession && !isUserPending(userSession);
 
-    let history = useHistory();
     const onLogoutFinish = () => {
         history.push("/login");
-    }
+    };
 
     return (
         <AppBar position="static">
             <Toolbar>
                 <Box display='flex' flexDirection='row' alignItems='center'>
-                    <img className={classes.icon} src="/images/appicon.png" />
+                    <img className={classes.icon} src="../images/appicon.png"/>
                 </Box>
                 <Box display='flex' flex={1}>
                     {
-                        props.routes.map(({ path, title }) => (
-                            <Link key={path} to={path} className={classes.navLink}>
+                        routesToDisplay.map(({path, title}) => (
+                            <NavLink key={path} to={path} className={classes.navLink}
+                                     activeStyle={{
+                                         fontWeight: "bold",
+                                         color: theme.palette.secondary.main
+                                     }}>
                                 <span>{title}</span>
-                            </Link>
+                            </NavLink>
                         ))
                     }
                 </Box>
                 <Box>
-                    <IconButton color='inherit' onClick={() => logout_handler(props.userSession, props.endSession, onLogoutFinish)}><ExitToAppIcon /></IconButton>
+                    {shouldShowLogout &&
+                    <IconButton color='inherit'
+                                onClick={() => logout_handler(userSession, endSession, onLogoutFinish)}><ExitToAppIcon/></IconButton>
+                    }
                 </Box>
             </Toolbar>
         </AppBar>

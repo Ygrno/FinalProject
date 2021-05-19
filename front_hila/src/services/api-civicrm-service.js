@@ -8,43 +8,96 @@ const client = axios.create(config);
 
 const updateUrl = "http://52.90.78.193/modules/contrib/civicrm/extern/rest.php?";
 
+const site_key = "aacce8033f7a9730040b45df047e3191";
+
 export const updateContact = (email, api_key) => {
-    var urlParams = `entity=Contact&action=get&json={\"sequential\":1,\"email\":\"${email}\"}&api_key=${api_key}&key=aacce8033f7a9730040b45df047e3191`;
+    var urlParams = `entity=Contact&action=get&json={sequential:1,email:${email}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
-/*
-Input: User's API-Key and Search Data
-Search Data should look like this:
+export const getAllSoldiers = (api_key) => {
+    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_sub_type":"Soldier"}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
 
-let search_data = {
-    contact_id: '',
-    email: '',
-    contact_type: '',
-    first_name: '',
-    last_name: '',
-}
+export const getAllPendingSoldiers = (api_key) => {
+    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_sub_type":"Pending"}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
 
-For a full search of all contacts the user can see - 
-leave all the fields blank (empty string, like in the example above)
-Filling the Contact ID / Email fields should return only 1 record from the DB.
+export const getProfile = (api_key, contact_id) => {
+    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
 
-Using an API-Key of a user that isn't administrator (like Soldiers, volunteers)
-should return only 1 Record at most (which is the user's own data - usful for profile)
 
---------------------------------------------------------------------------------------------
+export const setActiveEvent = (api_key, application_id) => {
+    var urlParams = `entity=Event&action=create&json={"id":${application_id},"options":{"limit":300},"is_active":1}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
 
-Output: JSON:
-{
-    is_error:,
-    version:,
-    count:,
-    //OPTIONAL (ID, CONTACT_TYPE .... (the input fields themselves))
-    values: [{},{},{}] //The Actual results of the people that were found
-}
+export const setConfirmEvent = (api_key, application_id) => {
+    var urlParams = `entity=Event&action=create&json={"id":${application_id},"options":{"limit":300},"is_confirm_enabled":1}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
 
-Wrong or Problomatic input will return the civicrm error message explaining what was wrong.
-*/
+export const addParticipantToEvent = (api_key, application_id, contact_id) => {
+    var urlParams = `entity=Participant&action=create&json={"event_id":${application_id},"contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
+export const getAllContactsEvent = (api_key, contact_id) => {
+    var urlParams = `entity=Participant&action=get&json={"sequential":1, "contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getAllSoldierEvents = (api_key, contact_id) => {
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "created_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getAllEvents = (api_key) => {
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "options":{"limit":500,"sort":"created_date desc"}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getAllUnconfirmEvents = (api_key) => {
+    var urlParams = `entity=Event&action=get&json={"sequential":1,"is_confirm_enabled":0,"options":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const sendApplication = (api_key,event_type, event_title,event_description,today) => {
+    var urlParams = `entity=Event&action=create&json={"event_type_id":\"${event_type}\","default_role_id":\"Soldier\","participant_listing_id":\"Name and Email\","title":\"${event_title}\","description":\"${event_description}\","start_date":\"${today}\","is_active":\"0\", "is_confirm_enabled":0, "max_additional_participants":\"2\"}&api_key=${api_key}&key=${site_key}`;
+    console.log("event_type", today)
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
+export const getAllPendings = (api_key) => {
+    console.log("service api key",api_key)
+    var urlParams = `entity=Contact&action=get&json={"sequential":1,"return":\"display_name,id,email,first_name,last_name,image_URL\","contact_sub_type":\"Pending","options\":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const removePending = (api_key,contact_id) =>{
+    var urlParams = `entity=Contact&action=create&json={"id":\"${contact_id}\","contact_sub_type":\"Soldier\"}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
+export const sendMail = (api_key, contact_id_to_send, template_id) =>{
+    var urlParams = `entity=Email&action=send&json={"contact_id":${contact_id_to_send},"template_id":${template_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
+export const getEventParticipantsContact = (api_key, event_id) => {
+    var urlParams = `entity=Participant&action=get&json={"sequential":1,"event_id":${event_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getContactAddress = (api_key, contact_id) => {
+    var urlParams = `entity=Address&action=get&json={"sequential":1,"contact_id":${contact_id},"return":"street_name,street_number,city"}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
 export const serachContacts = (search_data, api_key) => {
     var urlParams = new URLSearchParams({
         'entity': 'Contact',
