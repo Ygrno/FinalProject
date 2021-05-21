@@ -3,7 +3,9 @@ import { UserType } from '../../../constants';
 
 export default {
     path: "/myApplications",
-    allowedUserTypes: [],
+    allowedUserTypes: [UserType.Soldier, UserType.Volunteer, UserType.Admin],
     component: MyApplications,
     title: 'הפניות שלי'
 };
+
+

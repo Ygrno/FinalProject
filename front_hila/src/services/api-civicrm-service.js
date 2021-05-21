@@ -71,8 +71,8 @@ export const getAllUnconfirmEvents = (api_key) => {
     return client.get(`${updateUrl}${urlParams}`)
 };
 
-export const sendApplication = (api_key,event_type, event_title,event_description,today) => {
-    var urlParams = `entity=Event&action=create&json={"event_type_id":\"${event_type}\","default_role_id":\"Soldier\","participant_listing_id":\"Name and Email\","title":\"${event_title}\","description":\"${event_description}\","start_date":\"${today}\","is_active":\"0\", "is_confirm_enabled":0, "max_additional_participants":\"2\"}&api_key=${api_key}&key=${site_key}`;
+export const sendApplication = (api_key,event_type, event_title,event_description,summary,today) => {
+    var urlParams = `entity=Event&action=create&json={"event_type_id":\"${event_type}\","default_role_id":\"Soldier\","participant_listing_id":\"Name and Email\","title":\"${event_title}\","summary":\"${summary}\","description":\"${event_description}\","start_date":\"${today}\","is_active":\"0\", "is_confirm_enabled":0, "max_additional_participants":\"2\"}&api_key=${api_key}&key=${site_key}`;
     console.log("event_type", today)
     return client.post(`${updateUrl}${urlParams}`)
 };
