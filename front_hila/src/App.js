@@ -17,6 +17,7 @@ const useStyle = makeStyles({
 function App() {
     const classes = useStyle();
   const [userSession, setUserSession] = useState(null);
+
   const startSession = (newSession) => {
     setUserSession(newSession);
   };
@@ -30,7 +31,6 @@ function App() {
   }, []);
   useEffect(() => {
     window.localStorage.setItem('Hakuna-matata', JSON.stringify(userSession));
-      console.log("I am ib APP.js")
   });
 
   return (
@@ -40,7 +40,7 @@ function App() {
           <Router >
             {(!userSession || userSession.Data?.contact?.contact_sub_type.includes("Pending")) ?
               <Exterior userSession={userSession} startSession={startSession} endSession={endSession} /> :
-              <Shell userSession={userSession} endSession={endSession} />}
+              <Shell userSession={userSession} endSession={endSession} startSession={startSession} />}
           </Router>
         </Box>
       </Typography>

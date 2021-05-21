@@ -48,7 +48,8 @@ export const Shell = (props) => {
                         const Component = component;
                         return (<Route key={path} path={path} exact={exact}>
                                 <Box className={classes.pageContainer}>
-                                    <Component userSession={props.userSession} endSession={props.endSession}/>
+                                    <Component userSession={props.userSession} startSession={props.startSession}
+                                               endSession={props.endSession}/>
                                 </Box>
                             </Route>
                         )
