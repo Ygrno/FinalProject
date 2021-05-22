@@ -31,23 +31,22 @@ class Volunteer_Test(unittest.TestCase):
     def test_take_care_app(self):
         self.driver.get("http://localhost:3000/applications")
         application_page = page.ApplicationPage(self.driver)
+        summary = 'i want pizza'
+        assert application_page.take_care_application(summary)
+        
         
 
+    # @ignore_warnings
+    # def test_create_application(self):
+    #     self.driver.get("http://localhost:3000/applications")
+    #     application_page = page.ApplicationPage(self.driver)
+    #     subject = 'אחר'
+    #     details = 'i want pizza'
+    #     application_page.add_application(subject, details)
 
-    @ignore_warnings
-    def test_create_application(self):
-        self.driver.get("http://localhost:3000/applications")
-        application_page = page.ApplicationPage(self.driver)
-        subject = 'אחר'
-        details = 'i want pizza'
-        application_page.add_application(subject, details)
-
-        self.driver.get("http://localhost:3000/myApplications")
-        my_application_page = page.MyApplicationPage(self.driver)
-        assert my_application_page.exist_application(details)
-
-
-
+    #     self.driver.get("http://localhost:3000/myApplications")
+    #     my_application_page = page.MyApplicationPage(self.driver)
+    #     assert my_application_page.exist_application(details)
 
         # profilePage.load_details()
         # name = profilePage.name

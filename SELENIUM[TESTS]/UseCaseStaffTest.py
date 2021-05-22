@@ -13,7 +13,7 @@ def ignore_warnings(test_func):
             test_func(self, *args, **kwargs)
     return do_test
 
-class Soldier_Test(unittest.TestCase):
+class Volunteer_Test(unittest.TestCase):
 
     @ignore_warnings
     def setUp(self):
@@ -21,41 +21,39 @@ class Soldier_Test(unittest.TestCase):
         self.driver = webdriver.Edge(PATH)
         self.driver.get("http://localhost:3000/login")
         loginPage = page.LoginPage(self.driver)
-        loginPage.email_input = 'h5@h5.com'
+        loginPage.email_input = 'gal@mail.com'
         loginPage.password_input = '123'
         loginPage.click_submit_button()
         assert loginPage.is_logged_in()
 
     
     @ignore_warnings
-    def test_profile(self):
-        self.driver.get("http://localhost:3000/profile")
-        profilePage = page.ProfilePage(self.driver)
-        assert profilePage.load_details()
-        name = profilePage.name
-        # email = profilePage.email
-        # address = profilePage.address
-        # birth = profilePage.birth
-        profilePage.edit_profile('h_selenium','h_selenium')
-        self.driver.get("http://localhost:3000/profile")
-        profilePage.load_details()
-        assert name != profilePage.name
+    def test_find_existing_soldiers(self):
+        self.driver.get("http://localhost:3000/staff")
+        staff_page = page.StaffMemberPage(self.driver)
+        assert staff_page.find_existed_soldier('selenium')
 
     @ignore_warnings
-    def test_create_application(self):
-        self.driver.get("http://localhost:3000/applications")
-        application_page = page.ApplicationPage(self.driver)
-        subject = 'אחר'
-        details = 'i want pizza'
-        description = 'i want pizza very much!'
-        application_page.add_application(subject, details, description)
+    def test_approve_soldier(self):
+        self.driver.get("http://localhost:3000/staff")
+        staff_page = page.StaffMemberPage(self.driver)
+        assert staff_page.approve_application('77')
 
-        self.driver.get("http://localhost:3000/myApplications")
-        my_application_page = page.MyApplicationPage(self.driver)
-        assert my_application_page.exist_application(details)
+        
+        
+        
 
+    # @ignore_warnings
+    # def test_create_application(self):
+    #     self.driver.get("http://localhost:3000/applications")
+    #     application_page = page.ApplicationPage(self.driver)
+    #     subject = 'אחר'
+    #     details = 'i want pizza'
+    #     application_page.add_application(subject, details)
 
-
+    #     self.driver.get("http://localhost:3000/myApplications")
+    #     my_application_page = page.MyApplicationPage(self.driver)
+    #     assert my_application_page.exist_application(details)
 
         # profilePage.load_details()
         # name = profilePage.name

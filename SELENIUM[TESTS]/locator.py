@@ -11,6 +11,10 @@ class StaffMemberLocators(object):
     PROFILE_LINK = (By.XPATH, "//a[@href='/profile']")
     STAFF_LINK = (By.XPATH, "//a[@href='/staff']")
 
+    EXISTED_LIST_BUTTON = (By.ID, 'existing_soldiers')
+    APPROVE_LIST_BUTTON = (By.ID, 'applications_list')
+    PENDING_LIST_BUTTON = (By.ID, 'pending_users')
+
 class RegisterLocators(object):
     SUBMIT_BUTTON = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary ant-btn-round ant-btn-rtl singup-btn']")
 
@@ -20,3 +24,5 @@ class ProfileLocators(object):
 class ApplicationLocators(object):
     ADD_APPLICATION = (By.ID,"add_app")
     SEND_APPLICATION = (By.ID,"send_app")
+    APPROVE_BUTTON = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary']")
+    DECLINE_BUTTON = (By.CSS_SELECTOR,"button[class='ant-btn']")

@@ -33,7 +33,7 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
         alert("הפנייה שבחרת התקבלה וממתינה לאישור");
     };
 
-    return <Card className={classes.container}>
+    return <Card id = 'app_card' className={classes.container}>
         <h3 className={classes.title}>{applicationTypes[application.title] || application.title}</h3>
         <h4>{application.summary}</h4>
         <h4>מספר פנייה: {application.id}</h4>
