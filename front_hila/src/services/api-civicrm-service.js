@@ -67,7 +67,7 @@ export const getAllEvents = (api_key) => {
 };
 
 export const getAllUnconfirmEvents = (api_key) => {
-    var urlParams = `entity=Event&action=get&json={"sequential":1,"is_confirm_enabled":0,"options":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Event&action=get&json={"sequential":1,"is_confirm_enabled":0, "is_active":1, "options":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
