@@ -192,7 +192,7 @@ export const Staff = (props) => {
                 const sendmailresTosoldier = await sendMail(userSession.Data?.API_KEY, soldierParticipantContact.contact_id, SOLDIER_TEMPLATE_ID);
                 const templateRes = await CreateTemplate(userSession.Data?.API_KEY, msgCreate, msgCreate)
                 const sendmailresToVolunteer = await sendMail(userSession.Data?.API_KEY, volunteerParticipantContact.contact_id, templateRes.data.id);
-                // const deleteRes = await DeleteTemplate(userSession.Data?.API_KEY, templateRes.data.id)
+                const deleteRes = await DeleteTemplate(userSession.Data?.API_KEY, templateRes.data.id)
 
             }
             setEventConfirmed(Object.values(updateRes.data?.values) ?? []);
