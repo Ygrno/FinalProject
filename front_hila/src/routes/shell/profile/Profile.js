@@ -115,6 +115,7 @@ export const Profile = (props) => {
 
     const loadProfile = async () => {
         try {
+            setIsLoading(true);
             const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
             const addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
             // console.log("in loadProfile the addressRes  is:", addressRes);
