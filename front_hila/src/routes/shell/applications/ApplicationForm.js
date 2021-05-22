@@ -2,6 +2,7 @@ import {Form, Input, Upload, message, InputNumber, Button, ConfigProvider, Selec
 import React, {useEffect, Component, useState} from 'react';
 import {sendApplication, addParticipantToEvent} from "../../../services/api-civicrm-service";
 import applicationTypes from '../../../utils/application-type-translator';
+import "./Application-form.scss"
 
 const {Option} = Select;
 
@@ -35,26 +36,32 @@ const ApplicationForm = props => {
                 <h3>נושא הפנייה:</h3>
                 <Form.Item
                     name="title" className="login-from input" rules={[{required: false, message: 'יש לבחור סוג פניה'}]}>
-                    <Select placeholder="נושא" allowClear>
+                    {/* <Select placeholder="נושא" allowClear>
                         {
                             Object.keys(applicationTypes).map(key =>
                                 <Option key={key} value={key}>{applicationTypes[key]}</Option>)
                         }
-                    </Select>
+                    </Select> */}
+                    <select class = 'selector' id = "app_subject" placeholder="נושא" allowClear>
+                        {
+                            Object.keys(applicationTypes).map(key =>
+                                <option key={key} value={key}>{applicationTypes[key]}</option>)
+                        }
+                    </select>
                 </Form.Item>
 
                 <h3>תקציר: </h3>
                 <Form.Item name="summary" className="login-from input">
-                    <Input />
+                    <Input id = "summary" />
                 </Form.Item>
 
                 <h3>פירוט: </h3>
                 <Form.Item name="description" className="login-from input">
-                    <Input placeholder=" פרט את בקשתך כאן (ישאר חסוי)" />
+                    <Input id = "description" placeholder=" פרט את בקשתך כאן (ישאר חסוי)" />
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" shape="round" htmlType="submit" className={"ant-btn-app"}>
+                    <Button id = "send_app" type="primary" shape="round" htmlType="submit" className={"ant-btn-app"}>
                         שלח
                     </Button>
                 </Form.Item>

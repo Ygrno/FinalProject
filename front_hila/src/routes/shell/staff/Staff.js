@@ -147,7 +147,7 @@ export const Staff = (props) => {
         try {
             Modal.confirm({
                 title: "נתוני הפניה",
-                content: (<div>
+                content: (<div id = 'app_approve_details'>
 
                         <p><strong>שם המתנדב:</strong> {volunteer_contact.display_name} </p>
                         <p><strong> שם החייל:</strong> {soldier_contact.display_name} </p>
@@ -160,7 +160,7 @@ export const Staff = (props) => {
                 onOk() {
                     confirmEvent(userSession, application)
                 },
-                okText: "אישר פניה",
+                okText: "אשר פניה",
                 cancelText: "סרב פניה"
 
 
@@ -209,7 +209,7 @@ export const Staff = (props) => {
             <Form form={form}>
                 <Space>
                     <FormItem>
-                        <Button onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
+                        <Button id = 'existing_soldiers' onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
                                 shape="round" color="Black" variant="contained" size="medium">
                             רשימת החיילים הקיימים
                         </Button>
@@ -217,7 +217,7 @@ export const Staff = (props) => {
                 </Space>
                 <Space>
                     <FormItem>
-                        <Button onClick={() => getNotConfirmEvent(props.userSession, props.startSession)} type="primary"
+                        <Button id = 'applications_list' onClick={() => getNotConfirmEvent(props.userSession, props.startSession)} type="primary"
                                 shape="round" color="Black" variant="contained" size="medium">
                             רשימת פניות לאישור
                         </Button>
@@ -225,18 +225,18 @@ export const Staff = (props) => {
                 </Space>
                 <Space>
                     <FormItem>
-                        <Button onClick={() => viewPendings(props.userSession)} shape="round" color="Black"
+                        <Button id = 'pending_users' onClick={() => viewPendings(props.userSession)} shape="round" color="Black"
                                 variant="contained" size="medium">
                             רשימת משתמשים בהמתנה
                         </Button>
                     </FormItem>
                 </Space>
-                <Modal title="רשימת החיילים הבודדים" visible={isModalVisible}
+                <Modal title = "רשימת החיילים הבודדים" visible={isModalVisible}
                        onCancel={handleCancel} cancelText="סגור">
                     <div> {
                         SodiersDetails.map(
                             (soldier) => {
-                                return (<div><h4>
+                                return (<div id = "soldiers_details"><h4>
                                         {`שם החייל: ${soldier.display_name},  `}
                                         {`אימייל: ${soldier.email},  `}
                                         {`מספר רשומה במערכת: ${soldier.contact_id} `}</h4></div>
@@ -250,11 +250,11 @@ export const Staff = (props) => {
                     <div> {
                         EventConfirmed.map(
                             (x) => {
-                                return (<div><h4>
+                                return (<div id = 'app_approve'><h4>
                                         {`מספר פנייה: ${x.id} `}
                                     </h4>
                                         <FormItem>
-                                            <Button
+                                            <Button id = 'open_app'
                                                 onClick={() => viewevent(props.userSession, x, confirmEvent, handleCancel2)}
                                                 type="primary"
                                                 shape="round" color="Black" variant="contained" size="medium">

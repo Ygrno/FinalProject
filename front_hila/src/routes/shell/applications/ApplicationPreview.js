@@ -33,14 +33,14 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
         alert("הפנייה שבחרת התקבלה וממתינה לאישור");
     };
 
-    return <Card className={classes.container}>
+    return <Card id = 'app_card' className={classes.container}>
         <h3 className={classes.title}>{applicationTypes[application.title] || application.title}</h3>
         <h4>{application.summary}</h4>
         <h4>מספר פנייה: {application.id}</h4>
         <h4>נוצרה בתאריך: {application.created_date}</h4>
         {
             shouldShowHandleButton() &&
-            <Button onClick={() => changeActiveEvent()} type="secondary" shape="round" color="secondary"
+            <Button id = 'take_care' onClick={() => changeActiveEvent()} type="secondary" shape="round" color="secondary"
                     variant="contained"
                     size="medium">
                 טפל בפנייה

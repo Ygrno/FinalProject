@@ -173,11 +173,21 @@ const RegisterForm = (props) => {
                     <Input placeholder="מספר בית" />
                 </Form.Item>
                 <Form.Item name="group_name" rules={[{ required: true, message: 'יש לבחור סוג משתמש' }]}>
-                    <Select placeholder="בחר" allowClear>
+                    
+                    <select className='selector' name="user_type" id="user_type" required='true'>
+                    <option disabled selected value> בחר </option>
+                    <option value="soldier">חייל</option>
+                    <option value="volunteer">מתנדב</option>
+                    <option value="staff">איש צוות</option>
+                    </select>
+
+
+                    {/* <Select placeholder="בחר" allowClear>
                         <Option value="soldier">חייל</Option>
                         <Option value="volunteer">מתנדב</Option>
                         <Option value="staff">איש צוות</Option>
-                    </Select>
+                    </Select> */}
+
                 </Form.Item>
                 <Form.Item
                     noStyle
