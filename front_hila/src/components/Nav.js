@@ -1,6 +1,5 @@
-
 import {Link, NavLink} from "react-router-dom";
-import {AppBar, IconButton, makeStyles, Toolbar, Box,Tooltip} from "@material-ui/core";
+import {AppBar, IconButton, makeStyles, Toolbar, Box, Tooltip} from "@material-ui/core";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useHistory} from "react-router-dom";
 import {message} from 'antd';
@@ -8,21 +7,6 @@ import {logout} from "../services/api-service";
 import theme from "../theme/create-theme";
 import React from "react";
 
-
-const useStylesBootstrap = makeStyles((theme) => ({
-    arrow: {
-        color: theme.palette.common.black,
-    },
-    tooltip: {
-        backgroundColor: theme.palette.common.black,
-    },
-}));
-
-function BootstrapTooltip(props) {
-    const classes = useStylesBootstrap();
-
-    return <Tooltip arrow classes={classes} {...props} />;
-}
 
 const useStyle = makeStyles(theme => ({
     navLink: {
@@ -55,24 +39,25 @@ export const Nav = ({userSession, endSession, routes}) => {
     const classes = useStyle();
     const history = useHistory();
     const routesToDisplay = routes.filter(({hideFromNav}) => !hideFromNav);
-    const shouldShowLogout = userSession ;
+    const shouldShowLogout = userSession;
 
     const onLogoutFinish = () => {
         history.push("/login");
     };
-    const toHome = () =>
-    {
+    const toHome = () => {
         history.push("/home");
     };
 
     return (
         <AppBar position="static">
             <Toolbar>
+                <Tooltip title="עמוד הבית">
                 <Box display='flex' flexDirection='row' alignItems='center'>
-                    <BootstrapTooltip  title={"עמוד הבית"}>
+
                     <img className={classes.icon} onClick={toHome} src='/images/appicon.png'/>
-                    </BootstrapTooltip>
+
                 </Box>
+                </Tooltip>
                 <Box display='flex' flex={1}>
                     {
                         routesToDisplay.map(({path, title}) => (
@@ -86,14 +71,16 @@ export const Nav = ({userSession, endSession, routes}) => {
                         ))
                     }
                 </Box>
+                <Tooltip title="יציאה" color={"red"}>
                 <Box>
-                    <BootstrapTooltip title={"יציאה"}>
-                    {shouldShowLogout &&
-                    <IconButton color='inherit'
-                                onClick={() => logout_handler(userSession, endSession, onLogoutFinish)}><ExitToAppIcon/></IconButton>
-                    }</BootstrapTooltip>
+
+                        {shouldShowLogout &&
+                        <IconButton color='inherit'
+                                    onClick={() => logout_handler(userSession, endSession, onLogoutFinish)}><ExitToAppIcon/></IconButton>
+                        }
 
                 </Box>
+                </Tooltip>
             </Toolbar>
         </AppBar>
     );
