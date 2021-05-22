@@ -135,80 +135,72 @@ export const Staff = (props) => {
         setIsModalVisible2(true);
     };
 
+    function getContactByType(data, type){
+        console.log(data)
+        return data.find(x => x.contact_sub_type.includes(type));
+    }
+
     const viewevent = async (userSession, application, confirmEvent) => {
         const partisipents = await getEventParticipantsContact(userSession.Data?.API_KEY, application.id)
-        let soldier_contact = partisipents.data.values[1]
-        let volunteer_contact = partisipents.data.values[0]
-        Modal.confirm({
-            title: "נתוני הפניה",
-            content: (<div>
+        let soldier_contact = getContactByType(partisipents.data.values, "Soldier")
+        let volunteer_contact = getContactByType(partisipents.data.values, "Volunteer")
+        try {
+            Modal.confirm({
+                title: "נתוני הפניה",
+                content: (<div>
 
-                    <p><strong>שם המתנדב:</strong> {volunteer_contact.display_name} </p>
-                    <p><strong> שם החייל:</strong> {soldier_contact.display_name} </p>
-                    <p></p>
-                    <p><strong>כותרת הפניה: </strong> {application.title}</p>
-                    <p><strong>תיאור: </strong> {application.description}</p>
-                    <p><strong>נוצרה בתאריך: </strong>{application.created_date}</p>
-                </div>
-            ),
-            onOk() {
-                confirmEvent(userSession, application)
-            },
-            okText: "אישר פניה",
-            cancelText: "סרב פניה"
+                        <p><strong>שם המתנדב:</strong> {volunteer_contact.display_name} </p>
+                        <p><strong> שם החייל:</strong> {soldier_contact.display_name} </p>
+                        <p></p>
+                        <p><strong>כותרת הפניה: </strong> {application.title}</p>
+                        <p><strong>תיאור: </strong> {application.description}</p>
+                        <p><strong>נוצרה בתאריך: </strong>{application.created_date}</p>
+                    </div>
+                ),
+                onOk() {
+                    confirmEvent(userSession, application)
+                },
+                okText: "אישר פניה",
+                cancelText: "סרב פניה"
 
 
-        })
+            })
+        } catch (e) {
+            alert(`Unable to show application info. Error is: ${e}`)
+        }
     }
+
     function createVolunteermailString(application, soldier, soldierAddres) {
-
-       return  `
-                Congrats, 
-\\r\\n        {contact.display_name} 
-\\r\\n        You are now able to help a soldier.
-\\r\\n        
-\\r\\n        Application details: 
-\\r\\n        ${application.event_title}
-\\r\\n          
-\\r\\n        ${application.event_description}
-\r\n        ${application.start_date}
-\r\n            
-\r\n        Soldier details:
-\r\n        name: ${soldier.display_name}       
-\r\n        email: ${soldier.email}  
-\r\n        City :${soldierAddres.city}
-\r\n        Street name: ${soldierAddres.street_name}
-\r\n        Building Number  ${soldierAddres.street_number}
-       `
-
-    }
+        // eslint-disable-next-line no-template-curly-in-string
+        return `<p><span dir=\\"rtl\\">תודה,%26nbsp; {contact.display_name}<br /> אתה רשאי כעת לטפל בפניה אליה נרשמת בבקשה לטיפול</span></p>  <p>%26nbsp;</p>  <h3><span dir=\\"rtl\\">פרטי הפניה:</span></h3>  <p>%26nbsp;</p>  <p><span dir=\\"rtl\\"><i>כותרת:</i><br /> ${application.event_title}<br /> <br /> <i>תיאור:</i><br /> ${application.event_description}<br /> <br /> <i>תאריך היצירה:</i><br /> ${application.start_date}</span><br /> <br /> %26nbsp;</p>  <h3><span dir=\\"rtl\\">פרטי החייל:</span></h3>  <p><span dir=\\"rtl\\"><i>שם:</i><br /> ${soldier.display_name}<br /> <br /> <i>מייל:</i><br /> ${soldier.email}<br /> <br /> <i>מספר טלפון:</i><br /> ${soldier.phone}<br /> <br /> <i>עיר:</i><br /> ${soldierAddres.city}<br /> <br /> <i>שם הרחוב:</i><br /> ${soldierAddres.street_name}<br /> <br /> <i>מספר:</i><br /> ${soldierAddres.street_number}%26nbsp;</span></p>`}
 
     const confirmEvent = async (userSession, application) => {
-        const updateRes = await setConfirmEvent(userSession.Data?.API_KEY, application.id);
-        // console.log("the application in confirm is :",application)
-        const eventPartisipentRes = await getEventParticipantsContact(userSession.Data?.API_KEY, application.id)
-        let soldier_id = eventPartisipentRes.data.values[1].contact_id
-        const soldierContact = await getProfile(userSession.Data?.API_KEY,soldier_id)
-        // console.log(" soldierContact in confirmEvent:",soldierContact)
-        let volnteer_id = eventPartisipentRes.data.values[0].contact_id
-        const soldierAddressRes = await getContactAddress(userSession.Data?.API_KEY,soldier_id)
-        // console.log("soldierAddressRes confirm event is:", soldierAddressRes)
-        let msgCreate =  createVolunteermailString(application,soldierContact.data.values[0], soldierAddressRes.data.values[0])
-        console.log("the return message is :",msgCreate)
-        if (updateRes.status === 200) {
-            const sendmailresTosoldier = await sendMail(userSession.Data?.API_KEY, soldier_id, SOLDIER_TEMPLATE_ID);
+        try {
+            const updateRes = await setConfirmEvent(userSession.Data?.API_KEY, application.id);
+            const eventPartisipentRes = await getEventParticipantsContact(userSession.Data?.API_KEY, application.id)
 
-            const templateRes = await CreateTemplate(userSession.Data?.API_KEY, msgCreate, msgCreate)
+            let volunteerParticipantContact = getContactByType(eventPartisipentRes.data.values, "Volunteer")
+            let soldierParticipantContact = getContactByType(eventPartisipentRes.data.values, "Soldier")
 
-            console.log("the template Res is:",templateRes)
-            const sendmailresToVolunteer = await sendMail(userSession.Data?.API_KEY, volnteer_id, templateRes.data.id);
-            console.log("sendmailresToVolunteer is:",sendmailresToVolunteer)
-            const deleteRes = await DeleteTemplate(userSession.Data?.API_KEY,templateRes.data.id)
-            console.log("the deleteRes  is:",deleteRes)
+            const soldierContact = await getProfile(userSession.Data?.API_KEY, soldierParticipantContact.contact_id)
+            const soldierAddressRes = await getContactAddress(userSession.Data?.API_KEY, soldierParticipantContact.contact_id)
 
+            let msgCreate = createVolunteermailString(application, soldierContact.data.values[0], soldierAddressRes.data.values[0])
+
+
+            if (updateRes.status === 200) {
+                const sendmailresTosoldier = await sendMail(userSession.Data?.API_KEY, soldierParticipantContact.contact_id, SOLDIER_TEMPLATE_ID);
+                const templateRes = await CreateTemplate(userSession.Data?.API_KEY, msgCreate, msgCreate)
+                const sendmailresToVolunteer = await sendMail(userSession.Data?.API_KEY, volunteerParticipantContact.contact_id, templateRes.data.id);
+                const deleteRes = await DeleteTemplate(userSession.Data?.API_KEY, templateRes.data.id)
+
+            }
+            setEventConfirmed(Object.values(updateRes.data?.values) ?? []);
+            setIsModalVisible2(true);
         }
-        setEventConfirmed(Object.values(updateRes.data?.values) ?? []);
-        setIsModalVisible2(true);
+        catch (e) {
+            alert(`Unable to confirm application. Error: ${e}`)
+        }
     };
 
 
