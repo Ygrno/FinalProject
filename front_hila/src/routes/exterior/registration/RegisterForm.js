@@ -16,7 +16,7 @@ const handleRegisterClick = async (values, onRegFinish, startSession) => {
         "lastname": values.lastname,
         "group_name": values.group_name,
         "privateNuber": values.privateNumber,
-        "phonenumber": values.number,
+        "phonenumber": values.phone,
         "city":values.city,
         "street_name":values.streetName,
         "street_number":values.buildingNumber
