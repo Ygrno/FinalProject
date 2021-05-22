@@ -115,6 +115,7 @@ export const Profile = (props) => {
 
     const loadProfile = async () => {
         try {
+            setIsLoading(true)
             const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
             const addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
             // console.log("in loadProfile the addressRes  is:", addressRes);
@@ -144,7 +145,7 @@ export const Profile = (props) => {
                         isLoading ? <CircularProgress/> :
                             <>
                                 <Box overflow={'auto'}>
-                                    {profileDetailes?.display_name && adressDetails?.city ?
+                                    {profileDetailes.display_name && adressDetails?.city ?
                                         <div style={{display: "flex", flexDirection: "column"}}>
                                             <span>{`שם: ${profileDetailes?.display_name} `}</span>
                                             <span>{`אימייל: ${profileDetailes?.email} `}</span>
