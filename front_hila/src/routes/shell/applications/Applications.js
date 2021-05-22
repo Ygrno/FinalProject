@@ -10,6 +10,21 @@ import {ApplicationPreview} from "./ApplicationPreview";
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
 
+const useStylesBootstrap = makeStyles((theme) => ({
+    arrow: {
+        color: theme.palette.common.black,
+    },
+    tooltip: {
+        backgroundColor: theme.palette.common.black,
+    },
+}));
+
+function BootstrapTooltip(props) {
+    const classes = useStylesBootstrap();
+
+    return <Tooltip arrow classes={classes} {...props} />;
+}
+
 const useStyle = makeStyles(theme => ({
         container: {
             display: 'flex',
@@ -72,11 +87,11 @@ export const Applications = ({userSession, endSession}) => {
                 <Form form={form}>
                     {shouldShowHandleButton() &&
                         <FormItem>
-                            <Tooltip title="הוסף פנייה חדשה">
+                            <BootstrapTooltip title="הוסף פנייה חדשה">
                             <Fab onClick={showModal} className={classes.addButton}>
                                 +
                             </Fab>
-                                </Tooltip>
+                                </BootstrapTooltip>
                         </FormItem>
                     }
                     <Modal title="פנייה חדשה" color="secondary" visible={isModalVisible} onOk={handleOk} okText="אישור"

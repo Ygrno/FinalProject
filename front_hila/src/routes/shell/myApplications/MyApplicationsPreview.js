@@ -44,7 +44,7 @@ export const MyApplicationsPreview = ({application, userSession, startSession}) 
             <Button onClick={() => closeEvent()} type="secondary" shape="round" color="secondary"
                     variant="contained"
                     size="medium">
-                סגור בפנייה
+                סגור פנייה
             </Button>
         }
 

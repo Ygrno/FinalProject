@@ -1,12 +1,28 @@
 
 import {Link, NavLink} from "react-router-dom";
-import {AppBar, IconButton, makeStyles, Toolbar, Box} from "@material-ui/core";
+import {AppBar, IconButton, makeStyles, Toolbar, Box,Tooltip} from "@material-ui/core";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useHistory} from "react-router-dom";
 import {message} from 'antd';
 import {logout} from "../services/api-service";
 import theme from "../theme/create-theme";
-import {isUserPending} from "../utils/user.util";
+import React from "react";
+
+
+const useStylesBootstrap = makeStyles((theme) => ({
+    arrow: {
+        color: theme.palette.common.black,
+    },
+    tooltip: {
+        backgroundColor: theme.palette.common.black,
+    },
+}));
+
+function BootstrapTooltip(props) {
+    const classes = useStylesBootstrap();
+
+    return <Tooltip arrow classes={classes} {...props} />;
+}
 
 const useStyle = makeStyles(theme => ({
     navLink: {
@@ -39,17 +55,23 @@ export const Nav = ({userSession, endSession, routes}) => {
     const classes = useStyle();
     const history = useHistory();
     const routesToDisplay = routes.filter(({hideFromNav}) => !hideFromNav);
-    const shouldShowLogout = userSession && !isUserPending(userSession);
+    const shouldShowLogout = userSession ;
 
     const onLogoutFinish = () => {
         history.push("/login");
+    };
+    const toHome = () =>
+    {
+        history.push("/home");
     };
 
     return (
         <AppBar position="static">
             <Toolbar>
                 <Box display='flex' flexDirection='row' alignItems='center'>
-                    <img className={classes.icon} src='/images/appicon.png'/>
+                    <BootstrapTooltip  title={"עמוד הבית"}>
+                    <img className={classes.icon} onClick={toHome} src='/images/appicon.png'/>
+                    </BootstrapTooltip>
                 </Box>
                 <Box display='flex' flex={1}>
                     {
@@ -65,10 +87,12 @@ export const Nav = ({userSession, endSession, routes}) => {
                     }
                 </Box>
                 <Box>
+                    <BootstrapTooltip title={"יציאה"}>
                     {shouldShowLogout &&
                     <IconButton color='inherit'
                                 onClick={() => logout_handler(userSession, endSession, onLogoutFinish)}><ExitToAppIcon/></IconButton>
-                    }
+                    }</BootstrapTooltip>
+
                 </Box>
             </Toolbar>
         </AppBar>
