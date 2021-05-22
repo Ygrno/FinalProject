@@ -37,7 +37,7 @@ class Volunteer_Test(unittest.TestCase):
     def test_approve_soldier(self):
         self.driver.get("http://localhost:3000/staff")
         staff_page = page.StaffMemberPage(self.driver)
-        assert staff_page.approve_application('77')
+        assert staff_page.approve_application('78')
 
         
         
