@@ -172,8 +172,7 @@ export const Staff = (props) => {
 
     function createVolunteermailString(application, soldier, soldierAddres) {
         // eslint-disable-next-line no-template-curly-in-string
-        return `<p>Congrats,%26nbsp; {contact.display_name}<br />You are now able to help a soldier.<br /></p><br /><h3>Application details:</h3><p><i>Title:</i><br />${application.event_title}<br /><br /><i>Description:</i> <br />${application.event_description}<br /><br /><i>Creation Date:</i><br />${application.start_date}<br /><br /><br /></p><h3>Soldier details:</h3><p><i>Name:</i><br /> ${soldier.display_name}<br /><br /><i>Email:</i><br />${soldier.email}<br /><br /><i>City:</i><br />${soldierAddres.city}<br /><br /><i>Street name:</i> <br />${soldierAddres.street_name}<br /><br /><i>Building Number:</i><br />${soldierAddres.street_number}%26nbsp;</p>`
-    }
+        return `<p><span dir=\\"rtl\\">תודה,%26nbsp; {contact.display_name}<br /> אתה רשאי כעת לטפל בפניה אליה נרשמת בבקשה לטיפול</span></p>  <p>%26nbsp;</p>  <h3><span dir=\\"rtl\\">פרטי הפניה:</span></h3>  <p>%26nbsp;</p>  <p><span dir=\\"rtl\\"><i>כותרת:</i><br /> ${application.event_title}<br /> <br /> <i>תיאור:</i><br /> ${application.event_description}<br /> <br /> <i>תאריך היצירה:</i><br /> ${application.start_date}</span><br /> <br /> %26nbsp;</p>  <h3><span dir=\\"rtl\\">פרטי החייל:</span></h3>  <p><span dir=\\"rtl\\"><i>שם:</i><br /> ${soldier.display_name}<br /> <br /> <i>מייל:</i><br /> ${soldier.email}<br /> <br /> <i>עיר:</i><br /> ${soldierAddres.city}<br /> <br /> <i>שם הרחוב:</i><br /> ${soldierAddres.street_name}<br /> <br /> <i>מספר:</i><br /> ${soldierAddres.street_number}%26nbsp;</span></p>`}
 
     const confirmEvent = async (userSession, application) => {
         try {
@@ -193,7 +192,7 @@ export const Staff = (props) => {
                 const sendmailresTosoldier = await sendMail(userSession.Data?.API_KEY, soldierParticipantContact.contact_id, SOLDIER_TEMPLATE_ID);
                 const templateRes = await CreateTemplate(userSession.Data?.API_KEY, msgCreate, msgCreate)
                 const sendmailresToVolunteer = await sendMail(userSession.Data?.API_KEY, volunteerParticipantContact.contact_id, templateRes.data.id);
-                const deleteRes = await DeleteTemplate(userSession.Data?.API_KEY, templateRes.data.id)
+                // const deleteRes = await DeleteTemplate(userSession.Data?.API_KEY, templateRes.data.id)
 
             }
             setEventConfirmed(Object.values(updateRes.data?.values) ?? []);
