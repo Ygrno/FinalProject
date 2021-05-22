@@ -82,10 +82,6 @@ class MyApplicationPage(BasePage):
         return False
 
 
-    
-
-
-
     def edit_profile(self, private_name, last_name):
         element = self.driver.find_element(*ProfileLocators.EDIT_BUTTON)
         element.click()
@@ -109,7 +105,7 @@ class StaffMemberPage(BasePage):
         try:
             home = self.driver.find_element(*StaffMemberLocators.HOME_LINK)
             application = self.driver.find_element(*StaffMemberLocators.APPLICATION_LINK)
-            my_application = self.driver.find_element(*StaffMemberLocators.MY_APPLICATION_LINK)
+            # my_application = self.driver.find_element(*StaffMemberLocators.MY_APPLICATION_LINK)
             profile = self.driver.find_element(*StaffMemberLocators.PROFILE_LINK)
             staff = self.driver.find_element(*StaffMemberLocators.STAFF_LINK)
             return True
@@ -119,13 +115,6 @@ class StaffMemberPage(BasePage):
 class SoldierMemberPage(BasePage):
 
     def checkPages(self):
-
-        try:
-            application = self.driver.find_element(*StaffMemberLocators.APPLICATION_LINK)
-            return False
-        except:
-            pass
-
         try:
             staff = self.driver.find_element(*StaffMemberLocators.STAFF_LINK)
             return False
@@ -136,6 +125,7 @@ class SoldierMemberPage(BasePage):
             home = self.driver.find_element(*StaffMemberLocators.HOME_LINK)
             my_application = self.driver.find_element(*StaffMemberLocators.MY_APPLICATION_LINK)
             profile = self.driver.find_element(*StaffMemberLocators.PROFILE_LINK)
+            application = self.driver.find_element(*StaffMemberLocators.APPLICATION_LINK)
         except:
             return False
         

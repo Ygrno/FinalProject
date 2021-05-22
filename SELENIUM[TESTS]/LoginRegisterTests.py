@@ -21,7 +21,7 @@ class Login_and_Register_Tests(unittest.TestCase):
         self.driver = webdriver.Edge(PATH)
 
     @ignore_warnings
-    def test_register_new_soldier(self):
+    def test_register_existing_soldier(self):
         self.driver.get("http://localhost:3000/register")
         register_page = page.RegisterPage(self.driver)
         register_page.register_email = "selenium_soldier1@mail.com"
@@ -38,7 +38,13 @@ class Login_and_Register_Tests(unittest.TestCase):
         selector.select_by_visible_text('חייל')
 
         register_page.enter_private_number()
-        register_page.click_submit_button()
+        check = False
+        try:
+            register_page.click_submit_button()
+            check = True
+        except:
+            check = False
+        assert not check
         assert register_page.is_registered()
 
     
