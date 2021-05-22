@@ -32,10 +32,11 @@ export const MyApplications = ({userSession, endSession}) => {
         setIsLoading(true);
         const res = await getAllSoldierEvents(userSession.Data?.API_KEY, userSession.Data.contact.contact_id);
         setApplications(res.data?.values ?? []);
-        console.log("myApplications: ",myApplications);
-        console.log(res.data?.values);
+        // console.log("myApplications: ",myApplications);
+        // console.log(res.data?.values);
         setIsLoading(false);
     };
+
 
     useEffect(loadApplications, []);
 
@@ -45,9 +46,9 @@ export const MyApplications = ({userSession, endSession}) => {
                 <Form form={form}>
                     <Box>
                         {
-                            myApplications?.length ?
-                            myApplications?.map(x => <MyApplicationsPreview application={x} userSession={userSession}/>) :
-                            !isLoading && <h1>לא קיימות פניות</h1>
+                            myApplications?.length
+                                ? myApplications?.map(x => <MyApplicationsPreview application={x} userSession={userSession}/>)
+                                : !isLoading && <h1>לא קיימות פניות</h1>
                         }
                     </Box>
                 </Form>

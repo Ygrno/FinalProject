@@ -61,7 +61,7 @@ export const Applications = ({userSession, endSession}) => {
         }
     };
 
-    useEffect(loadApplications, []);
+    useEffect(loadApplications, [isModalVisible]);
 
     const shouldShowHandleButton = ()=> getUserTypes(userSession)?.includes(UserType.Soldier);
 
@@ -80,8 +80,8 @@ export const Applications = ({userSession, endSession}) => {
                         </FormItem>
                     }
                     <Modal title="פנייה חדשה" color="secondary" visible={isModalVisible} onOk={handleOk} okText="אישור"
-                           onCancel={handleCancel} cancelText="חזרה">
-                        <ApplicationForm userSession={userSession} endSession={endSession}/>
+                           onCancel={handleCancel} cancelText="חזרה" okButtonProps={{style: {display: 'none'}}} cancelButtonProps={{style: {display: 'none'}}}>
+                        <ApplicationForm userSession={userSession} endSession={endSession} onSubmit={handleCancel}/>
                     </Modal>
                     <Box>
                         {applications?.map(x => <ApplicationPreview application={x} userSession={userSession}/>)}

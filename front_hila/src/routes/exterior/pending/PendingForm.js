@@ -1,28 +1,33 @@
 import {Form, ConfigProvider, Select, Space, message, Button} from 'antd';
 import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router-dom";
-// import "./pending-fom.scss"
-// import {uploadImg, logout} from "../services/api-service";
-// import {updateContact} from "../services/api_civicrm_service";
+import {prepareContactData} from "../../../services/utils"
 import axios from "axios";
 import {getContactDetail, logout, uploadImg} from "../../../services/api-service";
 
 
 const {Option} = Select;
 
-function CreatejsonResponse(is_error, message, json_data,url) {
+function CreatejsonResponseImage(is_error, message, json_data,url) {
     return ({
         "is_error": is_error,
         "Message": message,
         "Data": json_data,
         "image_URL": url
-
     });
 }
 
 const movetoprof = (session, onMovetoprof) => {
     onMovetoprof();
 }
+
+// function extracted(contact_data_json, props, contact_data) {
+//     contact_data_json = {
+//         "API_KEY": props.Data?.API_KEY,
+//         "contact": contact_data
+//     }
+//     return contact_data_json;
+// }
 
 const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
 
@@ -37,12 +42,6 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
     console.log("the new update res is:", updateRes)
     var contact_data_json = ""
     var contact_data = ""
-    // if (updateRes.data['values']) {
-    //     if (updateRes.data.values[0]) {
-    //         contact_data = updateRes.data.values[0]
-    //     }
-    // }
-
     const userurlDetails = {
         email: props.Data?.contact?.email,
         image_URL: urlUpload
@@ -53,7 +52,6 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
         Message = "unable to update Contact"
     } else {
         Message = "Successfully updated contact"
-        // const uploadResult = await uploadImg(userurlDetails);
         updateRes.data.Data.contact.image_URL = userurlDetails.image_URL;
         contact_data = updateRes.data.Data.contact
 
@@ -61,15 +59,10 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
 
     console.log(Message);
     // console.log("the email is: ", props.Data?.contact?.email)
-    contact_data_json = {
-        "API_KEY": props.Data?.API_KEY,
-        "contact": contact_data
-    }
-    // console.log("before return:", CreatejsonResponse(response.data.is_error,Message,contact_data_json))
-    responsRet = CreatejsonResponse(updateRes.data.is_error, Message, contact_data_json,userurlDetails.image_URL)
-    // console.log("responsRet: ",responsRet)
+    contact_data_json = prepareContactData(props.Data?.API_KEY, contact_data);
+    responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json,userurlDetails.image_URL)
     updateSession(responsRet)
-    // MoveToProfile(props)
+
 
 };
 const logout_handler = async (session, endSession, onLogoutfinish) => {
@@ -117,11 +110,6 @@ const PendingForm = (props) => {
     }
 
     let history = useHistory();
-    // useEffect(()=>{
-    //     props.startSession(props.userSession)
-    //     // window.localStorage.setItem('Hakuna-matata',JSON.stringify(props.userSession))
-    // },[props.userSession])
-    // console.log("props:  ",props.userSession);
     const onLogoutFinish = () => {
         history.push("/login");
     }

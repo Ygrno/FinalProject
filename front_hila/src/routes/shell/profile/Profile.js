@@ -1,13 +1,20 @@
-import React, {useEffect} from 'react';
-import {Form, Input, Select, Modal, ConfigProvider, message, Space} from 'antd';
+import React, {useEffect, useRef} from 'react';
+import {Form, Input, Select, Modal, ConfigProvider, message, Space, Spin} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import {getAllEvents, getContactAddress, getProfile} from "../../../services/api-civicrm-service";
+import {
+    getContactAddress,
+    getProfile,
+    updateProfileAddress,
+    updateProfileContact
+} from "../../../services/api-civicrm-service";
 import {useState} from 'react';
 import Box from "@material-ui/core/Box/Box";
 import {Card, makeStyles, Button, CircularProgress} from '@material-ui/core';
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
-import Fab from "@material-ui/core/Fab/Fab";
 import {DownloadOutlined} from "@ant-design/icons";
+import {CreatejsonResponse, prepareContactData} from "../../../services/utils"
+import {useHistory} from "react-router";
+
 
 const useStyle = makeStyles(theme => ({
     container: {
@@ -23,17 +30,42 @@ const useStyle = makeStyles(theme => ({
         shape: 'round'
     }
 }));
-const updateValues = (values, props) => {
-    console.log("the new name:", values.name)
-}
 
-const editDetails = async (props) => {
+
+const updateValues = async (values, oldValues, api, id, address_id, startSession, loadProfile) => {
+    await updateProfileContact(api, id, values.name ?? oldValues.name, values.lastName ?? oldValues.lastName)
+    await updateProfileAddress(api, address_id, values.city ?? oldValues.city, values.street ?? oldValues.street, values.building ?? oldValues.building)
+    const profileRes = await getProfile(api, id)
+    await getContactAddress(api, id)
+    let contact_data_json = prepareContactData(api, profileRes.data.values[0]);
+    let responeRet = CreatejsonResponse(profileRes.data.is_error, "Successfully retrieved contact details", contact_data_json)
+    startSession(responeRet)
+    loadProfile()
+    window.location.reload();
+
+}
+const formItemLayout = {
+    labelCol: {span: 10},
+    wrapperCol: {span: 14},
+};
+
+const editDetails = async (props, address, startSession, loadProfile) => {
+    const oldValues = {
+        name: props.Data?.contact.first_name,
+        lastName: props.Data?.contact.last_name,
+        city: address.city,
+        street: address.street_name,
+        building: address.street_number
+    }
+
     Modal.info({
         title: "ערוך פרטים",
         content:
-            <div>
-                <Form s name="normal_login" initialValues={{remember: true,}}
-                      onFinish={(values) => updateValues(values, props.startSession)}>
+            <ConfigProvider direction={"rtl"}>
+                <Form name="normal_login" initialValues={{remember: true,}}
+                      layout={"horizontal"}
+                      {...formItemLayout}
+                      onFinish={(values) => updateValues(values, oldValues, props.Data?.API_KEY, props.Data?.contact?.contact_id, props.Data?.contact?.address_id, startSession, loadProfile)}>
                     <Form.Item
                         label="החלף שם פרטי"
                         name="name">
@@ -41,7 +73,7 @@ const editDetails = async (props) => {
                         <Input placeholder={props.Data?.contact.first_name}/>
                     </Form.Item>
                     <Form.Item
-                        label="החלף שם משפחה"
+                        label=" החלף שם משפחה"
                         name="lastName">
 
                         <Input placeholder={props.Data?.contact.last_name}/>
@@ -49,17 +81,17 @@ const editDetails = async (props) => {
                     <Form.Item
                         label="החלף עיר"
                         name="city">
-                        <Input placeholder={props.Data?.contact.last_name}/>
+                        <Input placeholder={address.city}/>
                     </Form.Item>
                     <Form.Item
                         label="החלף שם רחוב"
                         name="street">
-                        <Input placeholder={props.Data?.contact.last_name}/>
+                        <Input placeholder={address.street_name}/>
                     </Form.Item>
                     <Form.Item
                         label="החלף מספר בית"
                         name="building">
-                        <Input placeholder={props.Data?.contact.last_name}/>
+                        <Input placeholder={address.street_number}/>
                     </Form.Item>
                     <Button style={{color: "white", background: "lime", border: "lime"}} type="primary"
                             className="login-form-input" shape="round" icon={<DownloadOutlined/>}
@@ -67,36 +99,42 @@ const editDetails = async (props) => {
                         עדכן פרטים
                     </Button>
                 </Form>
-            </div>,
+            </ConfigProvider>,
+        okText: 'סגור',
 
     })
 }
 
 export const Profile = (props) => {
+    // console.log("props.startSession", props.startSession)
     const [form] = Form.useForm();
     const classes = useStyle();
-    const [profileDetailes, setProfiledetailes2] = useState([]);
+    const [profileDetailes, setProfiledetailes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    let addressRes = ""
-    const okFunction = async () => {
+    const [adressDetails, setAddressDetails] = useState([]);
 
-    }
     const loadProfile = async () => {
         try {
-            setIsLoading(true);
-            // console.log("in loadProfile the contact id is:",props.userSession.Data?.contact?.contact_id)
             const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
-            addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
-            console.log("in loadProfile the addressRes  is:", addressRes)
-            setProfiledetailes2(res.data?.values ?? [])
+            const addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
+            // console.log("in loadProfile the addressRes  is:", addressRes);
+            setAddressDetails(addressRes.data.values[0] ?? []);
+            setProfiledetailes(res.data?.values[0] ?? []);
+            // profileDetails = res.data?.values;
+            // console.log("the res is:", res.data?.values)
         } catch (error) {
             console.log(error);
         } finally {
             setIsLoading(false);
         }
     };
+    useEffect(() => {
+        loadProfile();
+    }, [])
 
-    useEffect(loadProfile, []);
+
+    // console.log("This is a address call :", adressDetails)
+    // console.log("the profile: ", profileDetailes)
 
     return (
         <Box>
@@ -106,21 +144,20 @@ export const Profile = (props) => {
                         isLoading ? <CircularProgress/> :
                             <>
                                 <Box overflow={'auto'}>
-                                    {profileDetailes?.map(x => {
-                                        return (<div><h2></h2>
-                                            <h2 id = 'h2_name'>{`שם: ${x.display_name} `}</h2>
-                                            <h2 id = 'h2_email'>{`אימייל: ${x.email} `}</h2>
-                                            <h2 id = 'h2_birth'>{`תאריך לידה: ${x.birth_date} `}</h2>
-                                            <h2 id = 'h2_address'>{`כתובת: ${x.city} `}</h2>
-                                            </div>
-                                        );
-                                    })}
-
+                                    {profileDetailes?.display_name && adressDetails?.city ?
+                                        <div style={{display: "flex", flexDirection: "column"}}>
+                                            <span>{`שם: ${profileDetailes?.display_name} `}</span>
+                                            <span>{`אימייל: ${profileDetailes?.email} `}</span>
+                                            <span>{`תאריך לידה: ${profileDetailes?.birth_date} `}</span>
+                                            <span>{`עיר: ${adressDetails?.city} `}</span>
+                                            <span>{`רחוב: ${adressDetails?.street_name} `}</span>
+                                            <span>{`מספר בית: ${adressDetails?.street_number} `}</span>
+                                        </div> : <Spin/>}
                                 </Box>
                                 <FormItem>
                                     <Tooltip title="פתח">
-                                        <Button id = 'edit_details' onClick={() => {
-                                            editDetails(props.userSession, okFunction)
+                                        <Button onClick={() => {
+                                            editDetails(props.userSession, adressDetails, props.startSession, loadProfile)
                                         }} className={classes.editButton}>
                                             ערוך פרטים
                                         </Button>
@@ -133,4 +170,3 @@ export const Profile = (props) => {
         </Box>
     )
 };
-export default Profile;
