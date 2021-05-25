@@ -68,7 +68,9 @@ const RegisterForm = (props) => {
                 name="register"
                 onFinish={(values) => handleRegisterClick(values, onRegisterFinish, props.startSession)}
                 scrollToFirstError
+
             >
+
                 <Form.Item
                     name="email"
                     rules={[
@@ -91,6 +93,7 @@ const RegisterForm = (props) => {
                     name="confirm"
                     dependencies={['password']}
                     hasFeedback
+                    className="input-box"
                     rules={[
                         { required: true, message: 'אנא חזור על הסיסמה' },
                         ({ getFieldValue }) => ({
@@ -221,13 +224,17 @@ const RegisterForm = (props) => {
                     >
                         {isChecked ? <CheckCircleOutlined style={{ color: "green" }} /> :
                             <CloseOutlined style={{ color: "red" }} />}
+                        {!isChecked?<h3 style={{ color: 'black' ,display:'inline',clear:'none'}}> קראתי ואני מאשר את  </h3>:null}
+                            <div>
                         <Space>
-                            <h3 style={{ color: 'white' }}> קראתי ואני מאשר את  </h3>
+
+
                             <a className={"takanon"} onClick={showModal} style={{ fontSize: 20, fortWeigt: 'bold' }} > התקנון </a>
 
                             {!isChecked && <h5 style={{ color: "red" }}>
                             </h5>}
                         </Space>
+                            </div>
                         <Modal title="תקנון" visible={isModalVisible} onOk={handleOk} okText="מאשר" onCancel={handleCancel}
                             cancelText="חזרה">
                             <p>מטעמי נוחות נוקט התקנון בלשון זכר, ואולם כל הנאמר בו מתייחס לנשים ולגברים כאחד.
@@ -281,14 +288,13 @@ const RegisterForm = (props) => {
                             במספרם או בזהותם". לבתי המשפט יש סמכות לבטל בחוזה אחיד סעיפים מקפחים הפוגעים בצד השני באופן
                             בלתי סביר. ואכן לא אחת קבעו בתי המשפט כי סעיף זה או אחר הוא בגדר "סעיף מקפח" - למשל פטור
                             גורף מאחריות, הכתבת המיקום הגיאוגרפי של בית המשפט הרלוונטי, וכיו"ב. </p>
-
                         </Modal>
                     </Form.Item>
                     <Form.Item>
-                        <Button style={{ color: "white", background: "lime", border: "lime" }} type="primary" shape="round" className="singup-btn" icon={<DownloadOutlined />}
+                        {isChecked? <Button  type="primary" shape="round" className="singup-btn" icon={<DownloadOutlined />}
                             htmlType="submit">
                             הירשם
-                    </Button>
+                    </Button>:null}
                     </Form.Item>
                 </Space>
 

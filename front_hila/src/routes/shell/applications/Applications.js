@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useState} from 'react';
-import {Form, Modal, Button, ConfigProvider, Space} from 'antd';
+import {Form, Modal, ConfigProvider, Space} from 'antd';
 import {makeStyles, Box, CircularProgress, Fab, Tooltip} from "@material-ui/core";
 
 import ApplicationForm from './ApplicationForm';
@@ -9,6 +9,7 @@ import {getAllEvents} from '../../../services/api-civicrm-service';
 import {ApplicationPreview} from "./ApplicationPreview";
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
+import "./application.scss"
 
 const useStyle = makeStyles(theme => ({
         container: {
@@ -71,9 +72,9 @@ export const Applications = ({userSession, endSession}) => {
             <ConfigProvider direction="rtl">
                 <Form form={form}>
                     {shouldShowHandleButton() &&
-                        <FormItem>
-                            <Tooltip title="הוסף פנייה חדשה">
-                            <Fab id = 'add_app' onClick={showModal} className={classes.addButton}>
+                    <FormItem>
+                        <Tooltip title="הוסף פנייה חדשה">
+                            <Fab onClick={showModal} className={classes.addButton}>
                                 +
                             </Fab>
                                 </Tooltip>

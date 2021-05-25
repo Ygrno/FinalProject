@@ -3,15 +3,22 @@ import {Card, makeStyles} from "@material-ui/core";
 
 const useStyle = makeStyles(theme => ({
     container: {
-      display: 'flex',
-        alignItems: 'center',
-      flexDirection: 'column'
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center'
     },
     card: {
         padding: theme.spacing(2),
-        width: '60%',
+        width: '40%',
         minWidth: 500,
-        backgroundColor: theme.palette.card
+        backgroundColor: theme.palette.card,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        borderRadius: 65
+
     },
     title: {
         fontWeight: 'bold',

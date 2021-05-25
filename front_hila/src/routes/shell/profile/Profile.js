@@ -33,17 +33,17 @@ const useStyle = makeStyles(theme => ({
 
 
 const updateValues = async (values, oldValues, api, id, address_id, startSession, loadProfile) => {
-    await updateProfileContact(api, id, values.name ?? oldValues.name, values.lastName ?? oldValues.lastName)
-    await updateProfileAddress(api, address_id, values.city ?? oldValues.city, values.street ?? oldValues.street, values.building ?? oldValues.building)
-    const profileRes = await getProfile(api, id)
-    await getContactAddress(api, id)
+    await updateProfileContact(api, id, values.name ?? oldValues.name, values.lastName ?? oldValues.lastName);
+    await updateProfileAddress(api, address_id, values.city ?? oldValues.city, values.street ?? oldValues.street, values.building ?? oldValues.building);
+    const profileRes = await getProfile(api, id);
+    await getContactAddress(api, id);
     let contact_data_json = prepareContactData(api, profileRes.data.values[0]);
-    let responeRet = CreatejsonResponse(profileRes.data.is_error, "Successfully retrieved contact details", contact_data_json)
-    startSession(responeRet)
-    loadProfile()
+    let responeRet = CreatejsonResponse(profileRes.data.is_error, "Successfully retrieved contact details", contact_data_json);
+    startSession(responeRet);
+    loadProfile();
     window.location.reload();
 
-}
+};
 const formItemLayout = {
     labelCol: {span: 10},
     wrapperCol: {span: 14},
@@ -56,7 +56,7 @@ const editDetails = async (props, address, startSession, loadProfile) => {
         city: address.city,
         street: address.street_name,
         building: address.street_number
-    }
+    };
 
     Modal.info({
         title: "ערוך פרטים",
@@ -103,7 +103,7 @@ const editDetails = async (props, address, startSession, loadProfile) => {
         okText: 'סגור',
 
     })
-}
+};
 
 export const Profile = (props) => {
     // console.log("props.startSession", props.startSession)
@@ -117,7 +117,7 @@ export const Profile = (props) => {
         try {
             setIsLoading(true);
             const res = await getProfile(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
-            const addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id)
+            const addressRes = await getContactAddress(props.userSession.Data?.API_KEY, props.userSession.Data?.contact?.contact_id);
             // console.log("in loadProfile the addressRes  is:", addressRes);
             setAddressDetails(addressRes.data.values[0] ?? []);
             setProfiledetailes(res.data?.values[0] ?? []);
@@ -131,7 +131,7 @@ export const Profile = (props) => {
     };
     useEffect(() => {
         loadProfile();
-    }, [])
+    }, []);
 
 
     // console.log("This is a address call :", adressDetails)

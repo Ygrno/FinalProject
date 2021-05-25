@@ -3,12 +3,12 @@ import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router-dom";
 import {prepareContactData} from "../../../services/utils"
 import axios from "axios";
-import {getContactDetail, logout, uploadImg} from "../../../services/api-service";
-
+import {getContactDetail, uploadImg} from "../../../services/api-service";
+import "./pending-form.scss"
 
 const {Option} = Select;
 
-function CreatejsonResponseImage(is_error, message, json_data,url) {
+function CreatejsonResponseImage(is_error, message, json_data, url) {
     return ({
         "is_error": is_error,
         "Message": message,
@@ -21,13 +21,6 @@ const movetoprof = (session, onMovetoprof) => {
     onMovetoprof();
 }
 
-// function extracted(contact_data_json, props, contact_data) {
-//     contact_data_json = {
-//         "API_KEY": props.Data?.API_KEY,
-//         "contact": contact_data
-//     }
-//     return contact_data_json;
-// }
 
 const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
 
@@ -47,7 +40,7 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
         image_URL: urlUpload
     };
     const uploadResult = await uploadImg(userurlDetails);
-    console.log("uploadResult is:",uploadResult)
+    console.log("uploadResult is:", uploadResult)
     if (updateRes.data.is_error === 1) {
         Message = "unable to update Contact"
     } else {
@@ -60,25 +53,12 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
     console.log(Message);
     // console.log("the email is: ", props.Data?.contact?.email)
     contact_data_json = prepareContactData(props.Data?.API_KEY, contact_data);
-    responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json,userurlDetails.image_URL)
+    responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json, userurlDetails.image_URL)
     updateSession(responsRet)
 
 
 };
-const logout_handler = async (session, endSession, onLogoutfinish) => {
-    const userDetails = {
-        email: session.Data?.contact?.email
-    };
-    const logoutResult = await logout(userDetails);
-    // console.log("logout details: ", userDetails);
-    if (logoutResult.data["is_error"]) {
-        message.error(logoutResult.data["is_error"]);
-    } else {
-        endSession();
-        onLogoutfinish();
 
-    }
-}
 const PendingForm = (props) => {
     const [imageSelected, setimageSelect] = useState(" ");
     const fileSelectHendler = () => {
@@ -97,22 +77,20 @@ const PendingForm = (props) => {
 
     let flag = false;
     let flagSoldier = false;
-    if (props.userSession.Data?.contact?.contact_sub_type.indexOf("Pending") > -1) {
+    if (props.userSession?.Data?.contact?.contact_sub_type.indexOf("Pending") > -1) {
         flag = true;
     } else {
         flag = false;
     }
 
-    if (props.userSession.Data?.contact?.contact_sub_type.indexOf("Soldier") > -1) {
+    if (props.userSession?.Data?.contact?.contact_sub_type.indexOf("Soldier") > -1) {
         flagSoldier = true;
     } else {
         flagSoldier = false;
     }
 
     let history = useHistory();
-    const onLogoutFinish = () => {
-        history.push("/login");
-    }
+
     const ToProfile = () => {
         console.log("props status: ", props)
         if (props.Data?.contact?.contact_sub_type.indexOf("Pending") > -1) {
@@ -128,17 +106,13 @@ const PendingForm = (props) => {
     return (
         <ConfigProvider direction="rtl">
             <Form>
-                <button type="" shape="round" className="logout-btn"
-                        onClick={() => logout_handler(props.userSession, props.endSession, onLogoutFinish)}> יציאה
-                </button>
-
                 <h2 className={"hellouser"}
                     style={{color: "black"}}> שלום {props.userSession ? props.userSession.Data?.contact?.display_name : "אורח"}</h2>
                 {flag ?
-                    <h2 style={{color: "black"}}> {props.userSession.Data?.contact?.display_name}
+                    <h2 style={{color: "black"}}> {props.userSession?.Data?.contact?.display_name}
                         , הנך בתהליך אישור הרשמה. בימים הקורבים ישלח אליך הודעת מייל
                         ולאחר מכן ינתן אישור כניסה לאתר. תודה רבה.</h2> :
-                    <h1 style={{color: "black"}}> {props.userSession.Data?.contact?.display_name} חשבונך אושר, אפשר
+                    <h1 style={{color: "black"}}> {props.userSession?.Data?.contact?.display_name} חשבונך אושר, אפשר
                         לעבור לעמוד הפרופיל</h1>
                 }
                 {flagSoldier ?

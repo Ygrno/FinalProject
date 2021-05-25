@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, Box, makeStyles, Toolbar} from '@material-ui/core';
 import {Form, ConfigProvider} from 'antd';
 import {withRouter} from "react-router";
-
+import "./homs.scss"
 
 const useStyle = makeStyles(theme => ({
     container: {
@@ -10,29 +10,31 @@ const useStyle = makeStyles(theme => ({
         padding: theme.spacing(4),
         backgroundColor: '#e5eded',
         fontSize: 18,
-        fontWeights: 'bold'
+        fontWeights: 'bold',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        borderRadius: 65
 
     },
     card: {
         padding: theme.spacing(4),
         marginInline: theme.spacing(4),
         backgroundColor: '#e5eded',
-        margin: theme.spacing(2)
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        borderRadius: 65
     },
-    container2: {
-        fontSize: 20,
-        display: 'flex'
-    },
+
     image: {
         height: '200px',
         display: 'block',
         borderColor: 'white',
         borderWidth: 1,
         borderStyle: 'solid',
-        borderRadius: 8,
         opacity: 1,
+        alignItems: 'center',
         margin: theme.spacing(2),
-        shadows: '10'
+        shadows: '10',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        borderRadius: 65
 
         // marginInlineStart: '40px',
         //marginInlineEnd: '40px'
@@ -80,8 +82,11 @@ const Home = ({userSession}) => {
                     <li>אירועים חברתיים לקהילת החיילים הבודדים המשוחררים</li>
                 </Card>
                 <Box display='flex' flexDirection='column' >
-                    <Box display='flex' >
+                    <Box display='flex' justifyContent='center'>
                         <img className={classes.image} src='/images/groceriesPackage.png'/>
+
+                    </Box>
+                    <Box display='flex' justifyContent='center'>
                         <img className={classes.image} src='/images/lonelySoldiers.png'/>
                     </Box>
                     <Box display='flex' justifyContent='center'>
