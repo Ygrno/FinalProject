@@ -93,7 +93,7 @@ const editDetails = async (props, address, startSession, loadProfile) => {
                         name="building">
                         <Input placeholder={address.street_number}/>
                     </Form.Item>
-                    <Button style={{color: "white", background: "lime", border: "lime"}} type="primary"
+                    <Button id = 'update_details' style={{color: "white", background: "lime", border: "lime"}} type="primary"
                             className="login-form-input" shape="round" icon={<DownloadOutlined/>}
                             htmlType="submit">
                         עדכן פרטים
@@ -147,17 +147,17 @@ export const Profile = (props) => {
                                 <Box overflow={'auto'}>
                                     {profileDetailes?.display_name && adressDetails?.city ?
                                         <div style={{display: "flex", flexDirection: "column"}}>
-                                            <span>{`שם: ${profileDetailes?.display_name} `}</span>
-                                            <span>{`אימייל: ${profileDetailes?.email} `}</span>
-                                            <span>{`תאריך לידה: ${profileDetailes?.birth_date} `}</span>
-                                            <span>{`עיר: ${adressDetails?.city} `}</span>
-                                            <span>{`רחוב: ${adressDetails?.street_name} `}</span>
-                                            <span>{`מספר בית: ${adressDetails?.street_number} `}</span>
+                                            <span id = 'span_name'>{`שם: ${profileDetailes?.display_name} `}</span>
+                                            <span id = 'span_email'>{`אימייל: ${profileDetailes?.email} `}</span>
+                                            <span id = 'span_birth'>{`תאריך לידה: ${profileDetailes?.birth_date} `}</span>
+                                            <span id = 'span_city'>{`עיר: ${adressDetails?.city} `}</span>
+                                            <span id = 'span_street'>{`רחוב: ${adressDetails?.street_name} `}</span>
+                                            <span id = 'span_house'>{`מספר בית: ${adressDetails?.street_number} `}</span>
                                         </div> : <Spin/>}
                                 </Box>
                                 <FormItem>
                                     <Tooltip title="פתח">
-                                        <Button onClick={() => {
+                                        <Button id = "edit_details" onClick={() => {
                                             editDetails(props.userSession, adressDetails, props.startSession, loadProfile)
                                         }} className={classes.editButton}>
                                             ערוך פרטים
