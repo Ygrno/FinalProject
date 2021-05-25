@@ -6,7 +6,9 @@
   .makeStyles-card {
     border-radius: 45px !important;
   }
-
+  .ant-modal-wrap-rtl .ant-modal-footer .ant-btn + .ant-btn + .ant-btn-rtl{
+    border-radius: 45px;
+  }
   .ant-form {
     width: 30% !important;
   }

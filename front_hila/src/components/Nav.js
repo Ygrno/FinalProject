@@ -1,19 +1,22 @@
 import {Link, NavLink} from "react-router-dom";
-import {AppBar, IconButton, makeStyles, Toolbar, Box, Tooltip} from "@material-ui/core";
+import {AppBar, IconButton, makeStyles, Toolbar, Box, Tooltip,useMediaQuery} from "@material-ui/core";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useHistory} from "react-router-dom";
 import {message} from 'antd';
 import {logout} from "../services/api-service";
 import theme from "../theme/create-theme";
 import React from "react";
-
+import "./nav.scss"
 
 const useStyle = makeStyles(theme => ({
     navLink: {
         textDecoration: 'none',
         color: 'inherit',
         margin: theme.spacing(2),
-        fontSize: 20
+        fontSize: 20,
+        alignItems: 'left',
+        justifyContent: 'left'
+
     },
     icon: {
         height: '100px',

@@ -21,13 +21,6 @@ const movetoprof = (session, onMovetoprof) => {
     onMovetoprof();
 }
 
-// function extracted(contact_data_json, props, contact_data) {
-//     contact_data_json = {
-//         "API_KEY": props.Data?.API_KEY,
-//         "contact": contact_data
-//     }
-//     return contact_data_json;
-// }
 
 const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
 

@@ -9,14 +9,12 @@ import {getAllEvents} from '../../../services/api-civicrm-service';
 import {ApplicationPreview} from "./ApplicationPreview";
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
-
+import "./application.scss"
 
 const useStyle = makeStyles(theme => ({
         container: {
             display: 'flex',
-            flex: 1,
             width: '100%',
-            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center'
         },
