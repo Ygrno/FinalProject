@@ -52,11 +52,11 @@ export const Nav = ({userSession, endSession, routes}) => {
         <AppBar position="static">
             <Toolbar>
                 <Tooltip title="עמוד הבית">
-                <Box display='flex' flexDirection='row' alignItems='center'>
+                    <Box display='flex' flexDirection='row' alignItems='center'>
 
-                    <img className={classes.icon} onClick={toHome} src='/images/appicon.png'/>
+                        <img className={classes.icon} onClick={toHome} src='/images/appicon.png'/>
 
-                </Box>
+                    </Box>
                 </Tooltip>
                 <Box display='flex' flex={1}>
                     {
@@ -72,14 +72,14 @@ export const Nav = ({userSession, endSession, routes}) => {
                     }
                 </Box>
                 <Tooltip title="יציאה" color={"red"}>
-                <Box>
+                    <Box>
 
                         {shouldShowLogout &&
                         <IconButton color='inherit'
                                     onClick={() => logout_handler(userSession, endSession, onLogoutFinish)}><ExitToAppIcon/></IconButton>
                         }
 
-                </Box>
+                    </Box>
                 </Tooltip>
             </Toolbar>
         </AppBar>

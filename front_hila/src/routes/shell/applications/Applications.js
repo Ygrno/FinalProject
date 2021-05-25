@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useState} from 'react';
-import {Form, Modal, Button, ConfigProvider, Space} from 'antd';
+import {Form, Modal, ConfigProvider, Space} from 'antd';
 import {makeStyles, Box, CircularProgress, Fab, Tooltip} from "@material-ui/core";
 
 import ApplicationForm from './ApplicationForm';
@@ -9,8 +9,6 @@ import {getAllEvents} from '../../../services/api-civicrm-service';
 import {ApplicationPreview} from "./ApplicationPreview";
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
-
-
 
 
 const useStyle = makeStyles(theme => ({
@@ -50,23 +48,21 @@ export const Applications = ({userSession, endSession}) => {
     };
 
     const loadApplications = async () => {
-        try{
+        try {
             setIsLoading(true);
             const res = await getAllEvents(userSession.Data?.API_KEY);
             setApplications(res.data?.values ?? []);
-            console.log("applications: ",applications);
-        }
-        catch(error){
+            console.log("applications: ", applications);
+        } catch (error) {
             console.log(error);
-        }
-        finally {
+        } finally {
             setIsLoading(false);
         }
     };
 
     useEffect(loadApplications, [isModalVisible]);
 
-    const shouldShowHandleButton = ()=> getUserTypes(userSession)?.includes(UserType.Soldier);
+    const shouldShowHandleButton = () => getUserTypes(userSession)?.includes(UserType.Soldier);
 
 
     return (
@@ -74,26 +70,26 @@ export const Applications = ({userSession, endSession}) => {
             <ConfigProvider direction="rtl">
                 <Form form={form}>
                     {shouldShowHandleButton() &&
-                        <FormItem>
-                            <Tooltip title="הוסף פנייה חדשה">
+                    <FormItem>
+                        <Tooltip title="הוסף פנייה חדשה">
                             <Fab onClick={showModal} className={classes.addButton}>
                                 +
                             </Fab>
-                                </Tooltip>
-                        </FormItem>
+                        </Tooltip>
+                    </FormItem>
                     }
                     <Modal title="פנייה חדשה" color="secondary" visible={isModalVisible} onOk={handleOk} okText="אישור"
-                           onCancel={handleCancel} cancelText="חזרה" okButtonProps={{style: {display: 'none'}}} cancelButtonProps={{style: {display: 'none'}}}>
+                           onCancel={handleCancel} cancelText="חזרה" okButtonProps={{style: {display: 'none'}}}
+                           cancelButtonProps={{style: {display: 'none'}}}>
                         <ApplicationForm userSession={userSession} endSession={endSession} onSubmit={handleCancel}/>
                     </Modal>
                     <Box>
                         {applications?.map(x => <ApplicationPreview application={x} userSession={userSession}/>)}
                     </Box>
-
                 </Form>
             </ConfigProvider>
             {
-                isLoading && <CircularProgress />
+                isLoading && <CircularProgress/>
             }
         </Box>
     )

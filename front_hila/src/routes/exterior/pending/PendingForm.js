@@ -3,12 +3,12 @@ import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router-dom";
 import {prepareContactData} from "../../../services/utils"
 import axios from "axios";
-import {getContactDetail,  uploadImg} from "../../../services/api-service";
+import {getContactDetail, uploadImg} from "../../../services/api-service";
 
 
 const {Option} = Select;
 
-function CreatejsonResponseImage(is_error, message, json_data,url) {
+function CreatejsonResponseImage(is_error, message, json_data, url) {
     return ({
         "is_error": is_error,
         "Message": message,
@@ -47,7 +47,7 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
         image_URL: urlUpload
     };
     const uploadResult = await uploadImg(userurlDetails);
-    console.log("uploadResult is:",uploadResult)
+    console.log("uploadResult is:", uploadResult)
     if (updateRes.data.is_error === 1) {
         Message = "unable to update Contact"
     } else {
@@ -60,7 +60,7 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
     console.log(Message);
     // console.log("the email is: ", props.Data?.contact?.email)
     contact_data_json = prepareContactData(props.Data?.API_KEY, contact_data);
-    responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json,userurlDetails.image_URL)
+    responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json, userurlDetails.image_URL)
     updateSession(responsRet)
 
 

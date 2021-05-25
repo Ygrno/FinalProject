@@ -1,10 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Box, Typography } from "@material-ui/core";
-import { Theme } from "./theme/Theme";
-import { Exterior } from "./components/Exterior";
-import { Shell } from "./components/Shell";
-import { useState, useEffect } from "react";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {Box, Typography} from "@material-ui/core";
+import {Theme} from "./theme/Theme";
+import {Exterior} from "./components/Exterior";
+import {Shell} from "./components/Shell";
+import {useState, useEffect} from "react";
 import Pending from "./routes/exterior/pending/Pending";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -16,37 +16,38 @@ const useStyle = makeStyles({
 
 function App() {
     const classes = useStyle();
-  const [userSession, setUserSession] = useState(null);
+    const [userSession, setUserSession] = useState(null);
 
-  const startSession = (newSession) => {
-    setUserSession(newSession);
-  };
-  const endSession = () => {
-    setUserSession(null);
-  };
+    const startSession = (newSession) => {
+        setUserSession(newSession);
+    };
+    const endSession = () => {
+        setUserSession(null);
+    };
 
-  useEffect(() => {
-    const formData = window.localStorage.getItem('Hakuna-matata');
-    setUserSession(JSON.parse(formData));
-  }, []);
-  useEffect(() => {
-    window.localStorage.setItem('Hakuna-matata', JSON.stringify(userSession));
-  });
+    useEffect(() => {
+        const formData = window.localStorage.getItem('Hakuna-matata');
+        setUserSession(JSON.parse(formData));
+    }, []);
+    useEffect(() => {
+        window.localStorage.setItem('Hakuna-matata', JSON.stringify(userSession));
+    });
 
-  return (
-    <Theme>
-      <Typography className={classes.container}>
-        <Box height="100%" display="flex" flexDirection="column" >
-          <Router >
-            {(!userSession || userSession.Data?.contact?.contact_sub_type.includes("Pending")) ?
-              <Exterior userSession={userSession} startSession={startSession} endSession={endSession} /> :
-              <Shell userSession={userSession} endSession={endSession} startSession={startSession} />}
-          </Router>
-        </Box>
-      </Typography>
-    </Theme>
-  );
+    return (
+        <Theme>
+            <Typography className={classes.container}>
+                <Box height="100%" display="flex" flexDirection="column">
+                    <Router>
+                        {(!userSession || userSession.Data?.contact?.contact_sub_type.includes("Pending")) ?
+                            <Exterior userSession={userSession} startSession={startSession} endSession={endSession}/> :
+                            <Shell userSession={userSession} endSession={endSession} startSession={startSession}/>}
+                    </Router>
+                </Box>
+            </Typography>
+        </Theme>
+    );
 }
+
 export default App;
 
 //
@@ -96,7 +97,6 @@ export default App;
 */
 
 
-
 /*
 import './App.css';
 import RegisterPage from './pages/register/register-page.component';
@@ -128,10 +128,6 @@ function App() {
 export default App;
 
 */
-
-
-
-
 
 
 /*
