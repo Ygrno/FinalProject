@@ -21,25 +21,45 @@ class Soldier_Test(unittest.TestCase):
         self.driver = webdriver.Edge(PATH)
         self.driver.get("http://localhost:3000/login")
         loginPage = page.LoginPage(self.driver)
-        loginPage.email_input = 'h5@h5.com'
+        loginPage.email_input = 'selenium_soldier1@mail.com'
         loginPage.password_input = '123'
         loginPage.click_submit_button()
         assert loginPage.is_logged_in()
 
     
     @ignore_warnings
-    def test_profile(self):
+    def test_profile_change_name(self):
         self.driver.get("http://localhost:3000/profile")
         profilePage = page.ProfilePage(self.driver)
         assert profilePage.load_details()
         name = profilePage.name
-        # email = profilePage.email
-        # address = profilePage.address
-        # birth = profilePage.birth
-        profilePage.edit_profile('h_selenium','h_selenium')
+        city = profilePage.city
+        street = profilePage.street
+        house = profilePage.house
+        profilePage.edit_profile('h_selenium4','h_selenium4')
         self.driver.get("http://localhost:3000/profile")
         profilePage.load_details()
         assert name != profilePage.name
+
+    @ignore_warnings
+    def test_profile_change_address(self):
+        self.driver.get("http://localhost:3000/profile")
+        profilePage = page.ProfilePage(self.driver)
+        assert profilePage.load_details()
+        city = profilePage.city
+        street = profilePage.street
+        house = profilePage.house
+        # email = profilePage.email
+        # address = profilePage.address
+        # birth = profilePage.birth
+        profilePage.edit_profile('h_selenium5','h_selenium5', 'city4','street4','4')
+        self.driver.get("http://localhost:3000/profile")
+        profilePage.load_details()
+        assert city != profilePage.city
+        assert street != profilePage.street
+        assert house != profilePage.house
+
+
 
     @ignore_warnings
     def test_create_application(self):

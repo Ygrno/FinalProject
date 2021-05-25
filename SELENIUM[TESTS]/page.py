@@ -37,25 +37,29 @@ class ProfilePage(BasePage):
     def load_details(self):
         try:
             WebDriverWait(self.driver, 5).until(
-                lambda driver: driver.find_element_by_id('h2_name'))
+                lambda driver: driver.find_element_by_id('span_house'))
         except:
             return False
-        self.name = self.driver.find_element_by_id('h2_name').text
-        self.email = self.driver.find_element_by_id('h2_email').text
-        self.birth = self.driver.find_element_by_id('h2_birth').text
-        self.address = self.driver.find_element_by_id('h2_address').text
+        self.name = self.driver.find_element_by_id('span_name').text
+        self.email = self.driver.find_element_by_id('span_email').text
+        self.birth = self.driver.find_element_by_id('span_birth').text
+        self.city = self.driver.find_element_by_id('span_city').text
+        self.street = self.driver.find_element_by_id('span_street').text
+        self.house = self.driver.find_element_by_id('span_house').text
         return True
     
-    def edit_profile(self, private_name, last_name):
+    def edit_profile(self, private_name='', last_name='', city='', street='',house=''):
         element = self.driver.find_element(*ProfileLocators.EDIT_BUTTON)
         element.click()
 
         WebDriverWait(self.driver, 100).until(
             lambda driver: driver.find_element_by_id('normal_login_lastName'))
-        self.driver.find_element_by_id('normal_login_name').send_keys(private_name)
-        self.driver.find_element_by_id('normal_login_lastName').send_keys(last_name)
-
-        ok_button = self.driver.find_element_by_css_selector("button[class='ant-btn ant-btn-primary']")
+        if private_name != '': self.driver.find_element_by_id('normal_login_name').send_keys(private_name)
+        if last_name != '': self.driver.find_element_by_id('normal_login_lastName').send_keys(last_name)
+        if city != '': self.driver.find_element_by_id('normal_login_city').send_keys(city)
+        if street != '': self.driver.find_element_by_id('normal_login_street').send_keys(street)
+        if house != '': self.driver.find_element_by_id('normal_login_building').send_keys(house)
+        ok_button = self.driver.find_element_by_id("update_details")
         # ok_button = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary']")
         ok_button.click()
 
@@ -88,16 +92,20 @@ class ApplicationPage(BasePage):
         found = False
         for a_c in app_card:
             if a_c.text.find(summary) >= 0:
-                button = a_c.find_element_by_id('take_care')
-                button.click()
-                found = True
-                break
+                try:
+                    button = a_c.find_element_by_id('take_care')
+                    button.click()
+                    found = True
+                    break
+                except:
+                    pass
         return found
         
 
 class MyApplicationPage(BasePage):
 
     def exist_application(self,details):
+        self.driver.get("http://localhost:3000/myApplications")
         WebDriverWait(self.driver, 5).until(
             lambda driver: driver.find_elements_by_id('application_details'))
         
@@ -259,7 +267,7 @@ class RegisterPage(BasePage):
     def is_registered(self):
         check = True
         try:
-            check = WebDriverWait(self.driver, 5).until(lambda driver: driver.current_url != 'http://localhost:3000/register')
+            check = WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url != 'http://localhost:3000/register')
         except:
             check = False
         print(self.driver.current_url)

@@ -21,23 +21,23 @@ class Volunteer_Test(unittest.TestCase):
         self.driver = webdriver.Edge(PATH)
         self.driver.get("http://localhost:3000/login")
         loginPage = page.LoginPage(self.driver)
-        loginPage.email_input = 'gal@mail.com'
+        loginPage.email_input = 'selenium_staff_member@mail.com'
         loginPage.password_input = '123'
         loginPage.click_submit_button()
         assert loginPage.is_logged_in()
 
     
     @ignore_warnings
-    def test_find_existing_soldiers(self):
-        self.driver.get("http://localhost:3000/staff")
-        staff_page = page.StaffMemberPage(self.driver)
-        assert staff_page.find_existed_soldier('selenium')
+    # def test_find_existing_soldiers(self):
+    #     self.driver.get("http://localhost:3000/staff")
+    #     staff_page = page.StaffMemberPage(self.driver)
+    #     assert staff_page.find_existed_soldier('selenium')
 
     @ignore_warnings
-    def test_approve_soldier(self):
+    def test_approve_application(self):
         self.driver.get("http://localhost:3000/staff")
         staff_page = page.StaffMemberPage(self.driver)
-        assert staff_page.approve_application('78')
+        assert staff_page.approve_application('84')
 
         
         
