@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import {prepareContactData} from "../../../services/utils"
 import axios from "axios";
 import {getContactDetail, uploadImg} from "../../../services/api-service";
-
+import "./pending-form.scss"
 
 const {Option} = Select;
 

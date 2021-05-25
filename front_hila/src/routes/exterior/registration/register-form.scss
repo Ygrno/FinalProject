@@ -1,41 +1,42 @@
-// ***************************
-// Shouldn't change classes of libraries if we only want to change it here
-// this for example, changes the width of all forms in the whole app...
-/*.ant-form {
-  width: 30%;
-}*/
-//***************
+@media all {
+  body{
+    align-content: center;
+    position: relative;
+  }
+  .makeStyles-card {
+    border-radius: 45px !important;
+  }
 
-.ant-modal-body {
-  height: 60vh;
-  overflow-y: scroll;
-}
+  .ant-form {
+    width: 30% !important;
+  }
 
-input {
-  text-overflow: ellipsis;
-}
+  .ant-modal-body {
+    height: 60vh;
+    overflow-y: scroll;
+  }
+  .ant-input-affix-wrapper{
+    border-radius: 45px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
-// **************
-// Shouldn't change style of 'body' in multiple places
-// this will change the style of the whole application
-// if we really want this we should change it in index.css...
-/*body{
-  overflow-y: scroll !important;
-}*/
-// *************
+  }
+  .ant-input:placeholder-shown{
+    border-radius: 45px;
 
-element.style {
-}
-.ant-btn-rtl {
-  direction: rtl;
-}
-.ant-btn-round {
+  }
+  .ant-btn-rtl {
+    direction: rtl;
+  }
+  .ant-btn-round {
 
-  margin-right: 10px;
+    margin-right: 10px;
+  }
+  .takanon {
+    margin-bottom: 5px;
+  }
+  .MuiPaper-elevation1{;
+  }
 }
-.ant-input{
-  position: center;
-}
-.takanon{
-  margin-bottom: 5px;
+.h3{
+  color: black;
 }

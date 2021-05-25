@@ -7,7 +7,7 @@ import {login} from "../../../services/api-service";
 import {withRouter} from "react-router";
 import {isUserPending} from "../../../utils/user.util";
 import {CircularProgress} from "@material-ui/core";
-
+import "./login-form.scss"
 const LoginForm = ({userSession, startSession}) => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +49,7 @@ const LoginForm = ({userSession, startSession}) => {
                 onFinish={onSubmit}
             >
                 <Form.Item
+
                     name="email"
                     rules={[
                         {
@@ -59,9 +60,11 @@ const LoginForm = ({userSession, startSession}) => {
                             required: true,
                             message: 'הכנס אימייל בבקשה!',
                         },
+
                     ]}
+                    className={"email_input"}
                 >
-                    <Input prefix={<UserOutlined className=""/>} placeholder="אי-מייל"/>
+                    <Input prefix={<UserOutlined className="email-input"/>} placeholder="אי-מייל"/>
                 </Form.Item>
 
                 <Form.Item
@@ -91,12 +94,12 @@ const LoginForm = ({userSession, startSession}) => {
                         {
                             isLoading ? <CircularProgress color='secondary'/> :
                                 <>
-                                    <Button style={{color: "white", background: "lime", border: "lime"}} type="primary"
+                                    <Button  type="primary"
                                             className="login-form-input" shape="round" icon={<DownloadOutlined/>}
                                             htmlType="submit">
                                         היכנס
                                     </Button>
-                                    <h3 style={{color: "white"}}> או </h3>
+                                    <h3 style={{color: "black"}}> או </h3>
                                     <a href="/register">
                                         <h3 style={{color: "#1890ff"}}>
                                             הירשם עכשיו!

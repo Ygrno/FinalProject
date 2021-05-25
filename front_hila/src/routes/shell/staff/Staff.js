@@ -13,6 +13,7 @@ import {
     CreateTemplate,
     getContactAddress, getProfile, DeleteTemplate
 } from "../../../services/api-civicrm-service";
+import {colors} from "@material-ui/core";
 
 const VOLUNTEER_TEMPLATE_ID = 70;
 const SOLDIER_TEMPLATE_ID = 71;
@@ -20,11 +21,11 @@ const CONFIRMATION_TAMPLATE_ID = 72;
 const CANCLE_TAMPLATE_ID = 73;
 
 
-const deleteFromPending = async (id, api, url, removePendingsFunc, cancelFunc) => {
+const deleteFromPending = async (id, api, url, removePendingsFunc, cancelFunc,props) => {
     Modal.confirm({
-        title: "פרטי החייל",
+        title: "פרטי המשתמש",
         content:
-            <a href={url} target="_blank" rel="noreferrer"> מסמכים </a>,
+            props.subtype.includes("Soldier")?<a href={url} target="_blank" rel="noreferrer"> מסמכים </a>:null,
 
         onOk() {
             removePendingsFunc(id, api)
@@ -32,7 +33,7 @@ const deleteFromPending = async (id, api, url, removePendingsFunc, cancelFunc) =
         onCancel() {
             cancelFunc(id, api)
         },
-        okText: 'אשר חייל',
+        okText: 'אשר בקשה',
         cancelText: "סרב בקשה"
     })
 
@@ -44,14 +45,17 @@ const PendingRow = (props) => {
         console.log("in remove pending", id);
         await removePending(api, id);
         await sendMail(api, id, CONFIRMATION_TAMPLATE_ID)
+        window.location.reload();
     };
     const cancleSoldierRequest = async (id, api) => {
         await sendMail(api, id, CANCLE_TAMPLATE_ID)
+        window.location.reload();
+
     };
     return (
-        <Popconfirm title={"מסמכי החייל"}
-                    onConfirm={() => deleteFromPending(props.contactId, props.api_key, props.imageURL, removePendingsFunc, cancleSoldierRequest)}
-                    okText={"פתח קובץ"} cancelText={"בטל"}>
+         <Popconfirm title={"פרטי המתמש"}
+                     onConfirm={() => (deleteFromPending(props.contactId, props.api_key, props.imageURL, removePendingsFunc, cancleSoldierRequest,props))}
+                    okText={"פתח"} cancelText={"בטל"}>
             <div style={{
                 width: "100%",
                 display: "flex",
@@ -60,7 +64,8 @@ const PendingRow = (props) => {
                 border: "1px solid rgb(0, 0, 0.3)",
                 borderRadius: "3px",
                 padding: "5px",
-                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px"
+                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                alignItems: 'center',
             }}>
                 {props.displayName}
 
@@ -207,30 +212,33 @@ export const Staff = (props) => {
     return (
         <ConfigProvider direction="rtl">
             <Form form={form}>
+                <div>
                 <Space>
                     <FormItem>
                         <Button onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
-                                shape="round" color="Black" variant="contained" size="medium">
+                                shape="round" color="Black" variant="contained" size="large">
                             רשימת החיילים הקיימים
                         </Button>
                     </FormItem>
                 </Space>
+
                 <Space>
                     <FormItem>
                         <Button onClick={() => getNotConfirmEvent(props.userSession, props.startSession)} type="primary"
-                                shape="round" color="Black" variant="contained" size="medium">
+                                shape="round" color="Black" variant="contained" size="large">
                             רשימת פניות לאישור
                         </Button>
                     </FormItem>
                 </Space>
                 <Space>
                     <FormItem>
-                        <Button onClick={() => viewPendings(props.userSession)} shape="round" color="Black"
-                                variant="contained" size="medium">
+                        <Button className={"list-btn"} onClick={() => viewPendings(props.userSession)}type="primary" shape="round" color="Black" style={{backroundColor:"#1980ff"}}
+                                variant="contained" size="large">
                             רשימת משתמשים בהמתנה
                         </Button>
                     </FormItem>
                 </Space>
+                </div>
                 <Modal title="רשימת החיילים הבודדים" visible={isModalVisible}
                        onCancel={handleCancel} cancelText="סגור">
                     <div> {

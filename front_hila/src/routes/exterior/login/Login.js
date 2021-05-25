@@ -16,7 +16,9 @@ const useStyle = makeStyles(theme => ({
         backgroundColor: theme.palette.card,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        borderRadius: 65
     },
     title: {
         fontWeight: 'bold'
