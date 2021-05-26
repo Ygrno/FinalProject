@@ -167,7 +167,10 @@ class Login_and_Register_Tests(unittest.TestCase):
         selector.select_by_visible_text('חייל')
 
         register_page.enter_private_number()
+
+        register_page.approve_takanon()
         register_page.click_submit_button()
+        
 
         assert not register_page.is_registered()
 

@@ -36,8 +36,8 @@ class Soldier_Test(unittest.TestCase):
         city = profilePage.city
         street = profilePage.street
         house = profilePage.house
-        profilePage.edit_profile('h_selenium4','h_selenium4')
-        self.driver.get("http://localhost:3000/profile")
+        profilePage.edit_profile('h_selenium6','h_selenium6')
+        # self.driver.get("http://localhost:3000/profile")
         profilePage.load_details()
         assert name != profilePage.name
 
@@ -52,8 +52,8 @@ class Soldier_Test(unittest.TestCase):
         # email = profilePage.email
         # address = profilePage.address
         # birth = profilePage.birth
-        profilePage.edit_profile('h_selenium5','h_selenium5', 'city4','street4','4')
-        self.driver.get("http://localhost:3000/profile")
+        profilePage.edit_profile('h_selenium5','h_selenium5', 'city5','street5','5')
+        # self.driver.get("http://localhost:3000/profile")
         profilePage.load_details()
         assert city != profilePage.city
         assert street != profilePage.street

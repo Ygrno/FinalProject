@@ -2,6 +2,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from locator import *
 from element import BasePageElement
 from selenium.webdriver.support.ui import Select
+import time
 
 class SearchTextElement(BasePageElement):
     def __init__(self, locator):
@@ -63,6 +64,8 @@ class ProfilePage(BasePage):
         # ok_button = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary']")
         ok_button.click()
 
+        time.sleep(5)
+
 class ApplicationPage(BasePage):
 
     def add_application(self,subject, summary, description):
@@ -77,7 +80,9 @@ class ApplicationPage(BasePage):
         send_application = self.driver.find_element(*ApplicationLocators.SEND_APPLICATION)
         send_application.click()
 
-        WebDriverWait(self.driver, 5)
+        time.sleep(5)
+
+        # WebDriverWait(self.driver, 5)
 
         # approve_button = self.driver.find_element_by_css_selector("button[class='ant-btn ant-btn-primary ant-btn-rtl']")
         # approve_button.click()
@@ -96,9 +101,13 @@ class ApplicationPage(BasePage):
                     button = a_c.find_element_by_id('take_care')
                     button.click()
                     found = True
+                    alert = self.driver.switchTo().alert()
+                    alert.accept()
                     break
                 except:
                     pass
+
+        
         return found
         
 
@@ -260,9 +269,20 @@ class RegisterPage(BasePage):
         register_privateNumber = self.driver.find_element_by_id('register_privateNumber')
         register_privateNumber.send_keys('1234567')
 
+    def approve_takanon(self):
+        element = self.driver.find_element(*RegisterLocators.TAKANON)
+        element.click()
+
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: driver.find_element(*RegisterLocators.APPROVE_BUTTON))
+        element = self.driver.find_element(*RegisterLocators.APPROVE_BUTTON)
+        element.click()
+
+
     def click_submit_button(self):
         element = self.driver.find_element(*RegisterLocators.SUBMIT_BUTTON)
         element.click()
+
 
     def is_registered(self):
         check = True

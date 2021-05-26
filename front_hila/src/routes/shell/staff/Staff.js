@@ -215,7 +215,7 @@ export const Staff = (props) => {
                 <div>
                     <Space>
                         <FormItem>
-                            <Button onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
+                            <Button id = "existing_soldiers" onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
                                     shape="round" color="Black" variant="contained" size="large">
                                 רשימת החיילים הקיימים
                             </Button>
@@ -224,7 +224,7 @@ export const Staff = (props) => {
 
                     <Space>
                         <FormItem>
-                            <Button onClick={() => getNotConfirmEvent(props.userSession, props.startSession)}
+                            <Button id = "applications_list" onClick={() => getNotConfirmEvent(props.userSession, props.startSession)}
                                     type="primary"
                                     shape="round" color="Black" variant="contained" size="large">
                                 רשימת פניות לאישור
@@ -233,7 +233,7 @@ export const Staff = (props) => {
                     </Space>
                     <Space>
                         <FormItem>
-                            <Button className={"list-btn"} onClick={() => viewPendings(props.userSession)}
+                            <Button id = "pending_users" className={"list-btn"} onClick={() => viewPendings(props.userSession)}
                                     type="primary" shape="round" color="Black" style={{backroundColor: "#1980ff"}}
                                     variant="contained" size="large">
                                 רשימת משתמשים בהמתנה
@@ -246,7 +246,7 @@ export const Staff = (props) => {
                     <div> {
                         SodiersDetails.map(
                             (soldier) => {
-                                return (<div><h4>
+                                return (<div id = "soldiers_details"><h4>
                                         {`שם החייל: ${soldier.display_name},  `}
                                         {`אימייל: ${soldier.email},  `}
                                         {`מספר רשומה במערכת: ${soldier.contact_id} `}</h4></div>
@@ -260,11 +260,11 @@ export const Staff = (props) => {
                     <div> {
                         EventConfirmed.map(
                             (x) => {
-                                return (<div><h4>
+                                return (<div id = 'app_approve'><h4>
                                         {`מספר פנייה: ${x.id} `}
                                     </h4>
                                         <FormItem>
-                                            <Button
+                                            <Button id = "open_app"
                                                 onClick={() => viewevent(props.userSession, x, confirmEvent, handleCancel2)}
                                                 type="primary"
                                                 shape="round" color="Black" variant="contained" size="medium">
