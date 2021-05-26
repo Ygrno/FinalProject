@@ -28,16 +28,16 @@ class Volunteer_Test(unittest.TestCase):
 
     
     @ignore_warnings
-    # def test_find_existing_soldiers(self):
-    #     self.driver.get("http://localhost:3000/staff")
-    #     staff_page = page.StaffMemberPage(self.driver)
-    #     assert staff_page.find_existed_soldier('selenium')
+    def test_find_existing_soldiers(self):
+        self.driver.get("http://localhost:3000/staff")
+        staff_page = page.StaffMemberPage(self.driver)
+        assert staff_page.find_existed_soldier('selenium')
 
     @ignore_warnings
     def test_approve_application(self):
         self.driver.get("http://localhost:3000/staff")
         staff_page = page.StaffMemberPage(self.driver)
-        assert staff_page.approve_application('84')
+        assert staff_page.approve_application('91')
 
         
         

@@ -98,7 +98,7 @@ const editDetails = async (props, address, startSession, loadProfile) => {
                         name="building">
                         <Input placeholder={address.street_number} className={"first_name_input"} />
                     </Form.Item>
-                    <Button style={{color: "white", background: "lime", border: "lime"}} type="primary"
+                    <Button id = "update_details" style={{color: "white", background: "lime", border: "lime"}} type="primary"
                             className="update_details" shape="round" icon={<DownloadOutlined/>}
                             htmlType="submit">
                         עדכן פרטים
