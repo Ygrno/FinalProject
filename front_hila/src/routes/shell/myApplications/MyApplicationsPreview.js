@@ -37,8 +37,8 @@ export const MyApplicationsPreview = ({application, userSession, startSession}) 
     return <Card className={classes.container}  >
         <h4>{`מספר פנייה: ${application.id} `}</h4>
         <h4>{`כותרת הפנייה: ${application.title} `}</h4>
-        <h4 id = 'application_details'>{`תיאור : ${application.description} `}</h4>
-        <h4>{`נוצרה בתאריך: ${application.created_date} `}</h4>
+        <h4 id = 'application_details'>{`תיאור : ${application.summary} `}</h4>
+        <h4>{`נוצרה בתאריך: ${application.start_date} `}</h4>
         {
             shouldShowCloseButton &&
             <Button id = 'close_app' onClick={() => closeEvent()} type="secondary" shape="round" color="secondary"

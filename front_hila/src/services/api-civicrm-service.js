@@ -30,12 +30,6 @@ export const getProfile = (api_key, contact_id) => {
     return client.get(`${updateUrl}${urlParams}`)
 };
 
-export const getProfilewithAddres = (api_key, contact_id) => {
-    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
-    return client.get(`${updateUrl}${urlParams}`)
-};
-
-
 export const setActiveEvent = (api_key, application_id) => {
     var urlParams = `entity=Event&action=create&json={"id":${application_id},"options":{"limit":300},"is_active":1}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
@@ -63,6 +57,11 @@ export const getAllSoldierEvents = (api_key, contact_id) => {
 
 export const getAllEvents = (api_key) => {
     var urlParams = `entity=Event&action=get&json={"sequential":1, "options":{"limit":500,"sort":"created_date desc"}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getEventById = (api_key, event_id) => {
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "id": ${event_id}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
@@ -108,8 +107,13 @@ export const getEventParticipantsContact = (api_key, event_id) => {
     return client.get(`${updateUrl}${urlParams}`)
 };
 
+export const getEventsContactIsParticipant = (api_key, contact_id) => {
+    var urlParams = `entity=Participant&action=get&json={"sequential":1,"contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
 export const getContactAddress = (api_key, contact_id) => {
-    var urlParams = `entity=Address&action=get&json={"sequential":1,"contact_id":${contact_id},"return":"street_name,street_number,city"}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Address&action=get&json={"sequential":1,"contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
@@ -123,6 +127,7 @@ export const DeleteTemplate = (api_key,id) => {
     var urlParams = `entity=MessageTemplate&action=delete&json={"id":\"${id}\"}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
 };
+
 
 
 
