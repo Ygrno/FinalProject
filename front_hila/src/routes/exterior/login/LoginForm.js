@@ -7,7 +7,11 @@ import {login} from "../../../services/api-service";
 import {withRouter} from "react-router";
 import {isUserPending} from "../../../utils/user.util";
 import {CircularProgress} from "@material-ui/core";
-import "./login-form.scss"
+import {logger} from '../../../Logger'
+
+
+
+
 const LoginForm = ({userSession, startSession}) => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +29,7 @@ const LoginForm = ({userSession, startSession}) => {
 
         if (loginResult.data["is_error"]) {
             message.error("ההתחברות נכשלה. אנה בדוק את פרטי ההתחברות שלך פעם נוספת או נסה ליצור קשר במייל של האתר.");
+            logger.info('Error: Wrong Password or Mail')
         } else {
             startSession(loginResult.data);
             onLoginFinish();

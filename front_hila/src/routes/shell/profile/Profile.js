@@ -15,6 +15,7 @@ import {DownloadOutlined} from "@ant-design/icons";
 import {CreatejsonResponse, prepareContactData} from "../../../services/utils"
 import {useHistory} from "react-router";
 import "./profile.scss"
+import {logger} from '../../../Logger'
 
 const useStyle = makeStyles(theme => ({
     container: {
@@ -130,6 +131,7 @@ export const Profile = (props) => {
             // console.log("the res is:", res.data?.values)
         } catch (error) {
             console.log(error);
+            logger.error(error);
         } finally {
             setIsLoading(false);
         }
