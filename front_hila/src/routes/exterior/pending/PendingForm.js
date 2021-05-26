@@ -22,45 +22,55 @@ const movetoprof = (session, onMovetoprof) => {
 }
 
 
-const Handletry = async (props, updateSession, MoveToProfile, urlUpload) => {
+const Handletry = async (props, updateSession, MoveToProfile, urlUpload, updateStatus) => {
 
-    const userDetails = {
-        email: props.Data?.contact?.email
-    };
+    try {
+        updateStatus(LOADING)
+        const userDetails = {
+            email: props.Data?.contact?.email
+        };
 
 
-    let responsRet = "";
-    const updateRes = await getContactDetail(userDetails);
-    var Message = ""
-    console.log("the new update res is:", updateRes)
-    var contact_data_json = ""
-    var contact_data = ""
-    const userurlDetails = {
-        email: props.Data?.contact?.email,
-        image_URL: urlUpload
-    };
-    const uploadResult = await uploadImg(userurlDetails);
-    console.log("uploadResult is:", uploadResult)
-    if (updateRes.data.is_error === 1) {
-        Message = "unable to update Contact"
-    } else {
-        Message = "Successfully updated contact"
-        updateRes.data.Data.contact.image_URL = userurlDetails.image_URL;
-        contact_data = updateRes.data.Data.contact
+        let responsRet = "";
+        const updateRes = await getContactDetail(userDetails);
+        var Message = ""
+        console.log("the new update res is:", updateRes)
+        var contact_data_json = ""
+        var contact_data = ""
+        const userurlDetails = {
+            email: props.Data?.contact?.email,
+            image_URL: urlUpload
+        };
+        const uploadResult = await uploadImg(userurlDetails);
+        console.log("uploadResult is:", uploadResult)
+        if (updateRes.data.is_error === 1) {
+            Message = "unable to update Contact"
+        } else {
+            Message = "Successfully updated contact"
+            updateRes.data.Data.contact.image_URL = userurlDetails.image_URL;
+            contact_data = updateRes.data.Data.contact
 
+        }
+
+        // console.log(Message);
+        // console.log("the email is: ", props.Data?.contact?.email)
+        contact_data_json = prepareContactData(props.Data?.API_KEY, contact_data);
+        responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json, userurlDetails.image_URL)
+        updateSession(responsRet)
+        message.success(Message);
+
+    } catch (e) {
+        message.error(`Unable to upload file. Reason is: ${e}`)
+    } finally {
+        updateStatus("")
     }
-
-    console.log(Message);
-    // console.log("the email is: ", props.Data?.contact?.email)
-    contact_data_json = prepareContactData(props.Data?.API_KEY, contact_data);
-    responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json, userurlDetails.image_URL)
-    updateSession(responsRet)
-
-
 };
+
+const LOADING = "loading";
 
 const PendingForm = (props) => {
     const [imageSelected, setimageSelect] = useState(" ");
+    const [loadingStatus, SetLoadingStatus] = useState("");
     const fileSelectHendler = () => {
 
         const formDate = new FormData()
@@ -68,7 +78,7 @@ const PendingForm = (props) => {
         axios.post("http://52.90.78.193/modules/contrib/civicrm/packages/kcfinder/upload.php?cms=civicrm&format=json&type=files", formDate).then((Response) => {
             // console.log("the Response is: ", Response.data.url)
             if (Response.status === 200) {
-                Handletry(props.userSession, props.startSession, ToProfile, Response.data.url)
+                Handletry(props.userSession, props.startSession, ToProfile, Response.data.url, SetLoadingStatus)
                 // return Response;
             } else
                 message.error("הבקשה לא עלתה. אנא בדוק שהקובץ שוקל עד 4mb");
@@ -120,7 +130,7 @@ const PendingForm = (props) => {
                         הרלוונטים אליך. </h2>
                         <input className={"upload-input"} type="file" title={"העלה קובצים מתאים"}
                                onChange={(values) => setimageSelect(values.target.files[0])}/>
-                        <button className={"upload-button"} onClick={fileSelectHendler}> העלה קובץ</button>
+                        <Button loading={loadingStatus === LOADING} className={"upload-button"} onClick={fileSelectHendler}> העלה קובץ</Button>
                     </Form.Item> : null}
                 {flag ?
                     <Form.Item>
