@@ -101,7 +101,7 @@ export const updateProfileAddress = (api_key, address_id, city, street, number) 
 export const sendMail = (api_key, contact_id_to_send, template_id) => {
     var urlParams = `entity=Email&action=send&json={"contact_id":${contact_id_to_send},"template_id":${template_id}}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
-};
+}
 
 export const getEventParticipantsContact = (api_key, event_id) => {
     var urlParams = `entity=Participant&action=get&json={"sequential":1,"event_id":${event_id}}&api_key=${api_key}&key=${site_key}`;
