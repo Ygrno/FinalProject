@@ -78,7 +78,7 @@ export const Nav = ({userSession, endSession, routes}) => {
                     <Box>
 
                         {shouldShowLogout &&
-                        <IconButton color='inherit'
+                        <IconButton color='inherit' className={"exit-btn"}
                                     onClick={() => logout_handler(userSession, endSession, onLogoutFinish)}><ExitToAppIcon/></IconButton>
                         }
 

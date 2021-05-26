@@ -71,7 +71,7 @@ const Home = ({userSession}) => {
                 </div>
                 <div>
                     {userSession?.Data?.contact?.image_URL === "" && userSession.Data?.contact?.contact_sub_type.includes("Soldier")?
-                        <h3 className={"flick"}>חייל, תרם העלת קובץ לאתר, אנא העלה בהקדם</h3>:null}
+                        <h3 className={"flick"}>חייל, טרם העלת קובץ לאתר, אנא העלה בהקדם</h3>:null}
                     {userSession?.Data?.contact?.image_URL === "" && userSession.Data?.contact?.contact_sub_type.includes("Soldier")?
                         <Button className={"flick-btn"} onClick={toPending}> העלה קובץ</Button>:null}
                     <h4>תוכנית מִשֶׁלִי הוקמה בשנת 2018 מתוך מטרה להעניק סיוע בפתרון בעיות ומענה לצרכים היומיומיים

@@ -2,11 +2,15 @@
   .MuiPaper-rounded {
     border-radius: 25px ;
     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.5), 0 26px 20px 0 rgba(0, 0, 0, 0.29);
-
     counter-increment: col;
     text-align: center;
     font-weight: bold;
     color: white;
-
+//.card_application{
+//  height: 150px !important;
+//  width: 150px;
+//  background-color: #0d9924 !important;
+//  margin-top: 20px !important;
+//}
   }
 }

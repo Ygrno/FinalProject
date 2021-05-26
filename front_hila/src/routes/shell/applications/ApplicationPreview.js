@@ -13,9 +13,17 @@ import applicationTypes from '../../../utils/application-type-translator';
 
 const useStyle = makeStyles(theme => ({
     container: {
-        margin: theme.spacing(2),
+        margin: theme.spacing(1),
         padding: theme.spacing(2),
-        backgroundColor: '#e5eded'
+        backgroundColor: '#e5eded',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.9), 0 6px 20px 0 rgba(0, 0, 0, 2.19)',
+        minWidth: 400,
+        width: '40%',
+        alignItems: 'stretch',
+        display: 'flex',
+        flexDirection: 'column',
+        alignContent:"flex-start",
+
     },
     title: {
         fontWeight: 600
