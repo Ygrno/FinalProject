@@ -79,7 +79,7 @@ const RegisterForm = (props) => {
                     ]}
                 >
 
-                    <Input prefix={<UserOutlined className="" />} placeholder="אי-מייל" />
+                    <Input prefix={<UserOutlined className="" />} placeholder="אי-מייל"  className={"reg-email-input"}/>
                 </Form.Item>
                 <Form.Item
                     name="password"
@@ -116,7 +116,7 @@ const RegisterForm = (props) => {
                             whitespace: true,
                         },
                     ]}>
-                    <Input placeholder="שם פרטי" />
+                    <Input placeholder="שם פרטי" className={"reg_input"}/>
                 </Form.Item>
                 <Form.Item
                     name="lastname"
@@ -127,7 +127,7 @@ const RegisterForm = (props) => {
                             whitespace: true,
                         },
                     ]}>
-                    <Input placeholder="שם משפחה" />
+                    <Input placeholder="שם משפחה"className={"reg_input"} />
                 </Form.Item>
                 <Form.Item
                     name="phone"
@@ -138,8 +138,7 @@ const RegisterForm = (props) => {
                             message: 'אנא הזן מספר טלפון',
                         },
                     ]}>
-                    <Input placeholder="מספר טלפון"
-                    />
+                    <Input placeholder="מספר טלפון" className={"reg_input"}/>
                 </Form.Item>
                 <Form.Item
                     name="city"
@@ -150,7 +149,7 @@ const RegisterForm = (props) => {
                             whitespace: true,
                         },
                     ]}>
-                    <Input placeholder="הזן עיר מגורים" />
+                    <Input placeholder="הזן עיר מגורים" className={"reg_input"}/>
                 </Form.Item>
                 <Form.Item
                     name="streetName"
@@ -161,7 +160,7 @@ const RegisterForm = (props) => {
                             whitespace: true,
                         },
                     ]}>
-                    <Input placeholder="הזן שם רחוב" />
+                    <Input placeholder="הזן שם רחוב" className={"reg_input"} />
                 </Form.Item>
                 <Form.Item
                     name="buildingNumber"
@@ -173,7 +172,7 @@ const RegisterForm = (props) => {
                             whitespace: true,
                         },
                     ]}>
-                    <Input placeholder="מספר בית" />
+                    <Input placeholder="מספר בית" className={"reg_input"}/>
                 </Form.Item>
                 <Form.Item name="group_name" rules={[{ required: true, message: 'יש לבחור סוג משתמש' }]}>
                     
@@ -182,7 +181,7 @@ const RegisterForm = (props) => {
                     <option value="soldier">חייל</option>
                     <option value="volunteer">מתנדב</option>
                     <option value="staff">איש צוות</option>
-                    </select>
+                    </select >
 
 
                     {/* <Select placeholder="בחר" allowClear>
