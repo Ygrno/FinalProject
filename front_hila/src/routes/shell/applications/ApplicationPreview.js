@@ -54,7 +54,7 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
             <h4><strong>תקציר הפנייה: </strong>{application.summary}</h4>
             <h4><strong>מספר פנייה: </strong>{application.id}</h4>
             <h4><strong>נוצרה בתאריך: </strong>{application.created_date}</h4>
-            <h4><strong>עיר מגורים: </strong>{profile.city ? profile.city : "placeholder"}</h4>
+            <h4><strong>עיר מגורים: </strong>{profile.city ? profile.city : "חסוי/לא קיימת עיר עבור המשתמש שיצר את הפניה הנוכחית"}</h4>
             {
                 shouldShowHandleButton() &&
                 <Button id='take_care' onClick={() => changeActiveEvent()} type="secondary" shape="round"
