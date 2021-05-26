@@ -49,7 +49,9 @@
   .flick-btn {
     animation: blinker 1s linear infinite;
     color: white;
-    font-size: large;
+    align-content: center;
+    justify-content: center;
+    font-size: small;
     background-color: red;
     border-radius: 45px;
   }

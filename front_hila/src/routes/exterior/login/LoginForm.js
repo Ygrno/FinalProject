@@ -96,7 +96,7 @@ const LoginForm = ({userSession, startSession}) => {
                             isLoading ? <CircularProgress color='secondary'/> :
                                 <>
                                     <Button  type="primary"
-                                            className="login-form-input" shape="round" icon={<DownloadOutlined/>}
+                                            className="login-btn-new" shape="round" icon={<DownloadOutlined/>}
                                             htmlType="submit">
                                         היכנס
                                     </Button>
