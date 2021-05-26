@@ -57,13 +57,14 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload, updateS
         contact_data_json = prepareContactData(props.Data?.API_KEY, contact_data);
         responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json, userurlDetails.image_URL)
         updateSession(responsRet)
-        message.success(Message);
+        message.success(Message,[5]);
 
     } catch (e) {
         message.error(`Unable to upload file. Reason is: ${e}`)
     } finally {
         updateStatus("")
     }
+
 };
 
 const LOADING = "loading";
@@ -88,6 +89,7 @@ const PendingForm = (props) => {
     let flag = false;
     let flagSoldier = false;
     if (props.userSession?.Data?.contact?.contact_sub_type.indexOf("Pending") > -1) {
+        console.log("this is a true false question: ", props.userSession?.Data?.contact?.image_URL === "")
         flag = true;
     } else {
         flag = false;
@@ -100,6 +102,7 @@ const PendingForm = (props) => {
     }
 
     let history = useHistory();
+
 
     const ToProfile = () => {
         console.log("props status: ", props)
@@ -128,24 +131,13 @@ const PendingForm = (props) => {
                 {flagSoldier ?
                     <Form.Item><h2 style={{color: "black"}}>חייל/ת יקר/ה, על מת שנאשר את בקשתך אנא צריף/י את המסמכים
                         הרלוונטים אליך. </h2>
-                        <input className={"upload-input"} type="file" title={"העלה קובצים מתאים"}
+                        <input className={"upload-input"} type="file" placeholder={"נא לעלות קבצים מתאימים"} id={"file-input"}
                                onChange={(values) => setimageSelect(values.target.files[0])}/>
+
                         <Button loading={loadingStatus === LOADING} className={"upload-button"} onClick={fileSelectHendler}> העלה קובץ</Button>
                     </Form.Item> : null}
-                {flag ?
-                    <Form.Item>
-                        {/*<Button type="primary" shape="round" htmlType="submit"*/}
-                        {/*        onClick={() => Handletry(props.userSession, props.startSession, ToProfile)}>*/}
-                        {/*    לבדיקת אישור לחץ כאן*/}
-                        {/*</Button>*/}
-                    </Form.Item> :
-                    <Form.Item>
-                        <button shape="round" className="prof-btn"
-                                style={{color: "black", background: "lime", border: "lime"}} size={"large"}
-                                onClick={() => movetoprof(props.userSession, ToProfile)}>
-                            לעמוד פרופיל
-                        </button>
-                    </Form.Item>}
+
+
 
 
             </Form>

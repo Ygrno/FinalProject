@@ -34,6 +34,32 @@
     margin-bottom: 30px;
     margin-right: 20px;
   }
+  .flick {
+    animation: blinker 1s linear infinite;
+    color: red;
+    font-size: large;
+  }
+
+  @keyframes blinker {
+    40% {
+      opacity: 0;
+
+    }
+  }
+  .flick-btn {
+    animation: blinker 1s linear infinite;
+    color: white;
+    font-size: large;
+    background-color: red;
+    border-radius: 45px;
+  }
+
+  @keyframes blinker {
+    80% {
+      opacity: 0;
+
+    }
+  }
 
   .prof-btn{
     border-radius:15px;

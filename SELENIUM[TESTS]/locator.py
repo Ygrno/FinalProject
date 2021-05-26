@@ -17,6 +17,8 @@ class StaffMemberLocators(object):
 
 class RegisterLocators(object):
     SUBMIT_BUTTON = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary ant-btn-round ant-btn-rtl singup-btn']")
+    TAKANON = (By.CLASS_NAME,"takanon")
+    APPROVE_BUTTON = (By.CSS_SELECTOR,"button[class='ant-btn ant-btn-primary ant-btn-rtl']")
 
 class ProfileLocators(object):
     EDIT_BUTTON = (By.ID,"edit_details")

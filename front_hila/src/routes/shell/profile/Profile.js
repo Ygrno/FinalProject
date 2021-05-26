@@ -98,7 +98,7 @@ const editDetails = async (props, address, startSession, loadProfile) => {
                         name="building">
                         <Input placeholder={address.street_number} className={"first_name_input"} />
                     </Form.Item>
-                    <Button style={{color: "white", background: "lime", border: "lime"}} type="primary"
+                    <Button id = "update_details" style={{color: "white", background: "lime", border: "lime"}} type="primary"
                             className="update_details" shape="round" icon={<DownloadOutlined/>}
                             htmlType="submit">
                         עדכן פרטים
@@ -144,14 +144,17 @@ export const Profile = (props) => {
 
     return (
         <Box>
+
             <ConfigProvider direction="rtl">
                 <Card className={classes.container}>
                     {
                         isLoading ? <CircularProgress/> :
                             <>
+
                                 <Box overflow={'auto'}>
                                     {profileDetailes?.display_name && adressDetails?.city ?
                                         <div style={{display: "flex", flexDirection: "column"}}>
+                                            
                                             <span id = 'span_name'>{`שם: ${profileDetailes?.display_name} `}</span>
                                             <span id = 'span_email'>{`אימייל: ${profileDetailes?.email} `}</span>
                                             <span id = 'span_birth'>{`תאריך לידה: ${profileDetailes?.birth_date} `}</span>

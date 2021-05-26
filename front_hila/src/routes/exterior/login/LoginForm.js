@@ -32,6 +32,7 @@ const LoginForm = ({userSession, startSession}) => {
     };
 
     const onLoginFinish = () => {
+
         if (userSession && isUserPending(userSession)) {
             history.push("/pending");
         } else {

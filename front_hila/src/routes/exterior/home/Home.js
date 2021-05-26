@@ -1,8 +1,9 @@
 import React from 'react';
 import {Card, Box, makeStyles, Toolbar} from '@material-ui/core';
-import {Form, ConfigProvider} from 'antd';
+import {Form, ConfigProvider, Button} from 'antd';
 import {withRouter} from "react-router";
 import "./homs.scss"
+import {useHistory} from "react-router";
 
 const useStyle = makeStyles(theme => ({
     container: {
@@ -49,6 +50,10 @@ const useStyle = makeStyles(theme => ({
 const Home = ({userSession}) => {
     const [form] = Form.useForm();
     const classes = useStyle();
+    let history = useHistory();
+    const toPending = () =>{
+        history.push("/pending")
+    }
     const getMessageByUser = () => {
         if (!userSession)
             return 'שלום אורח';
@@ -65,6 +70,10 @@ const Home = ({userSession}) => {
                     <span className={classes.title}>{getMessageByUser()}</span>
                 </div>
                 <div>
+                    {userSession?.Data?.contact?.image_URL === "" && userSession.Data?.contact?.contact_sub_type.includes("Soldier")?
+                        <h3 className={"flick"}>חייל, תרם העלת קובץ לאתר, אנא העלה בהקדם</h3>:null}
+                    {userSession?.Data?.contact?.image_URL === "" && userSession.Data?.contact?.contact_sub_type.includes("Soldier")?
+                        <Button className={"flick-btn"} onClick={toPending}> העלה קובץ</Button>:null}
                     <h4>תוכנית מִשֶׁלִי הוקמה בשנת 2018 מתוך מטרה להעניק סיוע בפתרון בעיות ומענה לצרכים היומיומיים
                         לחיילים הבודדים המשוחררים, כדי שיוכלו להשתלב בצורה טובה במציאות החדשה ולהצליח בבניית העתיד
                         המקצועי, התעסוקתי והמשפחתי. </h4>
