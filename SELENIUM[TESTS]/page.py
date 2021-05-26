@@ -4,6 +4,8 @@ from element import BasePageElement
 from selenium.webdriver.support.ui import Select
 import time
 
+TIME_TO_WAIT = 7
+
 class SearchTextElement(BasePageElement):
     def __init__(self, locator):
         self.locator = locator
@@ -27,7 +29,7 @@ class LoginPage(BasePage):
     def is_logged_in(self):
         check = True
         try:
-            check = WebDriverWait(self.driver, 5).until(lambda driver: driver.current_url != 'http://localhost:3000/login')
+            check = WebDriverWait(self.driver, TIME_TO_WAIT).until(lambda driver: driver.current_url != 'http://localhost:3000/login')
         except:
             pass
         print(self.driver.current_url)
@@ -37,7 +39,7 @@ class ProfilePage(BasePage):
 
     def load_details(self):
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, TIME_TO_WAIT).until(
                 lambda driver: driver.find_element_by_id('span_house'))
         except:
             return False
@@ -53,7 +55,7 @@ class ProfilePage(BasePage):
         element = self.driver.find_element(*ProfileLocators.EDIT_BUTTON)
         element.click()
 
-        WebDriverWait(self.driver, 100).until(
+        WebDriverWait(self.driver, TIME_TO_WAIT).until(
             lambda driver: driver.find_element_by_id('normal_login_lastName'))
         if private_name != '': self.driver.find_element_by_id('normal_login_name').send_keys(private_name)
         if last_name != '': self.driver.find_element_by_id('normal_login_lastName').send_keys(last_name)
@@ -71,7 +73,7 @@ class ApplicationPage(BasePage):
     def add_application(self,subject, summary, description):
         add_application = self.driver.find_element(*ApplicationLocators.ADD_APPLICATION)
         add_application.click()
-        WebDriverWait(self.driver, 100).until(lambda driver: driver.find_element_by_id('description'))
+        WebDriverWait(self.driver, TIME_TO_WAIT).until(lambda driver: driver.find_element_by_id('description'))
         selector = Select(self.driver.find_element_by_id('app_subject'))
         selector.select_by_visible_text(subject)
         self.driver.find_element_by_id('summary').send_keys(summary)
@@ -89,7 +91,7 @@ class ApplicationPage(BasePage):
 
     def take_care_application(self, summary):
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, TIME_TO_WAIT).until(
                 lambda driver: driver.find_elements_by_id('app_card'))
         except:
             return False
@@ -129,11 +131,11 @@ class MyApplicationPage(BasePage):
         element = self.driver.find_element(*ProfileLocators.EDIT_BUTTON)
         element.click()
 
-        WebDriverWait(self.driver, 100).until(
+        WebDriverWait(self.driver, TIME_TO_WAIT).until(
             lambda driver: driver.find_element_by_id('lastName'))
         self.driver.find_element_by_id('name').send_keys(private_name)
 
-        WebDriverWait(self.driver, 100).until(
+        WebDriverWait(self.driver, TIME_TO_WAIT).until(
             lambda driver: driver.find_element_by_id('lastName'))
         self.driver.find_element_by_id('lastName').send_keys(last_name)
 
@@ -157,7 +159,7 @@ class StaffMemberPage(BasePage):
 
     def find_existed_soldier(self, name):
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, TIME_TO_WAIT).until(
                 lambda driver: driver.find_element_by_id('existing_soldiers'))
         except:
             return False
@@ -165,7 +167,7 @@ class StaffMemberPage(BasePage):
         button.click()
 
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, TIME_TO_WAIT).until(
                 lambda driver: driver.find_element_by_id("soldiers_details"))
         except:
             return False
@@ -178,7 +180,7 @@ class StaffMemberPage(BasePage):
 
     def approve_application(self, app_id):
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, TIME_TO_WAIT).until(
                 lambda driver: driver.find_element_by_id('applications_list'))
         except:
             return False
@@ -186,7 +188,7 @@ class StaffMemberPage(BasePage):
         button.click()
 
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, TIME_TO_WAIT).until(
                 lambda driver: driver.find_element_by_id("app_approve"))
         except:
             return False

@@ -74,7 +74,7 @@ class Login_and_Register_Tests(unittest.TestCase):
     # def test_register_new_soldier(self):
     #     self.driver.get("http://localhost:3000/register")
     #     register_page = page.RegisterPage(self.driver)
-    #     register_page.register_email = "selenium_soldier@mail.com"
+    #     register_page.register_email = "selenium_soldier3@mail.com"
     #     register_page.register_password = "123"
     #     register_page.register_confirm = "123"
     #     register_page.register_firstname = "selenium"
@@ -86,6 +86,8 @@ class Login_and_Register_Tests(unittest.TestCase):
     #     register_group_name = self.driver.find_element_by_id('user_type')
     #     selector = Select(register_group_name)
     #     selector.select_by_visible_text('חייל')
+
+    #     register_page.approve_takanon()
 
     #     register_page.enter_private_number()
     #     check = False
@@ -101,7 +103,7 @@ class Login_and_Register_Tests(unittest.TestCase):
     # def test_register_new_volunteer(self):
     #     self.driver.get("http://localhost:3000/register")
     #     register_page = page.RegisterPage(self.driver)
-    #     register_page.register_email = "selenium_volunteer2@mail.com"
+    #     register_page.register_email = "selenium_volunteer3@mail.com"
     #     register_page.register_password = "123"
     #     register_page.register_confirm = "123"
     #     register_page.register_firstname = "selenium"
@@ -113,6 +115,8 @@ class Login_and_Register_Tests(unittest.TestCase):
     #     register_group_name = self.driver.find_element_by_id('user_type')
     #     selector = Select(register_group_name)
     #     selector.select_by_visible_text('מתנדב')
+
+    #     register_page.approve_takanon()
         
     #     check = False
     #     try:
@@ -127,7 +131,7 @@ class Login_and_Register_Tests(unittest.TestCase):
     # def test_register_new_staff_member(self):
     #     self.driver.get("http://localhost:3000/register")
     #     register_page = page.RegisterPage(self.driver)
-    #     register_page.register_email = "selenium_staff_member@mail.com"
+    #     register_page.register_email = "selenium_staff_member3@mail.com"
     #     register_page.register_password = "123"
     #     register_page.register_confirm = "123"
     #     register_page.register_firstname = "selenium"
@@ -139,6 +143,8 @@ class Login_and_Register_Tests(unittest.TestCase):
     #     register_group_name = self.driver.find_element_by_id('user_type')
     #     selector = Select(register_group_name)
     #     selector.select_by_visible_text('איש צוות')
+
+    #     register_page.approve_takanon()
         
     #     check = False
     #     try:
