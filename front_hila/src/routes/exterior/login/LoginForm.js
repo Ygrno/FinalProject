@@ -24,7 +24,7 @@ const LoginForm = ({userSession, startSession}) => {
         setIsLoading(false);
 
         if (loginResult.data["is_error"]) {
-            message.error(loginResult.data["is_error"]);
+            message.error("ההתחברות נכשלה. אנה בדוק את פרטי ההתחברות שלך פעם נוספת או נסה ליצור קשר במייל של האתר.");
         } else {
             startSession(loginResult.data);
             onLoginFinish();

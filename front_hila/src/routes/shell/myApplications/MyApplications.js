@@ -4,7 +4,7 @@ import {Form, Modal, Button, ConfigProvider, Space} from 'antd';
 import {makeStyles, CircularProgress, Box} from "@material-ui/core";
 
 import {MyApplicationsPreview} from "./MyApplicationsPreview";
-import {getAllSoldierEvents, getEventById, getEventsContactIsParticipant} from '../../../services/api-civicrm-service';
+import {getAllSoldierEvents, getActiveEventById, getEventsContactIsParticipant} from '../../../services/api-civicrm-service';
 
 const useStyle = makeStyles(theme => ({
         container: {
@@ -27,7 +27,7 @@ function getEventIds(participantsData){
 }
 
 const getContactEvents = async (userSession, eventsIds) => {
-    const eventsPromises = eventsIds.map(eventId => getEventById(userSession.Data?.API_KEY, eventId))
+    const eventsPromises = eventsIds.map(eventId => getActiveEventById(userSession.Data?.API_KEY, eventId))
     return await Promise.all(eventsPromises);
 }
 
@@ -46,11 +46,7 @@ export const MyApplications = ({userSession, endSession}) => {
 
         let eventsIds = getEventIds(res.data.values)
         let contactEvents = await getContactEvents(userSession, eventsIds)
-
         const events = contactEvents.map(eventRequestRes => eventRequestRes.data.values).map(x => x[0]);
-
-        console.log(eventsIds)
-        console.log(events)
 
         setApplications(events ?? []);
         // console.log("myApplications: ",myApplications);
