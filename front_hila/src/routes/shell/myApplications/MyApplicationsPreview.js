@@ -9,6 +9,7 @@ import {
 } from "../../../services/api-civicrm-service";
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
+import {logger} from '../../../Logger'
 
 const useStyle = makeStyles(theme => ({
     container: {
@@ -43,6 +44,7 @@ export const MyApplicationsPreview = ({application, userSession, startSession}) 
 
         } catch (e) {
             message.error(`מצטערים, לא ניתן לסגור את הפניה המבוקשת. הסיבה היא: ${e}`);
+            logger.error(e)
         }
 
     };
