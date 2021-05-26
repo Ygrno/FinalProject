@@ -14,8 +14,8 @@ const useStyle = makeStyles(theme => ({
         color: 'inherit',
         margin: theme.spacing(2),
         fontSize: 20,
-        alignItems: 'left',
-        justifyContent: 'left'
+        alignItems: 'center',
+        justifyContent: 'center'
 
     },
     icon: {
@@ -54,13 +54,13 @@ export const Nav = ({userSession, endSession, routes}) => {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Tooltip title="עמוד הבית">
+
                     <Box display='flex' flexDirection='row' alignItems='center'>
 
-                        <img className={classes.icon} onClick={toHome} src='/images/appicon.png'/>
+                        <img className={"misheli-img"} onClick={toHome} src='/images/appicon.png'/>
 
                     </Box>
-                </Tooltip>
+
                 <Box display='flex' flex={1}>
                     {
                         routesToDisplay.map(({path, title}) => (

@@ -50,8 +50,8 @@ const ApplicationForm = props => {
                 </Form.Item>
 
                 <h3>פירוט: </h3>
-                <Form.Item name="description" className="login-from input">
-                    <Input placeholder=" פרט את בקשתך כאן (ישאר חסוי)"/>
+                <Form.Item name="description">
+                    <Input.TextArea placeholder=" פרט את בקשתך כאן (ישאר חסוי)" size={"flex"} className={"descriptionn"} />
                 </Form.Item>
 
                 <Form.Item>
