@@ -6,6 +6,7 @@ import {getAllowedRoutes} from '../routes';
 import Box from "@material-ui/core/Box/Box";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import background from '../images/soldiers2.jpg';
+import Home from "../routes/exterior/home/Home";
 
 const useStyle = makeStyles(theme => ({
     pageContainer: {
@@ -36,6 +37,7 @@ const useStyle = makeStyles(theme => ({
 export const Shell = (props) => {
     const classes = useStyle();
     const routes = getAllowedRoutes(props.userSession);
+    routes.push({path: '/', component: Home});
     console.log(routes);
     console.log(props.userSession.Data?.contact);
 

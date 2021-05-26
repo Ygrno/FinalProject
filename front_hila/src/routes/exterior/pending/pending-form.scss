@@ -16,6 +16,18 @@
     background-color: lime;
     border-color: lime;
   }
+  .upload-input {
+    animation: blinker 1s linear infinite;
+    color: red;
+    font-size: large;
+  }
+
+  @keyframes blinker {
+    40% {
+      opacity: 0;
+
+    }
+  }
 }
 .1h {
   size: 95px;

@@ -144,14 +144,17 @@ export const Profile = (props) => {
 
     return (
         <Box>
+
             <ConfigProvider direction="rtl">
                 <Card className={classes.container}>
                     {
                         isLoading ? <CircularProgress/> :
                             <>
+
                                 <Box overflow={'auto'}>
                                     {profileDetailes?.display_name && adressDetails?.city ?
                                         <div style={{display: "flex", flexDirection: "column"}}>
+                                            
                                             <span id = 'span_name'>{`שם: ${profileDetailes?.display_name} `}</span>
                                             <span id = 'span_email'>{`אימייל: ${profileDetailes?.email} `}</span>
                                             <span id = 'span_birth'>{`תאריך לידה: ${profileDetailes?.birth_date} `}</span>
