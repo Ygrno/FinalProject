@@ -35,6 +35,11 @@ export const setActiveEvent = (api_key, application_id) => {
     return client.post(`${updateUrl}${urlParams}`)
 };
 
+export const MarkEventAsDone = (api_key, application_id) => {
+    var urlParams = `entity=Event&action=create&json={"id":${application_id}, "is_map":1}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
 export const setConfirmEvent = (api_key, application_id) => {
     var urlParams = `entity=Event&action=create&json={"id":${application_id},"options":{"limit":300},"is_confirm_enabled":1}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
@@ -51,16 +56,16 @@ export const getAllContactsEvent = (api_key, contact_id) => {
 };
 
 export const getAllSoldierEvents = (api_key, contact_id) => {
-    var urlParams = `entity=Event&action=get&json={"sequential":1, "created_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "is_map":0, "created_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
 export const getAllEvents = (api_key) => {
-    var urlParams = `entity=Event&action=get&json={"sequential":1, "options":{"limit":500,"sort":"created_date desc"}}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "is_map":0,"options":{"limit":500,"sort":"created_date desc"}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
-export const getEventById = (api_key, event_id) => {
+export const getActiveEventById = (api_key, event_id) => {
     var urlParams = `entity=Event&action=get&json={"sequential":1, "id": ${event_id}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
@@ -71,7 +76,7 @@ export const getAllUnconfirmEvents = (api_key) => {
 };
 
 export const sendApplication = (api_key, event_type, event_title, event_description, summary, today) => {
-    var urlParams = `entity=Event&action=create&json={"event_type_id":\"${event_type}\","default_role_id":\"Soldier\","participant_listing_id":\"Name and Email\","title":\"${event_title}\","summary":\"${summary}\","description":\"${event_description}\","start_date":\"${today}\","is_active":\"0\", "is_confirm_enabled":0, "max_additional_participants":\"2\"}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Event&action=create&json={"event_type_id":\"${event_type}\", "is_map":0, "default_role_id":\"Soldier\","participant_listing_id":\"Name and Email\","title":\"${event_title}\","summary":\"${summary}\","description":\"${event_description}\","start_date":\"${today}\","is_active":\"0\", "is_confirm_enabled":0, "max_additional_participants":\"2\"}&api_key=${api_key}&key=${site_key}`;
     console.log("event_type", today)
     return client.post(`${updateUrl}${urlParams}`)
 };
@@ -108,7 +113,7 @@ export const getEventParticipantsContact = (api_key, event_id) => {
 };
 
 export const getEventsContactIsParticipant = (api_key, contact_id) => {
-    var urlParams = `entity=Participant&action=get&json={"sequential":1,"contact_id":${contact_id}}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Participant&action=get&json={"sequential":1,"contact_id":${contact_id}, "options":{"limit":500, "sort":"participant_register_date desc"}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
