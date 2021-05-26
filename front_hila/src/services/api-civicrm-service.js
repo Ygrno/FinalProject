@@ -83,8 +83,8 @@ export const getAllPendings = (api_key) => {
     return client.get(`${updateUrl}${urlParams}`)
 };
 
-export const removePending = (api_key, contact_id) => {
-    var urlParams = `entity=Contact&action=create&json={"id":\"${contact_id}\","contact_sub_type":\"Soldier\"}&api_key=${api_key}&key=${site_key}`;
+export const removePending = (api_key, contact_id, subtype) => {
+    var urlParams = `entity=Contact&action=create&json={"id":\"${contact_id}\","contact_sub_type":\"${subtype}\"}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
 };
 

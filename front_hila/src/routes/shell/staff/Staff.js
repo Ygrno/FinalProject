@@ -21,14 +21,14 @@ const CONFIRMATION_TAMPLATE_ID = 72;
 const CANCLE_TAMPLATE_ID = 73;
 
 
-const deleteFromPending = async (id, api, url, removePendingsFunc, cancelFunc,props) => {
+const deleteFromPending = async (id, api, url, subtype, removePendingsFunc, cancelFunc, props) => {
     Modal.confirm({
         title: "פרטי המשתמש",
         content:
-            props.subtype.includes("Soldier")?<a href={url} target="_blank" rel="noreferrer"> מסמכים </a>:null,
+            props.subtype.includes("Soldier") ? <a href={url} target="_blank" rel="noreferrer"> מסמכים </a> : null,
 
         onOk() {
-            removePendingsFunc(id, api)
+            removePendingsFunc(id, api, subtype)
         },
         onCancel() {
             cancelFunc(id, api)
@@ -41,9 +41,9 @@ const deleteFromPending = async (id, api, url, removePendingsFunc, cancelFunc,pr
 };
 const PendingRow = (props) => {
     console.log("props.subtype[0] in pendingRow:", props.subtype);
-    const removePendingsFunc = async (id, api) => {
+    const removePendingsFunc = async (id, api, subtype) => {
         console.log("in remove pending", id);
-        await removePending(api, id);
+        await removePending(api, id, subtype);
         await sendMail(api, id, CONFIRMATION_TAMPLATE_ID)
         window.location.reload();
     };
@@ -53,8 +53,8 @@ const PendingRow = (props) => {
 
     };
     return (
-         <Popconfirm title={"פרטי המתמש"}
-                     onConfirm={() => (deleteFromPending(props.contactId, props.api_key, props.imageURL, removePendingsFunc, cancleSoldierRequest,props))}
+        <Popconfirm title={"פרטי המתמש"}
+                    onConfirm={() => (deleteFromPending(props.contactId, props.api_key, props.imageURL, props.subtype[1], removePendingsFunc, cancleSoldierRequest, props))}
                     okText={"פתח"} cancelText={"בטל"}>
             <div style={{
                 width: "100%",
@@ -177,7 +177,8 @@ export const Staff = (props) => {
 
     function createVolunteermailString(application, soldier, soldierAddres) {
         // eslint-disable-next-line no-template-curly-in-string
-        return `<p><span dir=\\"rtl\\">תודה,%26nbsp; {contact.display_name}<br /> אתה רשאי כעת לטפל בפניה אליה נרשמת בבקשה לטיפול</span></p>  <p>%26nbsp;</p>  <h3><span dir=\\"rtl\\">פרטי הפניה:</span></h3>  <p>%26nbsp;</p>  <p><span dir=\\"rtl\\"><i>כותרת:</i><br /> ${application.event_title}<br /> <br /> <i>תיאור:</i><br /> ${application.event_description}<br /> <br /> <i>תאריך היצירה:</i><br /> ${application.start_date}</span><br /> <br /> %26nbsp;</p>  <h3><span dir=\\"rtl\\">פרטי החייל:</span></h3>  <p><span dir=\\"rtl\\"><i>שם:</i><br /> ${soldier.display_name}<br /> <br /> <i>מייל:</i><br /> ${soldier.email}<br /> <br /> <i>מספר טלפון:</i><br /> ${soldier.phone}<br /> <br /> <i>עיר:</i><br /> ${soldierAddres.city}<br /> <br /> <i>שם הרחוב:</i><br /> ${soldierAddres.street_name}<br /> <br /> <i>מספר:</i><br /> ${soldierAddres.street_number}%26nbsp;</span></p>`}
+        return `<p><span dir=\\"rtl\\">תודה,%26nbsp; {contact.display_name}<br /> אתה רשאי כעת לטפל בפניה אליה נרשמת בבקשה לטיפול</span></p>  <p>%26nbsp;</p>  <h3><span dir=\\"rtl\\">פרטי הפניה:</span></h3>  <p>%26nbsp;</p>  <p><span dir=\\"rtl\\"><i>כותרת:</i><br /> ${application.event_title}<br /> <br /> <i>תיאור:</i><br /> ${application.event_description}<br /> <br /> <i>תאריך היצירה:</i><br /> ${application.start_date}</span><br /> <br /> %26nbsp;</p>  <h3><span dir=\\"rtl\\">פרטי החייל:</span></h3>  <p><span dir=\\"rtl\\"><i>שם:</i><br /> ${soldier.display_name}<br /> <br /> <i>מייל:</i><br /> ${soldier.email}<br /> <br /> <i>מספר טלפון:</i><br /> ${soldier.phone}<br /> <br /> <i>עיר:</i><br /> ${soldierAddres.city}<br /> <br /> <i>שם הרחוב:</i><br /> ${soldierAddres.street_name}<br /> <br /> <i>מספר:</i><br /> ${soldierAddres.street_number}%26nbsp;</span></p>`
+    }
 
     const confirmEvent = async (userSession, application) => {
         try {
@@ -212,31 +213,33 @@ export const Staff = (props) => {
         <ConfigProvider direction="rtl">
             <Form form={form}>
                 <div>
-                <Space>
-                    <FormItem>
-                        <Button onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
-                                shape="round" color="Black" variant="contained" size="large">
-                            רשימת החיילים הקיימים
-                        </Button>
-                    </FormItem>
-                </Space>
+                    <Space>
+                        <FormItem>
+                            <Button onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
+                                    shape="round" color="Black" variant="contained" size="large">
+                                רשימת החיילים הקיימים
+                            </Button>
+                        </FormItem>
+                    </Space>
 
-                <Space>
-                    <FormItem>
-                        <Button onClick={() => getNotConfirmEvent(props.userSession, props.startSession)} type="primary"
-                                shape="round" color="Black" variant="contained" size="large">
-                            רשימת פניות לאישור
-                        </Button>
-                    </FormItem>
-                </Space>
-                <Space>
-                    <FormItem>
-                        <Button className={"list-btn"} onClick={() => viewPendings(props.userSession)}type="primary" shape="round" color="Black" style={{backroundColor:"#1980ff"}}
-                                variant="contained" size="large">
-                            רשימת משתמשים בהמתנה
-                        </Button>
-                    </FormItem>
-                </Space>
+                    <Space>
+                        <FormItem>
+                            <Button onClick={() => getNotConfirmEvent(props.userSession, props.startSession)}
+                                    type="primary"
+                                    shape="round" color="Black" variant="contained" size="large">
+                                רשימת פניות לאישור
+                            </Button>
+                        </FormItem>
+                    </Space>
+                    <Space>
+                        <FormItem>
+                            <Button className={"list-btn"} onClick={() => viewPendings(props.userSession)}
+                                    type="primary" shape="round" color="Black" style={{backroundColor: "#1980ff"}}
+                                    variant="contained" size="large">
+                                רשימת משתמשים בהמתנה
+                            </Button>
+                        </FormItem>
+                    </Space>
                 </div>
                 <Modal title="רשימת החיילים הבודדים" visible={isModalVisible}
                        onCancel={handleCancel} cancelText="סגור">
