@@ -10,7 +10,7 @@
     border-radius: 45px;
   }
   .ant-form {
-    width: 30% !important;
+
   }
 
   .ant-modal-body {
@@ -38,17 +38,18 @@
   }
   .MuiPaper-elevation1{;
   }
-}
-
-.selector{
+  .selector_reg{
     width: 100%;
     padding: 7px 10px;
     margin: 0px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
     box-sizing: border-box;
+    border-radius: 45px;
+  }
 }
+
+
 .h3{
   color: black;
 }
