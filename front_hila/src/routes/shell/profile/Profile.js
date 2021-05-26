@@ -14,7 +14,7 @@ import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import {DownloadOutlined} from "@ant-design/icons";
 import {CreatejsonResponse, prepareContactData} from "../../../services/utils"
 import {useHistory} from "react-router";
-
+import "./profile.scss"
 
 const useStyle = makeStyles(theme => ({
     container: {
@@ -59,42 +59,48 @@ const editDetails = async (props, address, startSession, loadProfile) => {
     };
 
     Modal.info({
+        className:"edit-modal",
         title: "ערוך פרטים",
         content:
             <ConfigProvider direction={"rtl"}>
                 <Form name="normal_login" initialValues={{remember: true,}}
                       layout={"horizontal"}
                       {...formItemLayout}
-                      onFinish={(values) => updateValues(values, oldValues, props.Data?.API_KEY, props.Data?.contact?.contact_id, props.Data?.contact?.address_id, startSession, loadProfile)}>
-                    <Form.Item
-                        label="החלף שם פרטי"
-                        name="name">
 
-                        <Input placeholder={props.Data?.contact.first_name}/>
-                    </Form.Item>
+                      onFinish={(values) => updateValues(values, oldValues, props.Data?.API_KEY, props.Data?.contact?.contact_id, props.Data?.contact?.address_id, startSession, loadProfile)}>
+                   <h3>שם פרטי:</h3>
                     <Form.Item
-                        label=" החלף שם משפחה"
+                        name="name">
+                        <Input placeholder={props.Data?.contact.first_name} className={"first_name_input"}/>
+                    </Form.Item>
+                    <h3>שם משפחה:</h3>
+                    <Form.Item
+
                         name="lastName">
 
-                        <Input placeholder={props.Data?.contact.last_name}/>
+                        <Input placeholder={props.Data?.contact.last_name} className={"first_name_input"}/>
                     </Form.Item>
+                    <h3>עיר מגורים:</h3>
                     <Form.Item
-                        label="החלף עיר"
+
                         name="city">
-                        <Input placeholder={address.city}/>
+                        <Input placeholder={address.city} className={"first_name_input"}/>
                     </Form.Item>
+                    <h3>רחוב:</h3>
                     <Form.Item
-                        label="החלף שם רחוב"
+
+
                         name="street">
-                        <Input placeholder={address.street_name}/>
+                        <Input placeholder={address.street_name} className={"first_name_input"}/>
                     </Form.Item>
+                    <h3>מספר ביתי:</h3>
                     <Form.Item
-                        label="החלף מספר בית"
+                        className={"bulding-input"}
                         name="building">
-                        <Input placeholder={address.street_number}/>
+                        <Input placeholder={address.street_number} className={"first_name_input"} />
                     </Form.Item>
                     <Button style={{color: "white", background: "lime", border: "lime"}} type="primary"
-                            className="login-form-input" shape="round" icon={<DownloadOutlined/>}
+                            className="update_details" shape="round" icon={<DownloadOutlined/>}
                             htmlType="submit">
                         עדכן פרטים
                     </Button>
