@@ -7,7 +7,10 @@ import "./Application-form.scss"
 const {Option} = Select;
 
 const handleApplication = async ({title, summary, description}, userSession) => {
-    let today = new Date().toISOString().slice(0, 10)
+    let current_time = new Date().toISOString()
+    let _date = current_time.slice(0, 10)
+    let _hour = current_time.slice(11, 19)
+    console.log(`THE DATE IS: ${new Date().toISOString()}`)
     debugger;
     const details = {
         api_key: userSession.Data?.API_KEY,
@@ -17,10 +20,10 @@ const handleApplication = async ({title, summary, description}, userSession) => 
         event_type: title
     };
 
-    const sendRes = await sendApplication(details.api_key,details.event_title,details.event_type,details.event_description,summary,today);
+    const sendRes = await sendApplication(details.api_key, details.event_title, details.event_type, details.event_description, summary, _date + " " + _hour);
     let keys = Object.keys(sendRes.data.values)
 
-    const addParRes = await addParticipantToEvent(userSession.Data?.API_KEY,keys[0], userSession.Data.contact.contact_id)
+    const addParRes = await addParticipantToEvent(userSession.Data?.API_KEY, keys[0], userSession.Data.contact.contact_id)
     console.log("addParRes: ", addParRes)
 }
 
@@ -32,7 +35,7 @@ const ApplicationForm = props => {
 
     return (
         <ConfigProvider direction="rtl">
-            <Form onFinish ={onFinish}>
+            <Form onFinish={onFinish}>
                 <h3>נושא הפנייה:</h3>
                 <Form.Item
                     name="title" className="login-from input" rules={[{required: false, message: 'יש לבחור סוג פניה'}]}>
@@ -51,7 +54,8 @@ const ApplicationForm = props => {
 
                 <h3>פירוט: </h3>
                 <Form.Item name="description">
-                    <Input.TextArea placeholder=" פרט את בקשתך כאן (ישאר חסוי)" size={"flex"} className={"descriptionn"} />
+                    <Input.TextArea placeholder=" פרט את בקשתך כאן (ישאר חסוי)" size={"flex"}
+                                    className={"descriptionn"}/>
                 </Form.Item>
 
                 <Form.Item>

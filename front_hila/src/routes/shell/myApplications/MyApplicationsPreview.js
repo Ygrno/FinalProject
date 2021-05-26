@@ -1,7 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Card, makeStyles, Checkbox} from '@material-ui/core';
-import {Button} from "antd";
-import {setActiveEvent, addParticipantToEvent, getParticipantToEvent} from "../../../services/api-civicrm-service";
+import {Button, message} from "antd";
+import {
+    setActiveEvent,
+    addParticipantToEvent,
+    getParticipantToEvent,
+    MarkEventAsDone, getActiveEventById
+} from "../../../services/api-civicrm-service";
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
 
@@ -22,33 +27,51 @@ export const MyApplicationsPreview = ({application, userSession, startSession}) 
     };
 
     //Todo change to getUserTypes(userSession)?.includes(UserType.Volunteer)
-    const shouldShowCloseButton = ()=> getUserTypes(userSession)?.includes(UserType.Volunteer) && application.is_active === '0';
+    const shouldShowCloseButton = () => getUserTypes(userSession)?.includes(UserType.Volunteer) && application.is_active === '1' && application.is_map === '0' && application.is_confirm_enabled === '1';
+    const isNotConfirmedYet = () => application.is_map === '0' && application.is_confirm_enabled === '0';
+    const isClosed = () => application.is_map === '1';
 
-    const closeEvent = async () => {
-        // const updateRes = await setActiveEvent(userSession.Data?.API_KEY, application.id); //getAllSoldiers(qtjrB1QzwvBIhMVcPcT3Nw)
-        // const res = await addParticipantToEvent(userSession.Data?.API_KEY, application.id, userSession.Data.contact.contact_id);
-        // console.log(updateRes);
-        // console.log("addParticipantToEvent res=", res);
-        // alert("הפנייה שבחרת התקבלה וממתינה לאישור");
+
+
+    const closeEvent = async (applicationId) => {
+        try {
+            await MarkEventAsDone(userSession.Data?.API_KEY, applicationId)
+            const applicationRes = await getActiveEventById(userSession.Data?.API_KEY, applicationId)
+            console.log(`APPLICATION RES ${applicationRes.data}`)
+            message.success("תודה! הפנייה שטיפלת בה נסגרה.");
+            window.location.reload();
+
+        } catch (e) {
+            message.error(`מצטערים, לא ניתן לסגור את הפניה המבוקשת. הסיבה היא: ${e}`);
+        }
+
     };
 
 
     console.log("myapplicationprewbiew before return", application)
-    return <Card className={classes.container}  >
+    return <Card className={classes.container}>
         <h4>{`מספר פנייה: ${application.id} `}</h4>
         <h4>{`כותרת הפנייה: ${application.title} `}</h4>
-        <h4 id = 'application_details'>{`תיאור : ${application.summary} `}</h4>
+        <h4 id='application_details'>{`תיאור : ${application.summary} `}</h4>
         <h4>{`נוצרה בתאריך: ${application.start_date} `}</h4>
         {
-            shouldShowCloseButton &&
-            <Button id = 'close_app' onClick={() => closeEvent()} type="secondary" shape="round" color="secondary"
+            shouldShowCloseButton() &&
+            <Button id='close_app' onClick={() => closeEvent(application.id)} type="secondary" shape="round"
+                    color="secondary"
                     variant="contained"
                     size="medium">
                 סגור פנייה
             </Button>
         }
+        {
+            isNotConfirmedYet() &&
+            <h3><strong><i>סטטוס הבקשה: הבקשה עדין בהמתנה לאישור של איש צוות.</i></strong></h3>
+        }
+        {
+            isClosed() &&
+            <h3><strong><i>סטטוס הבקשה: הטיפול בבקשה זו הסתיים.</i></strong></h3>
+        }
 
     </Card>
 };
-//shouldShowHandleButton() &&
 
