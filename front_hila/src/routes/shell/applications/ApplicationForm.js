@@ -39,12 +39,12 @@ const ApplicationForm = props => {
                 <h3>נושא הפנייה:</h3>
                 <Form.Item
                     name="title" className="login-from input" rules={[{required: false, message: 'יש לבחור סוג פניה'}]}>
-                    <Select placeholder="נושא" allowClear>
+                    <select class = "selector" id = "app_subject" placeholder="נושא" allowClear>
                         {
                             Object.keys(applicationTypes).map(key =>
-                                <Option key={key} value={key}>{applicationTypes[key]}</Option>)
+                                <option key={key} value={key}>{applicationTypes[key]}</option>)
                         }
-                    </Select>
+                    </select>
                 </Form.Item>
 
                 <h3>תקציר: </h3>
@@ -59,7 +59,7 @@ const ApplicationForm = props => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" shape="round" htmlType="submit" className={"ant-btn-app"}>
+                    <Button id = "send_app" type="primary" shape="round" htmlType="submit" className={"ant-btn-app"}>
                         שלח
                     </Button>
                 </Form.Item>
