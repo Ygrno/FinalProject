@@ -5,6 +5,7 @@ import {prepareContactData} from "../../../services/utils"
 import axios from "axios";
 import {getContactDetail, uploadImg} from "../../../services/api-service";
 import "./pending-form.scss"
+import {logger} from '../../../Logger'
 
 const {Option} = Select;
 
@@ -61,6 +62,8 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload, updateS
 
     } catch (e) {
         message.error(`Unable to upload file. Reason is: ${e}`)
+        logger.error(`upload file failed: ${e}`)
+
     } finally {
         updateStatus("")
     }

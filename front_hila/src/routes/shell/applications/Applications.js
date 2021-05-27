@@ -10,6 +10,7 @@ import {ApplicationPreview} from "./ApplicationPreview";
 import {getUserTypes} from "../../../utils/user.util";
 import {UserType} from "../../../constants";
 import "./application.scss"
+import {logger} from '../../../Logger'
 
 const useStyle = makeStyles(theme => ({
         container: {
@@ -56,6 +57,8 @@ export const Applications = ({userSession, endSession}) => {
         }
         catch(error){
             console.log(error);
+            logger.error(error)
+
         }
         finally {
             setIsLoading(false);

@@ -1,6 +1,6 @@
 var axios = require('axios');
 
-globals = {
+const globals = {
     URL: "http://52.90.78.193/modules/contrib/civicrm/extern/rest.php?", 
     SITE_KEY: "aacce8033f7a9730040b45df047e3191",
     API_KEY: "qtjrB1QzwvBIhMVcPcT3Nw" //For Testing purposes //TODO: Delete
@@ -9,7 +9,6 @@ globals = {
 /*
 Input: User's API-Key and Search Data
 Search Data should look like this:
-
 let search_data = {
     contact_id: '',
     email: '',
@@ -17,16 +16,12 @@ let search_data = {
     first_name: '',
     last_name: '',
 }
-
 For a full search of all contacts the user can see - 
 leave all the fields blank (empty string, like in the example above)
 Filling the Contact ID / Email fields should return only 1 record from the DB.
-
 Using an API-Key of a user that isn't administrator (like Soldiers, volunteers)
 should return only 1 Record at most (which is the user's own data - usful for profile)
-
 --------------------------------------------------------------------------------------------
-
 Output: JSON:
 {
     is_error:,
@@ -35,7 +30,6 @@ Output: JSON:
     //OPTIONAL (ID, CONTACT_TYPE .... (the input fields themselves))
     values: [{},{},{}] //The Actual results of the people that were found
 }
-
 Wrong or Problomatic input will return the civicrm error message explaining what was wrong.
 */
 function search_contacts(api_key, search_data){
@@ -44,7 +38,7 @@ function search_contacts(api_key, search_data){
         'action': 'get',
         'json': JSON.stringify({"sequential": 1,"id": search_data.contact_id,
                             "email": search_data.email, "contact_type": search_data.contact_type, 
-                            "first_name": search_data.first_name, "last_name": search_data.last_name}),
+                            "first_name": search_data.first_name, "last_name": search_data.last_name, "options": {"limit":""}}),
         'api_key': api_key,
         'key': globals.SITE_KEY
     }).toString();
@@ -57,8 +51,29 @@ function search_contacts(api_key, search_data){
         }
     }
 
-    axios(config).then(function(response){
-        console.log(response.data)
+    axios(config).then(function(response){   
+        
+        temp = response.data;
+        check = true;
+        for(i = 0; i < temp.values.length; i++){
+            email_i = temp.values[i].email;
+            for(j = 0; j < temp.values.length; j++){
+                if(j != i){
+                    email_j = temp.values[j].email;
+                    if(email_j == email_i && email_j != '' && email_j != 'sprint21@gmail.com'){
+                        console.log('Failed');
+                        console.log(email_j)
+                        check = false;
+                        break;
+                    }
+
+                }
+            }
+        }
+        if(check) console.log('Success')
+
+        // console.log(temp)
+        
     })
     .catch(function(error){
         console.log(error)
@@ -66,64 +81,16 @@ function search_contacts(api_key, search_data){
     });
 }
 
-/*
-Update works exctly like search, though this time its for updating data of *specific* user,
-contact id or email must be included in the search data.
-
-example:
-let search_data = {
-    contact_id: 61,
+const search_data = {
+    contact_id: '',
     email: '',
-    // first 2 lines above are for finding the contact record in the DB, the rest is what will be changed:
     contact_type: '',
-    first_name: Dan,
+    first_name: '',
     last_name: '',
 }
 
-the Input above will update the first name field of contact id:61 to be Dan.
-*/
-function update_contact_record(api_key, search_data){
-
-if (search_data.contact_id == "" && search_data.email == "")
-    return "no contact id or email";
-
-    params = new URLSearchParams({
-        'entity': 'Contact',
-        'action': 'create',
-        'json': JSON.stringify({"sequential": 1,"id": search_data.contact_id,
-                            "email": search_data.email, "contact_type": search_data.contact_type, 
-                            "first_name": search_data.first_name, "last_name": search_data.last_name}),
-        'api_key': api_key,
-        'key': globals.SITE_KEY
-    }).toString();
-
-    config = {
-        method: 'post',
-        url: globals.URL + params,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-
-    axios(config).then(function(response){
-        console.log(response.data)
-    })
-    .catch(function(error){
-        console.log(error)
-    });
-}
+search_contacts(globals.API_KEY, search_data)
 
 
-//Call Example:
 
-// let search_data = {
-//     contact_id: 51,
-//     email: '',
-//     contact_type: '',
-//     first_name: 'Dan',
-//     last_name: '',
-// }
 
-// update_contact_record(globals.API_KEY, search_data)
-
-// export {search_contacts, update_contact_record}
