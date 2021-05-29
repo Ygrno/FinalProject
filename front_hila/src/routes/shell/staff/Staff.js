@@ -22,10 +22,21 @@ const CANCLE_TAMPLATE_ID = 73;
 
 
 const deleteFromPending = async (id, api, url, subtype, removePendingsFunc, cancelFunc, props) => {
+    const res = await getProfile(api, id);
+    let profileDetails = res.data?.values[0]
+    console.log("profileDetails",profileDetails)
     Modal.confirm({
-        title: "פרטי המשתמש",
+        title: "פרטי המשתמש"  ,
         content:
-            props.subtype.includes("Soldier") ? <a href={url} target="_blank" rel="noreferrer"> מסמכים </a> : null,
+        <div>
+            <p><strong>שם: </strong>{profileDetails.display_name}</p>
+            <p><strong>אימייל: </strong>{profileDetails.email}</p>
+            <p><strong>עיר: </strong> {profileDetails.city}</p>
+            <p><strong>טלפון: </strong> {profileDetails.phone}</p>
+            {!props.subtype.includes("StaffMember") ? <p><strong>סוג משתמש: </strong>{profileDetails.contact_sub_type.includes("Soldier")? "חייל":"מתנדב"}</p>:null}
+            {props.subtype.includes("Soldier") ?  <a href={url} target="_blank" rel="noreferrer">פתח מסמכים </a> : null}
+        </div>,
+
 
         onOk() {
             removePendingsFunc(id, api, subtype)
@@ -49,7 +60,7 @@ const PendingRow = (props) => {
     };
     const cancleSoldierRequest = async (id, api) => {
         await sendMail(api, id, CANCLE_TAMPLATE_ID)
-        window.location.reload();
+        // window.location.reload();
 
     };
     return (

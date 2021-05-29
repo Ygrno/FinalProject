@@ -22,7 +22,7 @@ const handleApplication = async ({title, summary, description}, userSession) => 
 
     const sendRes = await sendApplication(details.api_key, details.event_title, details.event_type, details.event_description, summary, _date + " " + _hour);
     let keys = Object.keys(sendRes.data.values)
-
+    console.log("keys[0]",keys)
     const addParRes = await addParticipantToEvent(userSession.Data?.API_KEY, keys[0], userSession.Data.contact.contact_id)
     console.log("addParRes: ", addParRes)
 }
