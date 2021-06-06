@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState} from 'react';
-import {Form, Modal, Button, ConfigProvider, Space, Popconfirm} from 'antd';
+import {Form, Modal, Button, ConfigProvider, Space, Popconfirm, Card} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import {
     getAllSoldiers,
@@ -24,18 +24,20 @@ const CANCLE_TAMPLATE_ID = 73;
 const deleteFromPending = async (id, api, url, subtype, removePendingsFunc, cancelFunc, props) => {
     const res = await getProfile(api, id);
     let profileDetails = res.data?.values[0]
-    console.log("profileDetails",profileDetails)
+    console.log("profileDetails", profileDetails)
     Modal.confirm({
-        title: "פרטי המשתמש"  ,
+        title: "פרטי המשתמש",
         content:
-        <div>
-            <p><strong>שם: </strong>{profileDetails.display_name}</p>
-            <p><strong>אימייל: </strong>{profileDetails.email}</p>
-            <p><strong>עיר: </strong> {profileDetails.city}</p>
-            <p><strong>טלפון: </strong> {profileDetails.phone}</p>
-            {!props.subtype.includes("StaffMember") ? <p><strong>סוג משתמש: </strong>{profileDetails.contact_sub_type.includes("Soldier")? "חייל":"מתנדב"}</p>:null}
-            {props.subtype.includes("Soldier") ?  <a href={url} target="_blank" rel="noreferrer">פתח מסמכים </a> : null}
-        </div>,
+            <div>
+                <p><strong>שם: </strong>{profileDetails.display_name}</p>
+                <p><strong>אימייל: </strong>{profileDetails.email}</p>
+                <p><strong>עיר: </strong> {profileDetails.city}</p>
+                <p><strong>טלפון: </strong> {profileDetails.phone}</p>
+                {!props.subtype.includes("StaffMember") ? <p><strong>סוג
+                    משתמש: </strong>{profileDetails.contact_sub_type.includes("Soldier") ? "חייל" : "מתנדב"}</p> : null}
+                {props.subtype.includes("Soldier") ?
+                    <a href={url} target="_blank" rel="noreferrer">פתח מסמכים </a> : null}
+            </div>,
 
 
         onOk() {
@@ -140,6 +142,7 @@ export const Staff = (props) => {
         }
         console.log(viewSoldiers.data.values);
         setSodiersDetails(viewSoldiers.data.values);
+        console.log("SodiersDetails is",SodiersDetails)
         setIsModalVisible(true);
     };
 
@@ -226,7 +229,8 @@ export const Staff = (props) => {
                 <div>
                     <Space>
                         <FormItem>
-                            <Button id = "existing_soldiers" onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
+                            <Button id="existing_soldiers"
+                                    onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
                                     shape="round" color="Black" variant="contained" size="large">
                                 רשימת החיילים הקיימים
                             </Button>
@@ -235,7 +239,8 @@ export const Staff = (props) => {
 
                     <Space>
                         <FormItem>
-                            <Button id = "applications_list" onClick={() => getNotConfirmEvent(props.userSession, props.startSession)}
+                            <Button id="applications_list"
+                                    onClick={() => getNotConfirmEvent(props.userSession, props.startSession)}
                                     type="primary"
                                     shape="round" color="Black" variant="contained" size="large">
                                 רשימת פניות לאישור
@@ -244,7 +249,8 @@ export const Staff = (props) => {
                     </Space>
                     <Space>
                         <FormItem>
-                            <Button id = "pending_users" className={"list-btn"} onClick={() => viewPendings(props.userSession)}
+                            <Button id="pending_users" className={"list-btn"}
+                                    onClick={() => viewPendings(props.userSession)}
                                     type="primary" shape="round" color="Black" style={{backroundColor: "#1980ff"}}
                                     variant="contained" size="large">
                                 רשימת משתמשים בהמתנה
@@ -257,10 +263,41 @@ export const Staff = (props) => {
                     <div> {
                         SodiersDetails.map(
                             (soldier) => {
-                                return (<div id = "soldiers_details"><h4>
-                                        {`שם החייל: ${soldier.display_name},  `}
-                                        {`אימייל: ${soldier.email},  `}
-                                        {`מספר רשומה במערכת: ${soldier.contact_id} `}</h4></div>
+                                return (
+                                    <Card>
+                                        <div style={{
+                                            width: "100%",
+                                            display: "flex",
+                                            marginBottom: "2px",
+                                            borderRadius: "12px",
+                                            padding: "2px",
+                                            boxShadow: "rgba(0, 0, 0, 0.45) 0px 2px 15px",
+                                            alignItems: 'center',
+                                        }}>
+                                            שם החייל:
+                                            {' '}
+                                            {soldier.display_name}
+                                            <br/>
+                                            אמייל:
+                                            {' '}
+                                            {soldier.email}
+                                            <br/>
+                                            עיר:
+                                            {' '}
+                                            {soldier.city}
+                                            <span style={{
+                                                width: "150px",
+                                                height: "10px",
+                                                textOverflow: "ellipsis",
+
+
+                                            }}>
+            </span>
+
+                                        </div>
+                                    </Card>
+
+
                                 );
                             }
                         )}
@@ -271,14 +308,14 @@ export const Staff = (props) => {
                     <div> {
                         EventConfirmed.map(
                             (x) => {
-                                return (<div id = 'app_approve'><h4>
+                                return (<div id='app_approve'><h4>
                                         {`מספר פנייה: ${x.id} `}
                                     </h4>
                                         <FormItem>
-                                            <Button id = "open_app"
-                                                onClick={() => viewevent(props.userSession, x, confirmEvent, handleCancel2)}
-                                                type="primary"
-                                                shape="round" color="Black" variant="contained" size="medium">
+                                            <Button id="open_app"
+                                                    onClick={() => viewevent(props.userSession, x, confirmEvent, handleCancel2)}
+                                                    type="primary"
+                                                    shape="round" color="Black" variant="contained" size="medium">
                                                 פתח פנייה
                                             </Button>
                                         </FormItem>
