@@ -13,14 +13,38 @@ import {
     CreateTemplate,
     getContactAddress, getProfile, DeleteTemplate
 } from "../../../services/api-civicrm-service";
-import {colors} from "@material-ui/core";
+import {Box, colors, makeStyles} from "@material-ui/core";
 
 const VOLUNTEER_TEMPLATE_ID = 70;
 const SOLDIER_TEMPLATE_ID = 71;
 const CONFIRMATION_TAMPLATE_ID = 72;
 const CANCLE_TAMPLATE_ID = 73;
 
-
+const useStyle = makeStyles(theme => ({
+    container: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    card: {
+        padding: theme.spacing(2),
+        width: '40%',
+        minWidth: 500,
+        backgroundColor: theme.palette.card,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        borderRadius: 45
+    },
+    title: {
+        position: 'relative',
+        fontWeight: 'bold',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+}));
 const deleteFromPending = async (id, api, url, subtype, removePendingsFunc, cancelFunc, props) => {
     const res = await getProfile(api, id);
     let profileDetails = res.data?.values[0]
@@ -69,6 +93,7 @@ const PendingRow = (props) => {
         <Popconfirm title={"פרטי המתמש"}
                     onConfirm={() => (deleteFromPending(props.contactId, props.api_key, props.imageURL, props.subtype[1], removePendingsFunc, cancleSoldierRequest, props))}
                     okText={"פתח"} cancelText={"בטל"}>
+            {!props.subtype.includes("StaffMember")?
             <div style={{
                 width: "100%",
                 display: "flex",
@@ -92,7 +117,7 @@ const PendingRow = (props) => {
                 {props.subtype.includes("Soldier") ? <a href={props.imageURL}> קובץ החייל </a> : null}
             </span>
 
-            </div>
+            </div>:null}
         </Popconfirm>
     );
 };
@@ -222,9 +247,12 @@ export const Staff = (props) => {
         }
     };
 
-
+    const classes = useStyle();
     return (
         <ConfigProvider direction="rtl">
+            <Box className={classes.container}>
+                <Card className={classes.card}>
+                    <h1 className={classes.title}>איש צוות</h1>
             <Form form={form}>
                 <div>
                     <Space>
@@ -247,8 +275,10 @@ export const Staff = (props) => {
                             </Button>
                         </FormItem>
                     </Space>
+
                     <Space>
                         <FormItem>
+
                             <Button id="pending_users" className={"list-btn"}
                                     onClick={() => viewPendings(props.userSession)}
                                     type="primary" shape="round" color="Black" style={{backroundColor: "#1980ff"}}
@@ -259,7 +289,11 @@ export const Staff = (props) => {
                     </Space>
                 </div>
                 <Modal title="רשימת החיילים הבודדים" visible={isModalVisible}
-                       onCancel={handleCancel} cancelText="סגור">
+                       footer={[
+                           <Button className={"close-soldier-list-btn"} key="back" onClick={handleCancel} style={{backgroundColor: "#1980ff" ,borderRadius: "45px", fontWeight: "bold", color:"white"}} >
+                               סגור
+                           </Button>]} onCancel={handleCancel}
+                       >
                     <div> {
                         SodiersDetails.map(
                             (soldier) => {
@@ -328,6 +362,9 @@ export const Staff = (props) => {
                     </div>
                 </Modal>
             </Form>
+                </Card>
+
+            </Box>
         </ConfigProvider>
     )
 };
