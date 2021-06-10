@@ -1,13 +1,13 @@
-import {Form, ConfigProvider, Select, Space, message, Button} from 'antd';
-import React, {useState, useEffect} from "react";
-import {useHistory} from "react-router-dom";
-import {prepareContactData} from "../../../services/utils"
+import { Form, ConfigProvider, Select, Space, message, Button } from 'antd';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { prepareContactData } from "../../../services/utils"
 import axios from "axios";
-import {getContactDetail, uploadImg} from "../../../services/api-service";
+import { getContactDetail, uploadImg } from "../../../services/api-service";
 import "./pending-form.scss"
-import {logger} from '../../../Logger'
+import { logger } from '../../../Logger'
 
-const {Option} = Select;
+const { Option } = Select;
 
 function CreatejsonResponseImage(is_error, message, json_data, url) {
     return ({
@@ -58,7 +58,7 @@ const Handletry = async (props, updateSession, MoveToProfile, urlUpload, updateS
         contact_data_json = prepareContactData(props.Data?.API_KEY, contact_data);
         responsRet = CreatejsonResponseImage(updateRes.data.is_error, Message, contact_data_json, userurlDetails.image_URL)
         updateSession(responsRet)
-        message.success(Message,[5]);
+        message.success(Message, [5]);
 
     } catch (e) {
         message.error(`Unable to upload file. Reason is: ${e}`)
@@ -123,26 +123,27 @@ const PendingForm = (props) => {
         <ConfigProvider direction="rtl">
             <Form>
                 <h2 className={"hellouser"}
-                    style={{color: "black"}}> שלום {props.userSession ? props.userSession.Data?.contact?.display_name : "אורח"}</h2>
+                    style={{ color: "black" }}> שלום {props.userSession ? props.userSession.Data?.contact?.display_name : "אורח"}</h2>
                 {flag ?
-                    <h2 style={{color: "black"}}> {props.userSession?.Data?.contact?.display_name}
-                        , הנך בתהליך אישור הרשמה. בימים הקורבים ישלח אליך הודעת מייל
-                        ולאחר מכן ינתן אישור כניסה לאתר. תודה רבה.</h2> :
-                    <h1 style={{color: "black"}}> {props.userSession?.Data?.contact?.display_name} חשבונך אושר, אפשר
+                    <div style={{ color: "black" }}><h1> שלום {props.userSession?.Data?.contact?.display_name}!</h1>
+                        <h2> הנך נמצא בתהליך אישור הרשמה,</h2>
+                        <h2> בימים הקורבים תשלח אליך הודעת מייל
+                        ולאחר מכן ינתן אישור כניסה לאתר.</h2>
+                        <h1> תודה רבה! </h1>
+                    </div>
+                    :
+
+                    <h1 style={{ color: "black" }}> {props.userSession?.Data?.contact?.display_name} חשבונך אושר, אפשר
                         לעבור לעמוד הפרופיל</h1>
                 }
                 {flagSoldier ?
-                    <Form.Item><h2 style={{color: "black"}}>חייל/ת יקר/ה, על מת שנאשר את בקשתך אנא צריף/י את המסמכים
+                    <Form.Item><h2 style={{ color: "black" }}>חייל/ת יקר/ה, על מת שנאשר את בקשתך אנא צריף/י את המסמכים
                         הרלוונטים אליך. </h2>
                         <input className={"upload-input"} type="file" placeholder={"נא לעלות קבצים מתאימים"} id={"file-input"}
-                               onChange={(values) => setimageSelect(values.target.files[0])}/>
+                            onChange={(values) => setimageSelect(values.target.files[0])} />
 
                         <Button loading={loadingStatus === LOADING} className={"upload-button"} onClick={fileSelectHendler}> העלה קובץ</Button>
                     </Form.Item> : null}
-
-
-
-
             </Form>
         </ConfigProvider>
     );

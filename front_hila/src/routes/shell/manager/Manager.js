@@ -2,9 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 
 import { Box, Card, makeStyles } from "@material-ui/core";
-import {Button, ConfigProvider, Modal, Popconfirm, Space} from "antd";
+import { Button, ConfigProvider, Modal, Popconfirm, Space } from "antd";
 import FormItem from "antd/lib/form/FormItem";
-import {getAllPendings, getProfile, removePending, sendMail} from "../../../services/api-civicrm-service";
+import { getAllPendings, getProfile, removePending, sendMail } from "../../../services/api-civicrm-service";
 
 
 const VOLUNTEER_TEMPLATE_ID = 70;
@@ -78,35 +78,35 @@ const PendingRow = (props) => {
 
     };
     return (
-        <Popconfirm title={"פרטי המתמש"}
-                    onConfirm={() => (deleteFromPending(props.contactId, props.api_key, props.imageURL, props.subtype[1], removePendingsFunc, cancleSoldierRequest, props))}
-                    okText={"פתח"} cancelText={"בטל"}>
-            {props.subtype.includes("StaffMember")?
-            <div style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "10px",
-                border: "1px solid rgb(0, 0, 0.3)",
-                borderRadius: "8px",
-                padding: "5px",
-                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-                alignItems: 'center',
-            }}>
-                {props.displayName}
-
-                <span style={{
-                    width: "100px",
-                    height: "30px",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden"
+        <Popconfirm title={"פרטי השמתמש"}
+            onConfirm={() => (deleteFromPending(props.contactId, props.api_key, props.imageURL, props.subtype[1], removePendingsFunc, cancleSoldierRequest, props))}
+            okText={"פתח"} cancelText={"בטל"}>
+            {props.subtype.includes("StaffMember") ?
+                <div style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "10px",
+                    border: "1px solid rgb(0, 0, 0.3)",
+                    borderRadius: "8px",
+                    padding: "5px",
+                    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                    alignItems: 'center',
                 }}>
-                {props.subtype.includes("Soldier") ? <a href={props.imageURL}> קובץ החייל </a> : null}
-            </span>
+                    {props.displayName}
 
-            </div>
-            :null}
+                    <span style={{
+                        width: "100px",
+                        height: "30px",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden"
+                    }}>
+                        {props.subtype.includes("Soldier") ? <a href={props.imageURL}> קובץ החייל </a> : null}
+                    </span>
+
+                </div>
+                : null}
         </Popconfirm>
     );
 };
@@ -114,14 +114,14 @@ const viewPendings = async (props) => {
     const pendingRes = await getAllPendings(props.Data.API_KEY);
 
     Modal.info({
-            title: "לחץ על משתמש על מנת לאשר את האיש צוות",
-            content:
-                pendingRes.data.values.map(pendingUser => <PendingRow displayName={pendingUser.display_name}
-                                                                      imageURL={pendingUser.image_URL}
-                                                                      subtype={pendingUser.contact_sub_type}
-                                                                      contactId={pendingUser.contact_id}
-                                                                      api_key={props.Data.API_KEY}/>)
-        }
+        title: "לחץ על משתמש על מנת לאשר את האיש צוות",
+        content:
+            pendingRes.data.values.map(pendingUser => <PendingRow displayName={pendingUser.display_name}
+                imageURL={pendingUser.image_URL}
+                subtype={pendingUser.contact_sub_type}
+                contactId={pendingUser.contact_id}
+                api_key={props.Data.API_KEY} />)
+    }
     )
 }
 
@@ -131,22 +131,22 @@ export const Manager = (props) => {
 
     return (
         <ConfigProvider direction="rtl">
-        <Box className={classes.container}>
-            <Card className={classes.card}>
-                <h1 className={classes.title}>מנהל</h1>
-                <Space>
-                    <FormItem>
-                        <Button id="pending_users" className={"list-btn"}
+            <Box className={classes.container}>
+                <Card className={classes.card}>
+                    <h1 className={classes.title}>מנהל</h1>
+                    <Space>
+                        <FormItem>
+                            <Button id="pending_users" className={"list-btn"}
                                 onClick={() => viewPendings(props.userSession)}
-                                type="primary" shape="round" color="Black" style={{backroundColor: "#1980ff"}}
+                                type="primary" shape="round" color="Black" style={{ backroundColor: "#1980ff" }}
                                 variant="contained" size="large">
-                            רשימת אנשי צוות בהמתנה
+                                רשימת אנשי צוות בהמתנה
                         </Button>
-                    </FormItem>
-                </Space>
-            </Card>
+                        </FormItem>
+                    </Space>
+                </Card>
 
-        </Box>
+            </Box>
         </ConfigProvider>
     );
 };

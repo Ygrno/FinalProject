@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from "react";
-import {Card, makeStyles, Checkbox} from '@material-ui/core';
-import {Button} from "antd";
+import React, { useEffect, useState } from "react";
+import { Card, makeStyles, Checkbox } from '@material-ui/core';
+import { Button } from "antd";
 import {
     setActiveEvent,
     addParticipantToEvent,
     getParticipantToEvent,
     getProfile
 } from "../../../services/api-civicrm-service";
-import {getUserTypes} from "../../../utils/user.util";
-import {UserType} from "../../../constants";
+import { getUserTypes } from "../../../utils/user.util";
+import { UserType } from "../../../constants";
 import applicationTypes from '../../../utils/application-type-translator';
 
 const useStyle = makeStyles(theme => ({
@@ -22,7 +22,7 @@ const useStyle = makeStyles(theme => ({
         alignItems: 'stretch',
         display: 'flex',
         flexDirection: 'column',
-        alignContent:"flex-start",
+        alignContent: "flex-start",
 
     },
     title: {
@@ -30,12 +30,12 @@ const useStyle = makeStyles(theme => ({
     }
 }));
 
-export const ApplicationPreview = ({application, userSession, startSession}) => {
+export const ApplicationPreview = ({ application, userSession, startSession }) => {
     const classes = useStyle();
     const [profile, setProfile] = useState({});
 
     useEffect(() => {
-        const asyncCall = async  () => {
+        const asyncCall = async () => {
             const userProfile = await getProfile(userSession.Data?.API_KEY, application.created_id)
             if (userProfile.data?.values?.length > 0) {
                 setProfile(userProfile.data.values[0]);
@@ -56,6 +56,17 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
         alert("הפנייה שבחרת התקבלה וממתינה לאישור");
     };
 
+    const getStatus = () => {
+        if (application.is_map === '1')
+            return 'סגורה';
+        if (application.is_active === '0')
+            return 'פתוחה';
+        if (application.is_active === '1' & application.is_confirm_enabled === '0')
+            return 'ממתינה לאישור ציוות';
+        if (application.is_confirm_enabled === '1')
+            return 'בטיפול';
+    }
+
     return (
         <Card id='app_card' className={classes.container}>
             <h3 className={classes.title}>{applicationTypes[application.title] || application.title}</h3>
@@ -63,15 +74,17 @@ export const ApplicationPreview = ({application, userSession, startSession}) => 
             <h4><strong>מספר פנייה: </strong>{application.id}</h4>
             <h4><strong>נוצרה בתאריך: </strong>{application.created_date}</h4>
             <h4><strong>עיר מגורים: </strong>{profile.city ? profile.city : "חסוי/לא קיימת עיר עבור המשתמש שיצר את הפניה הנוכחית"}</h4>
+            <h3 style={{ color: "red" }}><strong>סטטוס הפנייה: </strong>{getStatus()}</h3>
             {
                 shouldShowHandleButton() &&
                 <Button id='take_care' onClick={() => changeActiveEvent()} type="secondary" shape="round"
-                        color="secondary"
-                        variant="contained"
-                        size="medium">
+                    color="secondary"
+                    variant="contained"
+                    size="medium">
                     טפל בפנייה
                 </Button>
             }
+
         </Card>
     );
 };

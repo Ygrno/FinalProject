@@ -1,6 +1,6 @@
 import React from 'react';
-import {useState} from 'react';
-import {Form, Modal, Button, ConfigProvider, Space, Popconfirm, Card} from 'antd';
+import { useState } from 'react';
+import { Form, Modal, Button, ConfigProvider, Space, Popconfirm, Card } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import {
     getAllSoldiers,
@@ -13,7 +13,7 @@ import {
     CreateTemplate,
     getContactAddress, getProfile, DeleteTemplate
 } from "../../../services/api-civicrm-service";
-import {Box, colors, makeStyles} from "@material-ui/core";
+import { Box, colors, makeStyles } from "@material-ui/core";
 
 const VOLUNTEER_TEMPLATE_ID = 70;
 const SOLDIER_TEMPLATE_ID = 71;
@@ -36,7 +36,8 @@ const useStyle = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-        borderRadius: 45
+        borderRadius: 45,
+        justifyContent: 'center'
     },
     title: {
         position: 'relative',
@@ -91,33 +92,33 @@ const PendingRow = (props) => {
     };
     return (
         <Popconfirm title={"פרטי המתמש"}
-                    onConfirm={() => (deleteFromPending(props.contactId, props.api_key, props.imageURL, props.subtype[1], removePendingsFunc, cancleSoldierRequest, props))}
-                    okText={"פתח"} cancelText={"בטל"}>
-            {!props.subtype.includes("StaffMember")?
-            <div style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "10px",
-                border: "1px solid rgb(0, 0, 0.3)",
-                borderRadius: "3px",
-                padding: "5px",
-                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-                alignItems: 'center',
-            }}>
-                {props.displayName}
-
-                <span style={{
-                    width: "150px",
-                    height: "30px",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden"
+            onConfirm={() => (deleteFromPending(props.contactId, props.api_key, props.imageURL, props.subtype[1], removePendingsFunc, cancleSoldierRequest, props))}
+            okText={"פתח"} cancelText={"בטל"}>
+            {!props.subtype.includes("StaffMember") ?
+                <div style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "10px",
+                    border: "1px solid rgb(0, 0, 0.3)",
+                    borderRadius: "3px",
+                    padding: "5px",
+                    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                    alignItems: 'center',
                 }}>
-                {props.subtype.includes("Soldier") ? <a href={props.imageURL}> קובץ החייל </a> : null}
-            </span>
+                    {props.displayName}
 
-            </div>:null}
+                    <span style={{
+                        width: "150px",
+                        height: "30px",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden"
+                    }}>
+                        {props.subtype.includes("Soldier") ? <a href={props.imageURL}> קובץ החייל </a> : null}
+                    </span>
+
+                </div> : null}
         </Popconfirm>
     );
 };
@@ -126,14 +127,14 @@ const viewPendings = async (props) => {
     const pendingRes = await getAllPendings(props.Data.API_KEY);
 
     Modal.info({
-            title: "לחץ על משתמש על מנת להוריד אותו מרשימת ההמתנה",
-            content:
-                pendingRes.data.values.map(pendingUser => <PendingRow displayName={pendingUser.display_name}
-                                                                      imageURL={pendingUser.image_URL}
-                                                                      subtype={pendingUser.contact_sub_type}
-                                                                      contactId={pendingUser.contact_id}
-                                                                      api_key={props.Data.API_KEY}/>)
-        }
+        title: "לחץ על משתמש על מנת להוריד אותו מרשימת ההמתנה",
+        content:
+            pendingRes.data.values.map(pendingUser => <PendingRow displayName={pendingUser.display_name}
+                imageURL={pendingUser.image_URL}
+                subtype={pendingUser.contact_sub_type}
+                contactId={pendingUser.contact_id}
+                api_key={props.Data.API_KEY} />)
+    }
     )
 }
 
@@ -167,7 +168,7 @@ export const Staff = (props) => {
         }
         console.log(viewSoldiers.data.values);
         setSodiersDetails(viewSoldiers.data.values);
-        console.log("SodiersDetails is",SodiersDetails)
+        console.log("SodiersDetails is", SodiersDetails)
         setIsModalVisible(true);
     };
 
@@ -193,13 +194,13 @@ export const Staff = (props) => {
                 title: "נתוני הפניה",
                 content: (<div>
 
-                        <p><strong>שם המתנדב:</strong> {volunteer_contact.display_name} </p>
-                        <p><strong> שם החייל:</strong> {soldier_contact.display_name} </p>
-                        <p></p>
-                        <p><strong>כותרת הפניה: </strong> {application.title}</p>
-                        <p><strong>תיאור: </strong> {application.description}</p>
-                        <p><strong>נוצרה בתאריך: </strong>{application.created_date}</p>
-                    </div>
+                    <p><strong>שם המתנדב:</strong> {volunteer_contact.display_name} </p>
+                    <p><strong> שם החייל:</strong> {soldier_contact.display_name} </p>
+                    <p></p>
+                    <p><strong>כותרת הפניה: </strong> {application.title}</p>
+                    <p><strong>תיאור: </strong> {application.description}</p>
+                    <p><strong>נוצרה בתאריך: </strong>{application.created_date}</p>
+                </div>
                 ),
                 onOk() {
                     confirmEvent(userSession, application)
@@ -252,166 +253,114 @@ export const Staff = (props) => {
         <ConfigProvider direction="rtl">
             <Box className={classes.container}>
                 <Card className={classes.card}>
-                    <h1 className={classes.title}>איש צוות</h1>
-            <Form form={form}>
-                <div>
-                    <Space>
-                        <FormItem>
-                            <Button id="existing_soldiers"
-                                    onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
-                                    shape="round" color="Black" variant="contained" size="large">
-                                רשימת החיילים הקיימים
+                    <h1 className={classes.title}>אנשי צוות</h1>
+                    <Form form={form}>
+                        <div>
+                            <Space>
+                                <FormItem>
+                                    <Button id="existing_soldiers"
+                                        onClick={() => Handletry(props.userSession, props.startSession)} type="primary"
+                                        shape="round" color="Black" variant="contained" size="large">
+                                        רשימת החיילים הקיימים
                             </Button>
-                        </FormItem>
-                    </Space>
+                                </FormItem>
+                            </Space>
 
-                    <Space>
-                        <FormItem>
-                            <Button id="applications_list"
-                                    onClick={() => getNotConfirmEvent(props.userSession, props.startSession)}
-                                    type="primary"
-                                    shape="round" color="Black" variant="contained" size="large">
-                                רשימת פניות לאישור
+                            <Space>
+                                <FormItem>
+                                    <Button id="applications_list"
+                                        onClick={() => getNotConfirmEvent(props.userSession, props.startSession)}
+                                        type="primary"
+                                        shape="round" color="Black" variant="contained" size="large">
+                                        רשימת פניות לאישור
                             </Button>
-                        </FormItem>
-                    </Space>
+                                </FormItem>
+                            </Space>
 
-                    <Space>
-                        <FormItem>
+                            <Space>
+                                <FormItem>
 
-                            <Button id="pending_users" className={"list-btn"}
-                                    onClick={() => viewPendings(props.userSession)}
-                                    type="primary" shape="round" color="Black" style={{backroundColor: "#1980ff"}}
-                                    variant="contained" size="large">
-                                רשימת משתמשים בהמתנה
+                                    <Button id="pending_users" className={"list-btn"}
+                                        onClick={() => viewPendings(props.userSession)}
+                                        type="primary" shape="round" color="Black" style={{ backroundColor: "#1980ff" }}
+                                        variant="contained" size="large">
+                                        רשימת משתמשים בהמתנה
                             </Button>
-                        </FormItem>
-                    </Space>
-                </div>
-                <Modal title="רשימת החיילים הבודדים" visible={isModalVisible}
-                       footer={[
-                           <Button className={"close-soldier-list-btn"} key="back" onClick={handleCancel} style={{backgroundColor: "#1980ff" ,borderRadius: "45px", fontWeight: "bold", color:"white"}} >
-                               סגור
+                                </FormItem>
+                            </Space>
+                        </div>
+                        <Modal title="רשימת החיילים הבודדים" visible={isModalVisible}
+                            footer={[
+                                <Button className={"close-soldier-list-btn"} key="back" onClick={handleCancel} style={{ backgroundColor: "#1980ff", borderRadius: "45px", fontWeight: "bold", color: "white" }} >
+                                    סגור
                            </Button>]} onCancel={handleCancel}
-                       >
-                    <div> {
-                        SodiersDetails.map(
-                            (soldier) => {
-                                return (
-                                    <Card>
-                                        <div style={{
-                                            width: "100%",
-                                            display: "flex",
-                                            marginBottom: "2px",
-                                            borderRadius: "12px",
-                                            padding: "2px",
-                                            boxShadow: "rgba(0, 0, 0, 0.45) 0px 2px 15px",
-                                            alignItems: 'center',
-                                        }}>
-                                            שם החייל:
+                        >
+                            <div> {
+                                SodiersDetails.map(
+                                    (soldier) => {
+                                        return (
+                                            <Card>
+                                                <div style={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    marginBottom: "2px",
+                                                    borderRadius: "12px",
+                                                    padding: "2px",
+                                                    boxShadow: "rgba(0, 0, 0, 0.45) 0px 2px 15px",
+                                                    alignItems: 'center',
+                                                }}>
+                                                    שם החייל:
                                             {' '}
-                                            {soldier.display_name}
-                                            <br/>
+                                                    {soldier.display_name}
+                                                    <br />
                                             אמייל:
                                             {' '}
-                                            {soldier.email}
-                                            <br/>
+                                                    {soldier.email}
+                                                    <br />
                                             עיר:
                                             {' '}
-                                            {soldier.city}
-                                            <span style={{
-                                                width: "150px",
-                                                height: "10px",
-                                                textOverflow: "ellipsis",
-
-
-                                            }}>
-            </span>
-
-                                        </div>
-                                    </Card>
-
-
-                                );
-                            }
-                        )}
-                    </div>
-                </Modal>
-                <Modal title="רשימת פניות לאישור" visible={isModalVisible2} onOk={handleOk2} okText="אישור"
-                       onCancel={handleCancel2} cancelText="סגור">
-                    <div> {
-                        EventConfirmed.map(
-                            (x) => {
-                                return (<div id='app_approve'><h4>
-                                        {`מספר פנייה: ${x.id} `}
-                                    </h4>
-                                        <FormItem>
-                                            <Button id="open_app"
+                                                    {soldier.city}
+                                                    <span style={{
+                                                        width: "150px",
+                                                        height: "10px",
+                                                        textOverflow: "ellipsis",
+                                                    }}>
+                                                    </span>
+                                                </div>
+                                            </Card>
+                                        );
+                                    }
+                                )}
+                            </div>
+                        </Modal>
+                        <Modal title="רשימת פניות לאישור" visible={isModalVisible2} onOk={handleOk2} okText="אישור"
+                            onCancel={handleCancel2} cancelText="סגור">
+                            <div> {
+                                EventConfirmed.map(
+                                    (x) => {
+                                        return (<div id='app_approve'><h4>
+                                            {`מספר פנייה: ${x.id} `}
+                                        </h4>
+                                            <FormItem>
+                                                <Button id="open_app"
                                                     onClick={() => viewevent(props.userSession, x, confirmEvent, handleCancel2)}
                                                     type="primary"
                                                     shape="round" color="Black" variant="contained" size="medium">
-                                                פתח פנייה
+                                                    פתח פנייה
                                             </Button>
-                                        </FormItem>
-                                    </div>
+                                            </FormItem>
+                                        </div>
 
-                                );
-                            }
-                        )}
+                                        );
+                                    }
+                                )}
 
-                    </div>
-                </Modal>
-            </Form>
+                            </div>
+                        </Modal>
+                    </Form>
                 </Card>
 
             </Box>
         </ConfigProvider>
     )
 };
-
-
-/*
-var ans = null;
-
-    const getMessageByUser = () => {
-        var axios = require('axios');
-
-        var config = {
-            method: 'get',
-            url: 'http://52.90.78.193/modules/contrib/civicrm/extern/rest.php?entity=Contact&action=get&json={"sequential":1,"contact_sub_type":"Student"}&api_key=qtjrB1QzwvBIhMVcPcT3Nw&key=aacce8033f7a9730040b45df047e3191',
-            headers: {}
-        };
-
-        axios(config)
-            .then(function (response) {
-                ans = response.data;
-                //console.log(JSON.stringify(response.data));
-                printUsers(response);
-                //return response.data;
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-
-    const printUsers = (response) => {
-        if (!response)
-            return 'שגיאה בגישה לשרת';
-        else {
-            return JSON.stringify(response.data);
-        }
-    }
-    */
-
-/*
-export const Staff = (props) => {
-return (
-    <div>
-
-        <h1>אנשי צוות</h1>
-        <h4>כאן ניתן יהיה לערוך פרטים, לאשר ציוותים, לאשר מתנדבים/חיילים חדשים</h4>
-    </div>)
-};
-*/

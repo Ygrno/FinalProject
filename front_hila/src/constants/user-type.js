@@ -3,5 +3,6 @@ export const UserType = {
     Volunteer: 2,
     StaffMember: 3,
     Admin: 4,
-    Pending: 5
+    Pending: 5,
+    Administrators1: 6
 }
