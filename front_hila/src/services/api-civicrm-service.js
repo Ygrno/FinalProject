@@ -6,7 +6,7 @@ const config = {
 
 const client = axios.create(config);
 
-const updateUrl = "http://52.90.78.193/modules/contrib/civicrm/extern/rest.php?";
+const updateUrl = "https://52.90.78.193/modules/contrib/civicrm/extern/rest.php?";
 
 const site_key = "aacce8033f7a9730040b45df047e3191";
 
