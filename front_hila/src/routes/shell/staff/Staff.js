@@ -160,7 +160,7 @@ export const Staff = (props) => {
 
         var Message = ""
         const viewSoldiers = await getAllSoldiers(props.Data?.API_KEY);
-        // console.log(" view all soldiers:", viewSoldiers);
+        console.log(" view all soldiers:", viewSoldiers);
         if (viewSoldiers.data.is_error === 1) {
             Message = "unable to update Contact"
         } else {
