@@ -79,7 +79,7 @@ const PendingForm = (props) => {
 
         const formDate = new FormData()
         formDate.append("file", imageSelected)
-        axios.post("http://52.90.78.193/modules/contrib/civicrm/packages/kcfinder/upload.php?cms=civicrm&format=json&type=files", formDate).then((Response) => {
+        axios.post("https://amuta-login-and-register.herokuapp.com/upload_file", formDate).then((Response) => {
             // console.log("the Response is: ", Response.data.url)
             if (Response.status === 200) {
                 Handletry(props.userSession, props.startSession, ToProfile, Response.data.url, SetLoadingStatus)
