@@ -54,7 +54,7 @@ export const MyApplicationsPreview = ({ application, userSession, startSession }
             return 'סגורה';
         if (application.is_active === '0')
             return 'פתוחה';
-        if (application.is_active === '1' & application.is_confirm_enabled === '0')
+        if (application.is_map === '0' & application.is_confirm_enabled === '0')
             return 'ממתינה לאישור ציוות';
         if (application.is_confirm_enabled === '1')
             return 'בטיפול';
@@ -63,6 +63,7 @@ export const MyApplicationsPreview = ({ application, userSession, startSession }
 
 
     console.log("myapplicationprewbiew before return", application)
+
     return <Card className={classes.container}>
         <h4>{`מספר פנייה: ${application.id} `}</h4>
         <h4>{`כותרת הפנייה: ${application.title} `}</h4>
@@ -84,13 +85,3 @@ export const MyApplicationsPreview = ({ application, userSession, startSession }
     </Card>
 };
 
-/*
-        {
-            isNotConfirmedYet() &&
-            <h3 style={{ color: "red" }} > <strong><i>סטטוס הפנייה: ממתינה לאישור של איש צוות.</i></strong></h3>
-        }
-        {
-            isClosed() &&
-            <h3 style={{ color: "red" }}> <strong><i>סטטוס הפנייה: הטיפול הסתיים.</i></strong></ h3>
-        }
-        */

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const config = {
-    headers: {'Content-Type': 'application/json'}
+    headers: { 'Content-Type': 'application/json' }
 };
 
 const client = axios.create(config);
@@ -15,8 +15,23 @@ export const updateContact = (email, api_key) => {
     return client.get(`${updateUrl}${urlParams}`)
 };
 
+export const getAllSoldiers_Volunteers = (api_key) => {
+    var urlParams = `entity=Contact&action=get&json={"sequential":1,"options":{"limit":500}, "contact_sub_type":["Soldier","Volunteer"]}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const deleteSolANDVol = (email, api_key) => {
+    var urlParams = `entity=Contact&action=delete&json={"sequential":1,email:${email}, "contact_sub_type":["Soldier","Volunteer"]}&api_key=${api_key}&key=${site_key}`;
+    return client.post(`${updateUrl}${urlParams}`)
+};
+
 export const getAllSoldiers = (api_key) => {
-    var urlParams = `entity=Contact&action=get&json={"sequential":1, "contact_sub_type":"Soldier"}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Contact&action=get&json={"sequential":1, "options":{"limit":500},"contact_sub_type":"Soldier"}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getAllVolunteers = (api_key) => {
+    var urlParams = `entity=Contact&action=get&json={"sequential":1,"options":{"limit":300}, "contact_sub_type":"Volunteer"}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
@@ -71,7 +86,22 @@ export const getActiveEventById = (api_key, event_id) => {
 };
 
 export const getAllUnconfirmEvents = (api_key) => {
-    var urlParams = `entity=Event&action=get&json={"sequential":1,"is_confirm_enabled":0, "is_active":1, "options":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "is_map":0, "is_confirm_enabled":0, "is_active":1, "options":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getAllOpenEvents = (api_key) => {
+    var urlParams = `entity=Event&action=get&json={"sequential":1,"is_map":0, "is_active":0, "options":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getAllHandleEvents = (api_key) => {
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "is_map":0 ,"is_confirm_enabled":1, "options":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
+    return client.get(`${updateUrl}${urlParams}`)
+};
+
+export const getAllClosedEvents = (api_key) => {
+    var urlParams = `entity=Event&action=get&json={"sequential":1, "is_map":1, "options":{"limit":300}}&api_key=${api_key}&key=${site_key}`;
     return client.get(`${updateUrl}${urlParams}`)
 };
 
@@ -123,12 +153,12 @@ export const getContactAddress = (api_key, contact_id) => {
 };
 
 
-export const CreateTemplate = (api_key,msg_text, msg_html ) => {
+export const CreateTemplate = (api_key, msg_text, msg_html) => {
     var urlParams = `entity=MessageTemplate&action=Create&json={"msg_title":"Application Details","msg_subject":"Confirmation and application details","msg_text":\"${msg_text}\","msg_html":\"${msg_html}\","is_active":1}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
 };
 
-export const DeleteTemplate = (api_key,id) => {
+export const DeleteTemplate = (api_key, id) => {
     var urlParams = `entity=MessageTemplate&action=delete&json={"id":\"${id}\"}&api_key=${api_key}&key=${site_key}`;
     return client.post(`${updateUrl}${urlParams}`)
 };
